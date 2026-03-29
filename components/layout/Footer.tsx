@@ -29,12 +29,12 @@ export function Footer() {
           {/* Brand Column */}
           <div className="space-y-5">
             <Link href="/" className="block">
-              <div className="relative h-10 w-auto">
+              <div className="relative h-12 w-auto">
                 <Image
                   src="/images/logo-brand.png"
                   alt="FOR Vows"
-                  width={130}
-                  height={36}
+                  width={180}
+                  height={48}
                   className="h-full w-auto object-contain"
                 />
               </div>

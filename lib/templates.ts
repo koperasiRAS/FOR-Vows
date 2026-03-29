@@ -290,10 +290,10 @@ export const pricingTiers: PricingTier[] = [
 ];
 
 export const addOns: AddOn[] = [
-  { name: "Domain Custom", description: "Domain sendiri untuk halaman undangan Anda", price: "Rp 150.000/tahun" },
-  { name: "Pengiriman Kilat", description: "Pengiriman 48 jam invece dari standar 5-7 hari", price: "Rp 100.000" },
+  { name: "Domain Custom", description: "Domain sendiri untuk halaman undangan Anda", price: "Rp 150.000 per tahun" },
+  { name: "Pengiriman Kilat", description: "Pengiriman 48 jam dari standar 5-7 hari", price: "Rp 100.000" },
   { name: "Animasi Premium", description: "Animasi entrance dan transisi yang elegan", price: "Rp 75.000" },
-  { name: "Galeri Extra", description: "50 foto tambahan diluar batas paket", price: "Rp 50.000" },
+  { name: "Galeri Extra", description: "50 foto tambahan di luar batas paket", price: "Rp 50.000" },
   { name: "QR Hadiah Digital", description: "Kode QR mengarah ke rekening bank atau e-wallet", price: "Rp 25.000" },
   { name: "Link Tamu Custom", description: "Link pendek unik untuk setiap tamu atau keluarga", price: "Rp 50.000" },
 ];
@@ -322,7 +322,7 @@ export const features: FeatureItem[] = [
   {
     icon: "BookOpen",
     title: "Kisah Cinta",
-    description: "Bagikan timeline kisah cinta Anda — dari pertemuan pertama hingga lamaran — dengan presentasi yang indah.",
+    description: "Bagikan timeline kisah cinta Anda, dari pertemuan pertama hingga lamaran, dengan presentasi yang indah.",
   },
   {
     icon: "Images",
@@ -357,22 +357,22 @@ export const features: FeatureItem[] = [
   {
     icon: "Smartphone",
     title: "Optimal Mobile",
-    description: "Desain sempurna untuk setiap layar — dari ponsel terkecil hingga desktop terbesar.",
+    description: "Desain sempurna untuk setiap layar, dari ponsel terkecil hingga desktop terbesar.",
   },
 ];
 
 export const testimonials: TestimonialItem[] = [
   {
-    quote: "FOR Vows mengubah undangan kami menjadi karya seni. Tamu-tamu kami benar-benar terharu — beberapa bilang ini undangan pernikahan paling indah yang pernah mereka terima.",
+    quote: "FOR Vows mengubah undangan kami menjadi karya seni. Tamu-tamu kami benar-benar terharu. Beberapa bilang ini undangan pernikahan paling indah yang pernah mereka terima.",
     name: "Anisa & Rizky",
     weddingDate: "Desember 2025",
-    package: "Premium — Eternal Gold",
+    package: "Premium · Eternal Gold",
   },
   {
     quote: "Manajemen RSVP saja menghemat berminggu-minggu telepon follow-up. Semuanya terorganisir, elegan, dan mudah. Worth every rupiah.",
     name: "Dewi & Fachry",
     weddingDate: "Oktober 2025",
-    package: "Premium — Ivory Elegance",
+    package: "Premium · Ivory Elegance",
   },
   {
     quote: "Sebagai pasangan yang menginginkan sesuatu yang sangat personal, paket Exclusive melampaui imajinasi kami. Arah kreatif tim sangat impeccable.",
@@ -387,14 +387,14 @@ export const howItWorksSteps: HowItWorksStep[] = [
     number: "01",
     title: "Pilih Template Anda",
     description:
-      "Jelajahi koleksi template undangan premium kami. Filter berdasarkan gaya — Luxury, Adat, Modern, atau Intimate — dan temukan yang paling sesuai dengan kisah cinta Anda.",
+      "Jelajahi koleksi template undangan premium kami. Filter berdasarkan gaya, Luxury, Adat, Modern, atau Intimate, dan temukan yang paling sesuai dengan kisah cinta Anda.",
     icon: "Sparkles",
   },
   {
     number: "02",
     title: "Kirim Detail Anda",
     description:
-      "Isi formulir brief elegan kami dengan informasi pernikahan Anda — nama, tanggal, tempat, kisah, dan foto. Tim kami menangani sisanya dengan penuh perhatian.",
+      "Isi formulir brief elegan kami dengan informasi pernikahan Anda, nama, tanggal, tempat, kisah, dan foto. Tim kami menangani sisanya dengan penuh perhatian.",
     icon: "PenLine",
   },
   {
