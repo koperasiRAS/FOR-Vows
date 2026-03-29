@@ -49,12 +49,12 @@ export function proxy(request: NextRequest) {
   });
 
   // Vercel Edge always operates over TLS; secure:true is always correct here.
-  // Omitting it locally allows the cookie to work over http://localhost.
+  // Omitting httpOnly so client-side use-partner.ts can read it via document.cookie.
+  // The cookie only contains non-sensitive partner metadata (id, displayName, referralCode).
   response.cookies.set(PARTNER_COOKIE, cookieValue, {
     path: "/",
     maxAge: 60 * 60 * 24 * 30, // 30 days
     sameSite: "lax",
-    httpOnly: true,
     secure: process.env.NODE_ENV === "production",
   });
 

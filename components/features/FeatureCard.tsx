@@ -11,7 +11,7 @@ export function FeatureCard({ feature }: FeatureCardProps) {
     (LucideIcons as unknown as Record<string, LucideIcon>)[feature.icon] || LucideIcons.Star;
 
   return (
-    <div className="group p-6 border border-white/[0.06] bg-[#0f0f0f] hover:border-[#c9a96e]/20 hover:bg-[#141414] transition-all duration-400 flex flex-col gap-3 min-h-[160px]">
+    <div className="group p-6 border border-white/[0.06] bg-[#0f0f0f] hover:border-[#c9a96e]/20 hover:bg-[#141414] transition-all duration-400 flex flex-col gap-3 min-h-[160px] h-full">
       <div className="w-10 h-10 flex items-center justify-center border border-[#c9a96e]/30 text-[#c9a96e] group-hover:bg-[#c9a96e]/10 transition-colors duration-300 shrink-0">
         <IconComponent size={18} />
       </div>

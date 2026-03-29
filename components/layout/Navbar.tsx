@@ -45,12 +45,12 @@ export function Navbar() {
       <nav className="max-w-7xl mx-auto px-6 lg:px-8 h-16 lg:h-18 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="relative h-10 w-auto">
+          <div className="relative h-12 w-auto">
             <Image
               src="/images/logo-brand.png"
               alt="FOR Vows"
-              width={160}
-              height={40}
+              width={200}
+              height={48}
               className="h-full w-auto object-contain group-hover:opacity-80 transition-opacity"
             />
           </div>

@@ -17,7 +17,7 @@ export function PortfolioCard({ item }: PortfolioCardProps) {
   return (
     <Link
       href={`/templates/${item.slug || item.id}`}
-      className="group relative flex flex-col overflow-hidden bg-[#141414] border border-white/[0.06] hover:border-[#c9a96e]/30 transition-all duration-500"
+      className="group relative flex flex-col overflow-hidden bg-[#141414] border border-white/[0.06] hover:border-[#c9a96e]/30 transition-all duration-500 h-full"
     >
       {/* Preview */}
       <div className="aspect-[3/4] relative overflow-hidden shrink-0">
@@ -41,16 +41,16 @@ export function PortfolioCard({ item }: PortfolioCardProps) {
       </div>
 
       {/* Info */}
-      <div className="p-5 space-y-1">
-        <div className="flex items-center justify-between">
-          <h3 className="font-serif text-base text-[#faf8f5] group-hover:text-[#c9a96e] transition-colors">
+      <div className="p-5 space-y-1 min-h-[80px] flex flex-col">
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="font-serif text-base text-[#faf8f5] group-hover:text-[#c9a96e] transition-colors leading-snug">
             {item.title}
           </h3>
-          <span className="text-[10px] tracking-[0.1em] uppercase text-[#6a6a6a]">
+          <span className="text-[10px] tracking-[0.1em] uppercase text-[#6a6a6a] shrink-0">
             {categoryLabels[item.category]}
           </span>
         </div>
-        <p className="text-xs text-[#5a5a5a]">{item.description}</p>
+        <p className="text-xs text-[#5a5a5a] line-clamp-2">{item.description}</p>
       </div>
     </Link>
   );

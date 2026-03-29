@@ -90,7 +90,7 @@ export function Footer() {
                 </svg>
               </a>
               <a
-                href="mailto:hello@forvows.com"
+                href="mailto:frameofrangga@gmail.com"
                 className="text-[#5a5a5a] hover:text-[#c9a96e] transition-colors duration-300"
                 aria-label="Email"
               >

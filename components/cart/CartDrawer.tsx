@@ -32,7 +32,10 @@ export function CartDrawer() {
   const getTypeLabel = (type: string) => {
     if (type === "template") return t("cart.template");
     if (type === "package") return t("cart.paket");
-    return t("cart.addon");
+    if (type === "addon") return t("cart.addon");
+    if (type === "save_the_date") return t("cart.saveTheDate");
+    if (type === "website") return t("cart.website");
+    return type;
   };
 
   const handleCheckout = () => {

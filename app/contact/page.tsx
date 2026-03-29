@@ -70,10 +70,10 @@ export default function ContactPage() {
                     <div>
                       <p className="text-xs text-[#6a6a6a]">Email</p>
                       <a
-                        href="mailto:hello@forvows.com"
+                        href="mailto:frameofrangga@gmail.com"
                         className="text-sm text-[#faf8f5] hover:text-[#c9a96e] transition-colors"
                       >
-                        hello@forvows.com
+                        frameofrangga@gmail.com
                       </a>
                     </div>
                   </div>

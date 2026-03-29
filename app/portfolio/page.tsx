@@ -26,7 +26,7 @@ export default async function PortfolioPage() {
 
       {/* Portfolio Grid */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {items.map((item, i) => (
             <ScrollReveal key={item.id} delay={i * 60}>
               <PortfolioCard item={item} />

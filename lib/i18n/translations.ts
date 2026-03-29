@@ -322,7 +322,7 @@ export const translations = {
         description: "Syarat dan ketentuan penggunaan layanan FOR Vows.",
         lastUpdated: "Terakhir diperbarui: 29 Maret 2026",
         effectiveDateLabel: "Berlaku sejak",
-        footerNote: "Jika Anda memiliki pertanyaan tentang Syarat & Ketentuan ini, silakan hubungi kami di hello@forvows.com",
+        footerNote: "Jika Anda memiliki pertanyaan tentang Syarat & Ketentuan ini, silakan hubungi kami di frameofrangga@gmail.com",
         sections: [
           {
             title: "1. Penerimaan Syarat",
@@ -382,7 +382,7 @@ export const translations = {
               "Pembatalan sebelum pembayaran diverifikasi: tanpa penalti, pengembalian dana penuh.",
               "Pembatalan setelah pembayaran diverifikasi tapi sebelum pengerjaan dimulai: refund 80% dari jumlah yang dibayarkan.",
               "Pembatalan setelah pengerjaan dimulai: tidak ada refund. Pekerjaan yang sudah selesai akan tetap dikirimkan kepada Klien.",
-              "Pengajuan refund harus dilakukan secara tertulis melalui email ke hello@forvows.com dalam 7 hari kerja sejak tanggal pengajuan pembatalan.",
+              "Pengajuan refund harus dilakukan secara tertulis melalui email ke frameofrangga@gmail.com dalam 7 hari kerja sejak tanggal pengajuan pembatalan.",
             ],
           },
           {
@@ -395,7 +395,7 @@ export const translations = {
             title: "10. Komunikasi",
             content: [
               "Seluruh komunikasi terkait pesanan akan dilakukan melalui WhatsApp atau email yang terdaftar pada saat pemesanan.",
-              "Tim FOR Vows dapat dihubungi di: WhatsApp +62 877 7956 0264 atau email hello@forvows.com.",
+              "Tim FOR Vows dapat dihubungi di: WhatsApp +62 877 7956 0264 atau email frameofrangga@gmail.com.",
             ],
           },
           {
@@ -411,7 +411,7 @@ export const translations = {
         description: "Kebijakan privasi dan perlindungan data pengguna FOR Vows.",
         lastUpdated: "Terakhir diperbarui: 29 Maret 2026",
         effectiveDateLabel: "Berlaku sejak",
-        footerNote: "Jika Anda memiliki pertanyaan tentang Kebijakan Privasi ini, silakan hubungi kami di hello@forvows.com",
+        footerNote: "Jika Anda memiliki pertanyaan tentang Kebijakan Privasi ini, silakan hubungi kami di frameofrangga@gmail.com",
         sections: [
           {
             title: "1. Informasi yang Kami Kumpulkan",
@@ -446,14 +446,14 @@ export const translations = {
             title: "5. Retensi Data",
             content: [
               "Data pribadi Anda disimpan selama diperlukan untuk memenuhi tujuan yang disebutkan di atas, biasanya selama 2 tahun setelah pesanan selesai.",
-              "Anda dapat meminta penghapusan data pribadi Anda kapan saja dengan mengirim email ke hello@forvows.com. Kami akan memproses permintaan dalam 7 hari kerja.",
+              "Anda dapat meminta penghapusan data pribadi Anda kapan saja dengan mengirim email ke frameofrangga@gmail.com. Kami akan memproses permintaan dalam 7 hari kerja.",
             ],
           },
           {
             title: "6. Hak Anda",
             content: [
               "Anda berhak untuk: mengakses data pribadi yang kami miliki tentang Anda, memperbaiki data yang tidak akurat, meminta penghapusan data, menolak pemrosesan data dalam kondisi tertentu, dan menarik persetujuan kapan saja.",
-              "Untuk menggunakan hak-hak tersebut, silakan hubungi kami di hello@forvows.com.",
+              "Untuk menggunakan hak-hak tersebut, silakan hubungi kami di frameofrangga@gmail.com.",
             ],
           },
           {
@@ -476,7 +476,7 @@ export const translations = {
             content: [
               "FOR Vows adalah sub-brand premium dari Frame Of Rangga.",
               "Alamat: Jakarta, Indonesia",
-              "Email: hello@forvows.com",
+              "Email: frameofrangga@gmail.com",
               "WhatsApp: +62 877 7956 0264",
             ],
           },
@@ -1143,7 +1143,7 @@ export const translations = {
         description: "Terms and conditions for using FOR Vows services.",
         lastUpdated: "Last updated: March 29, 2026",
         effectiveDateLabel: "Effective date",
-        footerNote: "If you have any questions about these Terms & Conditions, please contact us at hello@forvows.com",
+        footerNote: "If you have any questions about these Terms & Conditions, please contact us at frameofrangga@gmail.com",
         sections: [
           {
             title: "1. Acceptance of Terms",
@@ -1203,7 +1203,7 @@ export const translations = {
               "Cancellation before payment verification: no penalty, full refund.",
               "Cancellation after payment verification but before production starts: 80% refund of the amount paid.",
               "Cancellation after production starts: no refund. Completed work will still be delivered to the Client.",
-              "Refund requests must be submitted in writing via email to hello@forvows.com within 7 business days of the cancellation request date.",
+              "Refund requests must be submitted in writing via email to frameofrangga@gmail.com within 7 business days of the cancellation request date.",
             ],
           },
           {
@@ -1216,7 +1216,7 @@ export const translations = {
             title: "10. Communication",
             content: [
               "All communications related to orders will be made via WhatsApp or the email registered during ordering.",
-              "The FOR Vows team can be contacted at: WhatsApp +62 877 7956 0264 or email hello@forvows.com.",
+              "The FOR Vows team can be contacted at: WhatsApp +62 877 7956 0264 or email frameofrangga@gmail.com.",
             ],
           },
           {
@@ -1232,7 +1232,7 @@ export const translations = {
         description: "Privacy policy and data protection for FOR Vows users.",
         lastUpdated: "Last updated: March 29, 2026",
         effectiveDateLabel: "Effective date",
-        footerNote: "If you have any questions about this Privacy Policy, please contact us at hello@forvows.com",
+        footerNote: "If you have any questions about this Privacy Policy, please contact us at frameofrangga@gmail.com",
         sections: [
           {
             title: "1. Information We Collect",
@@ -1267,14 +1267,14 @@ export const translations = {
             title: "5. Data Retention",
             content: [
               "Your personal data is stored for as long as necessary to fulfill the purposes mentioned above, typically for 2 years after the order is completed.",
-              "You may request deletion of your personal data at any time by sending an email to hello@forvows.com. We will process the request within 7 business days.",
+              "You may request deletion of your personal data at any time by sending an email to frameofrangga@gmail.com. We will process the request within 7 business days.",
             ],
           },
           {
             title: "6. Your Rights",
             content: [
               "You have the right to: access the personal data we hold about you, correct inaccurate data, request deletion of data, object to processing under certain conditions, and withdraw consent at any time.",
-              "To exercise these rights, please contact us at hello@forvows.com.",
+              "To exercise these rights, please contact us at frameofrangga@gmail.com.",
             ],
           },
           {
@@ -1297,7 +1297,7 @@ export const translations = {
             content: [
               "FOR Vows is a premium sub-brand of Frame Of Rangga.",
               "Address: Jakarta, Indonesia",
-              "Email: hello@forvows.com",
+              "Email: frameofrangga@gmail.com",
               "WhatsApp: +62 877 7956 0264",
             ],
           },

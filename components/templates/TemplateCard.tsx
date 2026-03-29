@@ -24,11 +24,11 @@ export function TemplateCard({ template, showActions = true }: TemplateCardProps
   const categoryLabel = t(`templates.categories.${catKey}` as const);
 
   return (
-    <div className="group bg-[#141414] border border-white/[0.06] hover:border-[#c9a96e]/30 transition-all duration-500 flex flex-col overflow-hidden">
+    <div className="group bg-[#141414] border border-white/[0.06] hover:border-[#c9a96e]/30 transition-all duration-500 flex flex-col overflow-hidden h-full">
       {/* Preview */}
       <Link
         href={`/templates/${template.slug}`}
-        className="block relative aspect-[4/3] overflow-hidden"
+        className="block relative aspect-[4/3] overflow-hidden shrink-0"
       >
         <div
           className="absolute inset-0 transition-transform duration-700 group-hover:scale-105"
@@ -73,19 +73,19 @@ export function TemplateCard({ template, showActions = true }: TemplateCardProps
       </Link>
 
       {/* Info */}
-      <div className="p-5 flex flex-col flex-1 gap-3">
-        <div>
-          <h3 className="font-serif text-lg text-[#faf8f5] group-hover:text-[#c9a96e] transition-colors duration-300">
+      <div className="p-5 flex flex-col flex-1 gap-3 min-h-[140px]">
+        <div className="flex-1">
+          <h3 className="font-serif text-lg text-[#faf8f5] group-hover:text-[#c9a96e] transition-colors duration-300 leading-snug">
             {template.name}
           </h3>
-          <p className="text-xs text-[#6a6a6a] mt-1 leading-relaxed">
+          <p className="text-xs text-[#6a6a6a] mt-1 leading-relaxed line-clamp-2">
             {template.shortDescription}
           </p>
-          <p className="text-xs text-[#c9a96e] mt-1 font-medium">{template.price}</p>
+          <p className="text-xs text-[#c9a96e] mt-1 font-medium leading-none">{template.price}</p>
         </div>
 
         {showActions && (
-          <div className="flex gap-2 mt-auto pt-2">
+          <div className="flex gap-2 pt-2">
             <Link
               href={`/templates/${template.slug}`}
               className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[10px] tracking-[0.12em] uppercase border border-white/15 text-[#8a8a8a] hover:border-[#c9a96e]/40 hover:text-[#c9a96e] transition-all duration-300"
