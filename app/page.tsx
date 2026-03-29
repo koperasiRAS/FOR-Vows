@@ -5,62 +5,34 @@ import { CTASection } from "@/components/sections/CTASection";
 import { TemplateCard } from "@/components/templates/TemplateCard";
 import { TestimonialCard } from "@/components/shared/TestimonialCard";
 import { HowItWorksStep } from "@/components/shared/HowItWorksStep";
-import { templates, testimonials, howItWorksSteps } from "@/lib/templates";
+import {
+  templates,
+  getTranslatedTestimonials,
+  getTranslatedHowItWorksSteps,
+} from "@/lib/templates";
+import { getServerLanguage } from "@/lib/i18n/server";
+import { translations } from "@/lib/i18n/translations";
 
-const categories = [
-  {
-    name: "Luxury",
-    description: "Grand, opulent designs for the celebration of a lifetime",
-    href: "/templates?category=luxury",
-    gradient: "from-[#1a1206] to-[#3d2e0f]",
-    accent: "#c9a96e",
-  },
-  {
-    name: "Adat",
-    description: "Honoring tradition with culturally rich visual narratives",
-    href: "/templates?category=adat",
-    gradient: "from-[#2d1810] to-[#5c2e1a]",
-    accent: "#d4a96e",
-  },
-  {
-    name: "Modern",
-    description: "Contemporary minimalism that speaks in clean, bold lines",
-    href: "/templates?category=modern",
-    gradient: "from-[#1a2e1a] to-[#2d4a28]",
-    accent: "#8fbc8f",
-  },
-  {
-    name: "Intimate",
-    description: "Warm, personal designs for the most private of celebrations",
-    href: "/templates?category=intimate",
-    gradient: "from-[#1e0a12] to-[#3a1422]",
-    accent: "#c97878",
-  },
-];
+export default async function HomePage() {
+  const lang = await getServerLanguage();
+  const t = translations[lang].home;
+  const translatedTestimonials = getTranslatedTestimonials(lang);
+  const translatedSteps = getTranslatedHowItWorksSteps(lang);
 
-const valueProps = [
-  {
-    number: "01",
-    title: "Premium Design Direction",
-    description:
-      "Every invitation is crafted with the sensibility of a high-end editorial studio — no templates, no compromises.",
-  },
-  {
-    number: "02",
-    title: "Thoughtful Guest Experience",
-    description:
-      "Your guests receive an invitation that feels personal, elegant, and effortless to navigate on any device.",
-  },
-  {
-    number: "03",
-    title: "Seamless RSVP Management",
-    description:
-      "Eliminate the chaos of spreadsheets. Track responses, dietary needs, and attendance in real time.",
-  },
-];
-
-export default function HomePage() {
   const featuredTemplates = templates.filter((t) => t.featured).slice(0, 3);
+
+  const categoryMap: Record<string, { descKey: keyof typeof t }> = {
+    luxury: { descKey: "catLuxury" },
+    adat: { descKey: "catAdat" },
+    modern: { descKey: "catModern" },
+    intimate: { descKey: "catIntimate" },
+  };
+
+  const valueProps = [
+    { number: "01", title: t.vp1Title, description: t.vp1Desc },
+    { number: "02", title: t.vp2Title, description: t.vp2Desc },
+    { number: "03", title: t.vp3Title, description: t.vp3Desc },
+  ];
 
   return (
     <>
@@ -82,7 +54,7 @@ export default function HomePage() {
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center space-y-8 pt-20">
           <div className="space-y-2">
             <p className="text-xs tracking-[0.4em] uppercase text-[#c9a96e] font-medium">
-              A Premium Wedding Invitation Studio
+              {t.heroTagline}
             </p>
             <div className="w-16 h-px bg-[#c9a96e]/40 mx-auto" />
           </div>
@@ -105,25 +77,24 @@ export default function HomePage() {
               href="/templates"
               className="px-10 py-4 text-[11px] tracking-[0.2em] uppercase bg-[#c9a96e] text-[#0a0a0a] font-medium hover:bg-[#d4b87a] hover:shadow-[0_0_30px_rgba(201,169,110,0.25)] transition-all duration-300"
             >
-              View Templates
+              {t.heroCta1}
             </Link>
             <Link
               href="/contact"
               className="px-10 py-4 text-[11px] tracking-[0.2em] uppercase border border-white/20 text-[#faf8f5] hover:border-white/40 hover:bg-white/5 transition-all duration-300"
             >
-              Start Your Invitation
+              {t.heroCta2}
             </Link>
           </div>
 
           <p className="text-xs text-[#4a4a4a] tracking-wider pt-4">
-            A sub-brand of{" "}
-            <span className="text-[#6a6a6a]">Frame Of Rangga</span>
+            {t.heroSubBrand}
           </p>
         </div>
 
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
           <span className="text-[10px] tracking-[0.2em] uppercase text-[#3a3a3a]">
-            Scroll
+            {t.scrollLabel}
           </span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="text-[#3a3a3a]">
             <path d="M7 1v12M1 7l6 6 6-6" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
@@ -136,9 +107,9 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <ScrollReveal>
             <SectionHeading
-              overline="Curated Collection"
-              title="Featured Templates"
-              subtitle="Handpicked invitation designs for the most discerning couples"
+              overline={t.featuredOverline}
+              title={t.featuredTitle}
+              subtitle={t.featuredSubtitle}
             />
           </ScrollReveal>
 
@@ -156,7 +127,7 @@ export default function HomePage() {
                 href="/templates"
                 className="inline-flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-[#c9a96e] hover:text-[#d4b87a] transition-colors border-b border-[#c9a96e]/30 hover:border-[#c9a96e] pb-0.5"
               >
-                View All Templates
+                {t.viewAllTemplates}
                 <svg width="16" height="8" viewBox="0 0 16 8" fill="none">
                   <path d="M1 4h14M10 1l4 3-4 3" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -171,35 +142,52 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <ScrollReveal>
             <SectionHeading
-              overline="By Style"
-              title="Find Your Perfect Invitation"
-              subtitle="Four distinct collections, each crafted with its own soul"
+              overline={t.categoriesOverline}
+              title={t.categoriesTitle}
+              subtitle={t.categoriesSubtitle}
             />
           </ScrollReveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12 lg:mt-16">
-            {categories.map((cat, i) => (
-              <ScrollReveal key={cat.name} delay={i * 80}>
+            {(["luxury", "adat", "modern", "intimate"] as const).map((cat, i) => (
+              <ScrollReveal key={cat} delay={i * 80}>
                 <Link
-                  href={cat.href}
+                  href={`/templates?category=${cat}`}
                   className="group block p-6 border border-white/[0.07] bg-[#0f0f0f] hover:border-white/[0.12] transition-all duration-400 space-y-3"
                 >
                   <div
-                    className={`w-10 h-10 rounded-full bg-gradient-to-br ${cat.gradient} flex items-center justify-center`}
+                    className={`w-10 h-10 rounded-full bg-gradient-to-br ${
+                      cat === "luxury"
+                        ? "from-[#1a1206] to-[#3d2e0f]"
+                        : cat === "adat"
+                        ? "from-[#2d1810] to-[#5c2e1a]"
+                        : cat === "modern"
+                        ? "from-[#1a2e1a] to-[#2d4a28]"
+                        : "from-[#1e0a12] to-[#3a1422]"
+                    } flex items-center justify-center`}
                   >
                     <span
                       className="text-xs font-medium"
-                      style={{ color: cat.accent }}
+                      style={{
+                        color:
+                          cat === "luxury"
+                            ? "#c9a96e"
+                            : cat === "adat"
+                            ? "#d4a96e"
+                            : cat === "modern"
+                            ? "#8fbc8f"
+                            : "#c97878",
+                      }}
                     >
-                      {cat.name[0]}
+                      {cat[0].toUpperCase()}
                     </span>
                   </div>
                   <div>
-                    <h3 className="font-serif text-base text-[#faf8f5] group-hover:text-[#c9a96e] transition-colors">
-                      {cat.name}
+                    <h3 className="font-serif text-base text-[#faf8f5] group-hover:text-[#c9a96e] transition-colors capitalize">
+                      {cat}
                     </h3>
                     <p className="text-xs text-[#6a6a6a] mt-1 leading-relaxed">
-                      {cat.description}
+                      {t[categoryMap[cat].descKey]}
                     </p>
                   </div>
                 </Link>
@@ -215,9 +203,9 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
             <ScrollReveal>
               <SectionHeading
-                overline="Why FOR Vows"
-                title="Where Design Meets Devotion"
-                subtitle="We believe a wedding invitation is more than paper — it's the first chapter of your celebration. We craft it accordingly."
+                overline={t.whyOverline}
+                title={t.whyTitle}
+                subtitle={t.whySubtitle}
                 align="left"
               />
               <div className="mt-8 space-y-6">
@@ -242,7 +230,7 @@ export default function HomePage() {
                   href="/about"
                   className="text-[11px] tracking-[0.15em] uppercase text-[#c9a96e] hover:text-[#d4b87a] border-b border-[#c9a96e]/30 hover:border-[#c9a96e] pb-0.5 transition-colors"
                 >
-                  Learn Our Story
+                  {t.learnStory}
                 </Link>
               </div>
             </ScrollReveal>
@@ -272,16 +260,16 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
           <ScrollReveal>
             <SectionHeading
-              overline="The Process"
-              title="How It Works"
-              subtitle="From vision to published invitation in five thoughtful steps"
+              overline={t.howOverline}
+              title={t.howTitle}
+              subtitle={t.howSubtitle}
             />
           </ScrollReveal>
 
           <div className="mt-14">
-            {howItWorksSteps.map((step, i) => (
+            {translatedSteps.map((step, i) => (
               <ScrollReveal key={step.number} delay={i * 80}>
-                <HowItWorksStep step={step} last={i === howItWorksSteps.length - 1} />
+                <HowItWorksStep step={step} last={i === translatedSteps.length - 1} />
               </ScrollReveal>
             ))}
           </div>
@@ -292,7 +280,7 @@ export default function HomePage() {
                 href="/how-it-works"
                 className="inline-flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-[#c9a96e] hover:text-[#d4b87a] border-b border-[#c9a96e]/30 hover:border-[#c9a96e] pb-0.5 transition-colors"
               >
-                Learn More
+                {t.learnMore}
                 <svg width="16" height="8" viewBox="0 0 16 8" fill="none">
                   <path d="M1 4h14M10 1l4 3-4 3" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -307,14 +295,14 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <ScrollReveal>
             <SectionHeading
-              overline="Couples Stories"
-              title="Words From Our Couples"
-              subtitle="The greatest compliment is when our work becomes part of your memory"
+              overline={t.testimonialsOverline}
+              title={t.testimonialsTitle}
+              subtitle={t.testimonialsSubtitle}
             />
           </ScrollReveal>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 lg:mt-16">
-            {testimonials.map((t, i) => (
+            {translatedTestimonials.map((t, i) => (
               <ScrollReveal key={t.name} delay={i * 100}>
                 <TestimonialCard testimonial={t} />
               </ScrollReveal>
@@ -325,11 +313,11 @@ export default function HomePage() {
 
       {/* CTA */}
       <CTASection
-        overline="Begin Your Journey"
-        title="Your Invitation Deserves to Be Remembered"
-        subtitle="Let us craft a digital invitation that reflects the depth of your celebration and the beauty of your love."
-        primaryCta={{ label: "Start Your Invitation", href: "/contact" }}
-        secondaryCta={{ label: "Explore Templates", href: "/templates" }}
+        overline={t.ctaOverline}
+        title={t.ctaTitle}
+        subtitle={t.ctaSubtitle}
+        primaryCta={{ label: t.ctaStart, href: "/contact" }}
+        secondaryCta={{ label: t.ctaExplore, href: "/templates" }}
       />
     </>
   );

@@ -1,7 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { X, Check, Copy } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/context";
+import {
+  validateReferralCode,
+  calculateDiscount,
+  formatDiscount,
+  type ReferralValidation,
+} from "@/lib/referrals";
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -18,8 +25,13 @@ interface BookingModalProps {
   }>;
   totalPrice: number;
   onSubmit: (data: { name: string; whatsapp: string; referralCode: string }) => void;
-  onSaveAndSend: () => void;
-  getWhatsAppLink: (customer: { name: string; whatsapp: string; referralCode: string }, bookingId: string) => string;
+  onSaveAndSend: (discountAmount?: number, discountNote?: string) => void;
+  getWhatsAppLink: (
+    customer: { name: string; whatsapp: string; referralCode: string },
+    bookingId: string,
+    discountAmount?: number,
+    discountNote?: string
+  ) => string;
 }
 
 export function BookingModal({
@@ -33,23 +45,63 @@ export function BookingModal({
   onSaveAndSend,
   getWhatsAppLink,
 }: BookingModalProps) {
+  const { t, lang } = useLanguage();
   const [name, setName] = useState(customerData.name);
   const [whatsapp, setWhatsapp] = useState(customerData.whatsapp);
   const [referralCode, setReferralCode] = useState(customerData.referralCode);
   const [step, setStep] = useState<"form" | "success">("form");
   const [copied, setCopied] = useState(false);
+  const [referralValidation, setReferralValidation] = useState<ReferralValidation | null>(null);
 
-  const formattedTotal = new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-  }).format(totalPrice);
+  // Compute discount whenever the referral code changes
+  const discount = referralCode.trim()
+    ? calculateDiscount(totalPrice, referralCode)
+    : null;
+
+  const handleReferralChange = useCallback(
+    (value: string) => {
+      const upper = value.toUpperCase();
+      setReferralCode(upper);
+      if (!upper.trim()) {
+        setReferralValidation(null);
+        return;
+      }
+      const result = validateReferralCode(upper);
+      setReferralValidation(result);
+    },
+    []
+  );
+
+  const discountAmount = discount?.amount ?? 0;
+  const finalTotal = totalPrice - discountAmount;
+
+  const fmt = (n: number) =>
+    new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(n);
+
+  const getTypeLabel = (type: string) => {
+    if (type === "template") return t("booking.template");
+    if (type === "package") return t("booking.paket");
+    if (type === "addon") return t("booking.addon");
+    if (type === "save_the_date") return t("booking.saveTheDate");
+    if (type === "website") return t("booking.website");
+    return type;
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !whatsapp.trim()) return;
     onSubmit({ name: name.trim(), whatsapp: whatsapp.trim(), referralCode: referralCode.trim() });
-    onSaveAndSend();
+
+    // Build discount note for WhatsApp if referral is valid
+    let discountNote: string | undefined;
+    if (referralValidation?.valid && referralValidation.referral) {
+      discountNote = `${referralValidation.code} — ${formatDiscount(referralValidation.referral, lang)}`;
+    }
+    onSaveAndSend(discountAmount, discountNote);
     setStep("success");
   };
 
@@ -64,11 +116,9 @@ export function BookingModal({
     setName("");
     setWhatsapp("");
     setReferralCode("");
+    setReferralValidation(null);
     onClose();
   };
-
-  const getTypeLabel = (type: string) =>
-    type === "template" ? "Template" : type === "package" ? "Paket" : "Add-on";
 
   if (!isOpen) return null;
 
@@ -78,7 +128,7 @@ export function BookingModal({
       <div
         role="button"
         tabIndex={0}
-        aria-label="Tutup"
+        aria-label={t("booking.tutup")}
         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleClose(); }}
         onClick={handleClose}
         className="fixed inset-0 z-[80] bg-black/70 backdrop-blur-sm"
@@ -89,7 +139,7 @@ export function BookingModal({
         <div
           role="dialog"
           aria-modal="true"
-          aria-label="Form pemesanan"
+          aria-label={t("booking.lengkapiData")}
           className="bg-[#0f0f0f] border border-white/[0.08] w-full max-w-lg pointer-events-auto"
           onClick={(e) => e.stopPropagation()}
         >
@@ -97,18 +147,18 @@ export function BookingModal({
           <div className="flex items-center justify-between px-6 py-5 border-b border-white/[0.06]">
             <div>
               <h2 className="font-serif text-lg text-[#faf8f5]">
-                {step === "form" ? "Lengkapi Data Pemesanan" : "Booking Berhasil!"}
+                {step === "form" ? t("booking.lengkapiData") : t("booking.bookingBerhasil")}
               </h2>
               {step === "form" && (
                 <p className="text-xs text-[#6a6a6a] mt-0.5">
-                  Data ini akan digunakan untuk konfirmasi dan generate invoice
+                  {t("booking.dataInfo")}
                 </p>
               )}
             </div>
             <button
               onClick={handleClose}
               className="text-[#6a6a6a] hover:text-[#faf8f5] transition-colors"
-              aria-label="Tutup"
+              aria-label={t("booking.tutup")}
             >
               <X size={20} />
             </button>
@@ -120,7 +170,7 @@ export function BookingModal({
               {/* Booking ID Preview */}
               <div className="p-4 border border-[#c9a96e]/20 bg-[#c9a96e]/5">
                 <p className="text-[10px] tracking-[0.15em] uppercase text-[#c9a96e] mb-1">
-                  Invoice ID (akan digenerate)
+                  {t("booking.invoiceIdPreview")}
                 </p>
                 <p className="font-mono text-sm text-[#faf8f5]">
                   {bookingId}
@@ -130,7 +180,7 @@ export function BookingModal({
               {/* Order Summary */}
               <div className="space-y-2">
                 <p className="text-[10px] tracking-[0.15em] uppercase text-[#8a8a8a]">
-                  Ringkasan Pesanan
+                  {t("booking.ringkasanPesanan")}
                 </p>
                 <div className="border border-white/[0.06] divide-y divide-white/[0.04]">
                   {items.map((item) => (
@@ -144,10 +194,23 @@ export function BookingModal({
                       <p className="text-sm text-[#c9a96e]">{item.price}</p>
                     </div>
                   ))}
-                </div>
-                <div className="flex items-center justify-between px-4 py-3 bg-[#141414]">
-                  <span className="text-sm text-[#8a8a8a]">Total</span>
-                  <span className="font-serif text-lg text-[#faf8f5]">{formattedTotal}</span>
+                  {discountAmount > 0 && (
+                    <div className="flex items-center justify-between px-4 py-3 bg-[#c9a96e]/5">
+                      <div>
+                        <p className="text-sm text-[#c9a96e]">{t("booking.referralDiscount")}</p>
+                        {referralValidation?.valid && referralValidation.referral && (
+                          <p className="text-[10px] text-[#c9a96e]/70">
+                            {t("booking.referralBy", { referrer: referralValidation.referral.referrerName })}
+                          </p>
+                        )}
+                      </div>
+                      <p className="text-sm text-[#c9a96e]">-{fmt(discountAmount)}</p>
+                    </div>
+                  )}
+                  <div className="flex items-center justify-between px-4 py-3 bg-[#141414]">
+                    <span className="text-sm text-[#8a8a8a]">{t("booking.total")}</span>
+                    <span className="font-serif text-lg text-[#faf8f5]">{fmt(finalTotal)}</span>
+                  </div>
                 </div>
               </div>
 
@@ -155,14 +218,14 @@ export function BookingModal({
               <div className="space-y-4">
                 <div className="space-y-1.5">
                   <label htmlFor="booking-name" className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
-                    Nama Lengkap <span className="text-[#c9a96e]">*</span>
+                    {t("booking.namaLengkap")} <span className="text-[#c9a96e]">*</span>
                   </label>
                   <input
                     id="booking-name"
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="Nama lengkap Anda"
+                    placeholder={t("booking.namaLengkapPlaceholder")}
                     required
                     className="w-full px-4 py-3 bg-[#141414] border border-white/10 text-[#faf8f5] text-sm placeholder:text-[#4a4a4a] focus:outline-none focus:border-[#c9a96e]/50 transition-colors"
                   />
@@ -170,14 +233,14 @@ export function BookingModal({
 
                 <div className="space-y-1.5">
                   <label htmlFor="booking-wa" className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
-                    No. WhatsApp <span className="text-[#c9a96e]">*</span>
+                    {t("booking.noWhatsapp")} <span className="text-[#c9a96e]">*</span>
                   </label>
                   <input
                     id="booking-wa"
                     type="tel"
                     value={whatsapp}
                     onChange={(e) => setWhatsapp(e.target.value)}
-                    placeholder="+62 8xx xxxx xxxx"
+                    placeholder={t("booking.waPlaceholder")}
                     required
                     className="w-full px-4 py-3 bg-[#141414] border border-white/10 text-[#faf8f5] text-sm placeholder:text-[#4a4a4a] focus:outline-none focus:border-[#c9a96e]/50 transition-colors"
                   />
@@ -185,26 +248,37 @@ export function BookingModal({
 
                 <div className="space-y-1.5">
                   <label htmlFor="booking-referral" className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
-                    Kode Referral{" "}
-                    <span className="text-[#5a5a5a] font-normal normal-case tracking-normal">
-                      (opsional)
-                    </span>
+                    {t("booking.kodeReferral")}
                   </label>
                   <input
                     id="booking-referral"
                     type="text"
                     value={referralCode}
-                    onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
-                    placeholder="Contoh: ANISA2026"
-                    className="w-full px-4 py-3 bg-[#141414] border border-white/10 text-[#faf8f5] text-sm placeholder:text-[#4a4a4a] focus:outline-none focus:border-[#c9a96e]/50 transition-colors"
+                    onChange={(e) => handleReferralChange(e.target.value)}
+                    placeholder={t("booking.referralPlaceholder")}
+                    className="w-full px-4 py-3 bg-[#141414] border border-white/10 text-[#faf8f5] text-sm placeholder:text-[#4a4a4a] focus:outline-none focus:border-[#c9a96e]/50 transition-colors uppercase tracking-wider font-mono"
                   />
+                  {/* Referral feedback */}
+                  {referralCode.trim() && (
+                    <p
+                      className={`text-[10px] tracking-wide ${
+                        referralValidation?.valid
+                          ? "text-[#c9a96e]"
+                          : "text-red-400"
+                      }`}
+                    >
+                      {referralValidation?.valid
+                        ? `✓ ${t("booking.referralValid")}${referralValidation.referral ? ` — ${formatDiscount(referralValidation.referral, lang)}` : ""}`
+                        : `✗ ${t("booking.referralInvalid")}`}
+                    </p>
+                  )}
                 </div>
               </div>
 
               {/* Info */}
               <div className="p-4 border border-white/[0.05] bg-[#0a0a0a]">
                 <p className="text-xs text-[#6a6a6a] leading-relaxed">
-                  <span className="text-[#c9a96e]">Info:</span> Setelah Anda mengirim pesan via WhatsApp, tim FOR Vows akan mengirimkan instruksi pembayaran dalam 24 jam. Mohon screeshot bukti transfer saat sudah bayar.
+                  <span className="text-[#c9a96e]">Info:</span> {t("booking.infoBooking")}
                 </p>
               </div>
 
@@ -217,7 +291,7 @@ export function BookingModal({
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                 </svg>
-                Kirim via WhatsApp
+                {t("booking.kirimWhatsApp")}
               </button>
             </form>
           )}
@@ -230,9 +304,9 @@ export function BookingModal({
                   <Check size={28} className="text-[#c9a96e]" />
                 </div>
                 <div>
-                  <h3 className="font-serif text-2xl text-[#faf8f5]">Booking ID</h3>
+                  <h3 className="font-serif text-2xl text-[#faf8f5]">{t("booking.bookingId")}</h3>
                   <p className="text-xs text-[#6a6a6a] mt-1">
-                    Simpan ID ini untuk konfirmasi pembayaran
+                    {t("booking.simpanId")}
                   </p>
                 </div>
                 <div className="flex items-center gap-3 p-4 border border-[#c9a96e]/20 bg-[#c9a96e]/5 w-full justify-center">
@@ -242,13 +316,13 @@ export function BookingModal({
                   <button
                     onClick={handleCopy}
                     className="text-[#c9a96e]/60 hover:text-[#c9a96e] transition-colors"
-                    aria-label="Salin"
+                    aria-label={t("booking.salin")}
                   >
                     <Copy size={16} />
                   </button>
                 </div>
                 {copied && (
-                  <p className="text-xs text-[#c9a96e]">Tersalin!</p>
+                  <p className="text-xs text-[#c9a96e]">{t("booking.tersalin")}</p>
                 )}
               </div>
 
@@ -260,20 +334,26 @@ export function BookingModal({
                     <p className="text-sm text-[#c9a96e]">{item.price}</p>
                   </div>
                 ))}
+                {discountAmount > 0 && (
+                  <div className="flex items-center justify-between px-4 py-3 bg-[#c9a96e]/5">
+                    <span className="text-sm text-[#c9a96e]">{t("booking.referralDiscount")}</span>
+                    <span className="text-sm text-[#c9a96e]">-{fmt(discountAmount)}</span>
+                  </div>
+                )}
                 <div className="flex items-center justify-between px-4 py-3 bg-[#141414]">
-                  <span className="text-sm text-[#8a8a8a]">Total</span>
-                  <span className="font-serif text-lg text-[#faf8f5]">{formattedTotal}</span>
+                  <span className="text-sm text-[#8a8a8a]">{t("booking.total")}</span>
+                  <span className="font-serif text-lg text-[#faf8f5]">{fmt(finalTotal)}</span>
                 </div>
               </div>
 
               {/* Customer info */}
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div>
-                  <p className="text-[10px] text-[#6a6a6a] uppercase tracking-wider">Nama</p>
+                  <p className="text-[10px] text-[#6a6a6a] uppercase tracking-wider">{t("booking.nama")}</p>
                   <p className="text-[#faf8f5]">{name}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] text-[#6a6a6a] uppercase tracking-wider">WhatsApp</p>
+                  <p className="text-[10px] text-[#6a6a6a] uppercase tracking-wider">{t("booking.whatsapp")}</p>
                   <p className="text-[#faf8f5]">{whatsapp}</p>
                 </div>
               </div>
@@ -282,7 +362,8 @@ export function BookingModal({
               <a
                 href={getWhatsAppLink(
                   { name, whatsapp, referralCode },
-                  bookingId
+                  bookingId,
+                  discountAmount
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -291,19 +372,19 @@ export function BookingModal({
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                 </svg>
-                Kirim Pesanan via WhatsApp
+                {t("booking.kirimPesananWA")}
               </a>
 
               {/* Next steps */}
               <div className="p-4 border border-white/[0.05] bg-[#0a0a0a] space-y-2">
                 <p className="text-xs text-[#8a8a8a] leading-relaxed">
-                  <span className="text-[#c9a96e]">Langkah selanjutnya:</span>
+                  <span className="text-[#c9a96e]">{t("booking.langkahSelanjutnya")}</span>
                 </p>
                 <ol className="text-xs text-[#6a6a6a] space-y-1 list-decimal list-inside">
-                  <li>Klik tombol di atas untuk kirim pesanan via WhatsApp</li>
-                  <li>Tim FOR Vows akan kirim instruksi pembayaran</li>
-                  <li>Transfer ke rekening yang tertera</li>
-                  <li>Kirim bukti transfer via WhatsApp dengan menyertakan Booking ID</li>
+                  <li>{t("booking.langkah1")}</li>
+                  <li>{t("booking.langkah2")}</li>
+                  <li>{t("booking.langkah3")}</li>
+                  <li>{t("booking.langkah4")}</li>
                 </ol>
               </div>
 
@@ -311,7 +392,7 @@ export function BookingModal({
                 onClick={handleClose}
                 className="w-full text-center text-xs text-[#6a6a6a] hover:text-[#8a8a8a] transition-colors"
               >
-                Tutup
+                {t("booking.tutup")}
               </button>
             </div>
           )}

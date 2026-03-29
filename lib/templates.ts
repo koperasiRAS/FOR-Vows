@@ -1,3 +1,5 @@
+import { translations } from "@/lib/i18n/translations";
+import type { Language } from "@/lib/i18n/translations";
 import type {
   WeddingTemplate,
   PricingTier,
@@ -211,11 +213,24 @@ export const getTemplateBySlug = (slug: string): WeddingTemplate | undefined => 
 export const getRelatedTemplates = (
   slug: string,
   category: string,
-  limit = 3
+  limit = 3,
+  lang?: Language
 ): WeddingTemplate[] => {
-  return templates
+  const related = templates
     .filter((t) => t.slug !== slug && t.category === category)
     .slice(0, limit);
+
+  if (!lang) return related;
+
+  return related.map((t) => {
+    const translated = getTranslatedTemplate(t.slug, lang);
+    if (!translated) return t;
+    return {
+      ...t,
+      name: translated.name,
+      shortDescription: translated.shortDescription,
+    };
+  });
 };
 
 export const pricingTiers: PricingTier[] = [
@@ -236,6 +251,7 @@ export const pricingTiers: PricingTier[] = [
       "Link berbagi via WhatsApp",
     ],
     highlighted: false,
+    productType: "invitation",
   },
   {
     name: "Premium",
@@ -259,6 +275,7 @@ export const pricingTiers: PricingTier[] = [
     ],
     highlighted: true,
     badge: "Paling Populer",
+    productType: "invitation",
   },
   {
     name: "Exclusive",
@@ -286,6 +303,110 @@ export const pricingTiers: PricingTier[] = [
     ],
     highlighted: false,
     badge: "Bespoke",
+    productType: "invitation",
+  },
+];
+
+export const saveTheDateTiers: PricingTier[] = [
+  {
+    name: "Essentials",
+    price: "Rp 99.000",
+    description:
+      "Pengumuman elegan untuk Save the Date — sampaikan tanggal spesial Anda dengan cara yang berkesan.",
+    features: [
+      "1 desain Save the Date",
+      "Foto & nama pasangan",
+      "Tanggal & lokasi acara",
+      "Link RSVP sederhana",
+      "Desain optimal mobile",
+      "Share via WhatsApp",
+    ],
+    highlighted: false,
+    productType: "save_the_date",
+  },
+  {
+    name: "Premium",
+    price: "Rp 199.000",
+    description:
+      "Save the Date dengan visual premium dan fitur tambahan untuk membangun antisipasi tamu.",
+    features: [
+      "1 desain Save the Date premium",
+      "Foto & nama pasangan",
+      "Tanggal, lokasi & waktu",
+      "Hitung mundur ke hari H",
+      "Video intro singkat",
+      "Link RSVP",
+      "Aksen warna custom",
+      "Share via WhatsApp",
+    ],
+    highlighted: true,
+    badge: "Paling Populer",
+    productType: "save_the_date",
+  },
+];
+
+export const websiteTiers: PricingTier[] = [
+  {
+    name: "Basic",
+    price: "Rp 499.000",
+    description:
+      "Website pernikahan lengkap dengan semua informasi penting untuk tamu Anda.",
+    features: [
+      "Website pernikahan custom",
+      "Profil pasangan",
+      "Timeline kisah cinta",
+      "Informasi acara (akad & resepsi)",
+      "Galeri foto (hingga 30 foto)",
+      "RSVP digital",
+      "Integrasi Google Maps",
+      "Desain optimal mobile",
+      "Domain sementara (gratis)",
+    ],
+    highlighted: false,
+    productType: "website",
+  },
+  {
+    name: "Premium",
+    price: "Rp 999.000",
+    description:
+      "Website pernikahan lengkap dengan fitur premium untuk pengalaman tamu terbaik.",
+    features: [
+      "Website pernikahan premium",
+      "Profil pasangan & keluarga",
+      "Timeline kisah cinta",
+      "Informasi acara multi-event",
+      "Galeri foto (hingga 80 foto)",
+      "RSVP digital + manajemen tamu",
+      "Amplop hadiah digital (QR)",
+      "Musik latar",
+      "Hitung mundur",
+      "Live streaming link",
+      "Domain custom (1 tahun)",
+      "Aksen warna custom",
+    ],
+    highlighted: true,
+    badge: "Paling Populer",
+    productType: "website",
+  },
+  {
+    name: "Exclusive",
+    price: "Rp 1.999.000",
+    description:
+      "Website pernikahan bespoke dengan kustomisasi penuh dan dukungan prioritas.",
+    features: [
+      "Website pernikahan fully custom",
+      "Identitas visual matching",
+      "Semua fitur Premium",
+      "Galeri foto (tanpa batas)",
+      "Animasi premium",
+      "Domain custom (2 tahun)",
+      "Revisi tanpa batas",
+      "Creative director dedicated",
+      "Pengiriman kilat (48 jam)",
+    ],
+    highlighted: false,
+    badge: "Bespoke",
+    productType: "website",
   },
 ];
 
@@ -430,3 +551,137 @@ export const portfolioItems: PortfolioItem[] = [
   { id: "7", slug: "cozy-celebration", title: "Cozy Celebration", category: "intimate", gradientFrom: "#2e1a18", gradientTo: "#4a2822", description: "Taman rumah, Surabaya" },
   { id: "8", slug: "minimalist-romance", title: "Minimalist Romance", category: "modern", gradientFrom: "#f8f6f3", gradientTo: "#efe9e1", description: "Loft urban, Jakarta" },
 ];
+
+// ── Language-aware helpers ─────────────────────────────────────────────────────
+
+const templateKeyMap: Record<string, keyof typeof translations.id.templates> = {
+  "eternal-gold": "eternalGold",
+  "ivory-elegance": "ivoryElegance",
+  "nusantera-heritage": "nusanteraHeritage",
+  "javanese-symphony": "javaneseSymphony",
+  "garden-terrace": "gardenTerrace",
+  "minimalist-romance": "minimalistRomance",
+  "secret-garden": "secretGarden",
+  "cozy-celebration": "cozyCelebration",
+};
+
+export function getTranslatedTemplate(slug: string, lang: Language) {
+  const t = translations[lang].templates;
+  const key = templateKeyMap[slug] as keyof typeof t | undefined;
+  if (!key || !t[key]) return null;
+  return t[key] as unknown as {
+    name: string;
+    description: string;
+    shortDescription: string;
+    suitableFor: string[];
+    features: string[];
+  };
+}
+
+export function getTranslatedPricingTiers(lang: Language) {
+  const t = translations[lang].templates.pricing;
+  return pricingTiers.map((tier) => {
+    const translated = t[tier.name.toLowerCase() as keyof typeof t] as unknown as {
+      name: string;
+      description: string;
+      features: readonly string[];
+      badge?: string;
+    } | undefined;
+    return {
+      ...tier,
+      name: translated?.name ?? tier.name,
+      description: translated?.description ?? tier.description,
+      features: translated ? [...translated.features] : tier.features,
+      badge: translated?.badge ?? tier.badge,
+    };
+  });
+}
+
+export function getTranslatedSaveTheDateTiers(lang: Language) {
+  const t = translations[lang].pages.pricing.saveTheDate;
+  return saveTheDateTiers.map((tier) => {
+    const translated = t[tier.name.toLowerCase() as keyof typeof t] as
+      | { name: string; description: string }
+      | undefined;
+    return {
+      ...tier,
+      name: translated?.name ?? tier.name,
+      description: translated?.description ?? tier.description,
+    };
+  });
+}
+
+export function getTranslatedWebsiteTiers(lang: Language) {
+  const t = translations[lang].pages.pricing.website;
+  return websiteTiers.map((tier) => {
+    const translated = t[tier.name.toLowerCase() as keyof typeof t] as
+      | { name: string; description: string }
+      | undefined;
+    return {
+      ...tier,
+      name: translated?.name ?? tier.name,
+      description: translated?.description ?? tier.description,
+    };
+  });
+}
+
+export function getTranslatedAddOns(lang: Language) {
+  const t = translations[lang].templates.addons;
+  return addOns.map((addon, i) => {
+    const keys = Object.keys(t) as Array<keyof typeof t>;
+    const key = keys[i] as keyof typeof t | undefined;
+    const translated = key ? t[key] : undefined;
+    return {
+      ...addon,
+      name: translated?.name ?? addon.name,
+      description: translated?.description ?? addon.description,
+      price: translated?.price ?? addon.price,
+    };
+  });
+}
+
+export function getTranslatedHowItWorksSteps(lang: Language) {
+  const t = translations[lang].templates.howItWorks;
+  const stepKeys: Array<keyof typeof t> = ["step1", "step2", "step3", "step4", "step5"];
+  return howItWorksSteps.map((step, i) => ({
+    ...step,
+    title: t[stepKeys[i]]?.title ?? step.title,
+    description: t[stepKeys[i]]?.description ?? step.description,
+  }));
+}
+
+export function getTranslatedTestimonials(lang: Language) {
+  const t = translations[lang].templates.testimonials;
+  const keys: Array<keyof typeof t> = ["anisaRizky", "dewiFachry", "sarahMichael"];
+  return testimonials.map((testimonial, i) => ({
+    ...testimonial,
+    quote: t[keys[i]]?.quote ?? testimonial.quote,
+    weddingDate: t[keys[i]]?.weddingDate ?? testimonial.weddingDate,
+  }));
+}
+
+export function getTranslatedFeatures(lang: Language) {
+  const t = translations[lang].templates.features;
+  const iconMap: Record<number, keyof typeof t> = {
+    0: "personalGuestName", 1: "smartRsvp", 2: "giftEnvelope", 3: "countdownTimer",
+    4: "loveStory", 5: "photoGallery", 6: "mapsIntegration", 7: "backgroundMusic",
+    8: "guestWishes", 9: "multipleEvents", 10: "liveStreaming", 11: "mobileOptimized",
+  };
+  return features.map((feature, i) => {
+    const key = iconMap[i];
+    const translated = t[key];
+    return {
+      ...feature,
+      title: translated?.title ?? feature.title,
+      description: translated?.description ?? feature.description,
+    };
+  });
+}
+
+export function getTranslatedPortfolioItems(lang: Language) {
+  const t = translations[lang].templates.portfolio;
+  return portfolioItems.map((item) => ({
+    ...item,
+    description: (t as Record<string, string>)[item.slug] ?? item.description,
+  }));
+}

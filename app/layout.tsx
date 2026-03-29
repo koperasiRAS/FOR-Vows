@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CartLayout } from "@/components/cart/CartLayout";
+import { LanguageProvider } from "@/lib/i18n/context";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -61,11 +62,13 @@ export default function RootLayout({
       className={`${playfair.variable} ${inter.variable} ${cormorant.variable} scroll-smooth`}
     >
       <body className="flex flex-col min-h-screen bg-[#0a0a0a] text-[#faf8f5] antialiased">
-        <CartLayout>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </CartLayout>
+        <LanguageProvider>
+          <CartLayout>
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </CartLayout>
+        </LanguageProvider>
       </body>
     </html>
   );

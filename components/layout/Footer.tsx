@@ -1,26 +1,47 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-
-const footerLinks = {
-  Layanan: [
-    { href: "/templates", label: "Template" },
-    { href: "/pricing", label: "Harga" },
-    { href: "/features", label: "Fitur" },
-    { href: "/contact", label: "Pesan Custom" },
-  ],
-  Perusahaan: [
-    { href: "/about", label: "Tentang FOR Vows" },
-    { href: "/portfolio", label: "Portfolio" },
-    { href: "/how-it-works", label: "Cara Pesan" },
-  ],
-  Lainnya: [
-    { href: "/contact", label: "Hubungi Kami" },
-    { href: "https://instagram.com/frameofrangga", label: "Instagram" },
-    { href: "https://www.tiktok.com/@madebyrangga", label: "TikTok" },
-  ],
-};
+import { useLanguage } from "@/lib/i18n/context";
 
 export function Footer() {
+  const { t } = useLanguage();
+
+  const footerLinks = [
+    {
+      key: "footer.layanan",
+      links: [
+        { href: "/templates", key: "footer.template" },
+        { href: "/pricing", key: "footer.harga" },
+        { href: "/features", key: "footer.fitur" },
+        { href: "/contact", key: "footer.pesanCustom" },
+      ],
+    },
+    {
+      key: "footer.perusahaan",
+      links: [
+        { href: "/about", key: "footer.tentangForvows" },
+        { href: "/portfolio", key: "footer.portfolio" },
+        { href: "/how-it-works", key: "footer.caraPesan" },
+      ],
+    },
+    {
+      key: "footer.lainnya",
+      links: [
+        { href: "/contact", key: "footer.hubungiKami" },
+        { href: "https://instagram.com/frameofrangga", key: "footer.instagram", external: true },
+        { href: "https://www.tiktok.com/@madebyrangga", key: "footer.tiktok", external: true },
+      ],
+    },
+    {
+      key: "footer.legal",
+      links: [
+        { href: "/terms", key: "footer.termsConditions" },
+        { href: "/privacy", key: "footer.privacyPolicy" },
+      ],
+    },
+  ];
+
   return (
     <footer className="bg-[#0a0a0a] border-t border-white/[0.06]">
       {/* Top Section */}
@@ -40,19 +61,10 @@ export function Footer() {
               </div>
             </Link>
             <p className="text-sm text-[#5a5a5a] leading-relaxed max-w-xs">
-              Merek undangan pernikahan digital premium dari{" "}
-              <a
-                href="https://for-portofolio.netlify.app"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#8a8a8a] hover:text-[#c9a96e] transition-colors"
-              >
-                Frame Of Rangga
-              </a>
-              . Menciptakan momen sakral menjadi pengalaman digital yang tak terlupakan.
+              {t("footer.brandDesc")}
             </p>
             <p className="text-xs text-[#c9a96e] tracking-[0.1em] italic font-accent">
-              &ldquo;Crafting Your Sacred Moments&rdquo;
+              &ldquo;{t("footer.tagline")}&rdquo;
             </p>
             <div className="flex items-center gap-4 pt-1">
               <a
@@ -91,21 +103,21 @@ export function Footer() {
           </div>
 
           {/* Link Columns */}
-          {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category} className="space-y-4">
+          {footerLinks.map((group) => (
+            <div key={group.key} className="space-y-4">
               <h4 className="text-xs tracking-[0.2em] uppercase text-[#c9a96e] font-medium">
-                {category}
+                {t(group.key)}
               </h4>
               <ul className="space-y-3">
-                {links.map((link) => (
-                  <li key={link.href}>
+                {group.links.map((link) => (
+                  <li key={link.key}>
                     <a
                       href={link.href}
-                      target={link.href.startsWith("http") ? "_blank" : undefined}
-                      rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      target={link.external ? "_blank" : undefined}
+                      rel={link.external ? "noopener noreferrer" : undefined}
                       className="text-sm text-[#5a5a5a] hover:text-[#c9a96e] transition-colors duration-300"
                     >
-                      {link.label}
+                      {t(link.key)}
                     </a>
                   </li>
                 ))}
@@ -119,10 +131,10 @@ export function Footer() {
       <div className="border-t border-white/[0.05]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-[#3a3a3a]">
-            &copy; {new Date().getFullYear()} FOR Vows. Sub-brand dari Frame Of Rangga. Hak cipta dilindungi.
+            {t("footer.copyright", { year: new Date().getFullYear() })}
           </p>
           <p className="text-xs text-[#3a3a3a]">
-            Premium Digital Wedding Invitations
+            {t("footer.premiumDigital")}
           </p>
         </div>
       </div>

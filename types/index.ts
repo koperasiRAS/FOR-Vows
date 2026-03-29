@@ -28,6 +28,8 @@ export interface PricingTier {
   features: string[];
   highlighted: boolean;
   badge?: string;
+  /** Product category — determines which section on /pricing this tier belongs to */
+  productType?: "save_the_date" | "invitation" | "website";
 }
 
 export interface AddOn {

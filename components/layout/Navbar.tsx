@@ -5,20 +5,23 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Menu, X, ShoppingBag } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
+import { useLanguage } from "@/lib/i18n/context";
+import { LanguageToggle } from "@/components/layout/LanguageToggle";
 
 const navLinks = [
-  { href: "/templates", label: "Template" },
-  { href: "/pricing", label: "Harga" },
-  { href: "/features", label: "Fitur" },
-  { href: "/how-it-works", label: "Cara Pesan" },
-  { href: "/portfolio", label: "Portfolio" },
-  { href: "/about", label: "Tentang" },
+  { href: "/templates", key: "nav.template" },
+  { href: "/pricing", key: "nav.harga" },
+  { href: "/features", key: "nav.fitur" },
+  { href: "/how-it-works", key: "nav.caraPesan" },
+  { href: "/portfolio", key: "nav.portfolio" },
+  { href: "/about", key: "nav.tentang" },
 ];
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { itemCount, setOpen } = useCart();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -61,7 +64,7 @@ export function Navbar() {
                 href={link.href}
                 className="text-sm tracking-wide text-[#9a9a9a] hover:text-[#c9a96e] transition-colors duration-300 relative group"
               >
-                {link.label}
+                {t(link.key)}
                 <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-[#c9a96e] transition-all duration-300 group-hover:w-full" />
               </Link>
             </li>
@@ -74,12 +77,13 @@ export function Navbar() {
             href="/contact"
             className="text-sm tracking-wide text-[#9a9a9a] hover:text-[#faf8f5] transition-colors duration-300"
           >
-            Hubungi Kami
+            {t("nav.hubungiKami")}
           </Link>
+          <LanguageToggle />
           <button
             onClick={() => setOpen(true)}
             className="relative p-2 text-[#9a9a9a] hover:text-[#c9a96e] transition-colors duration-300"
-            aria-label="Keranjang"
+            aria-label={t("nav.keranjang")}
           >
             <ShoppingBag size={20} />
             {itemCount > 0 && (
@@ -92,23 +96,24 @@ export function Navbar() {
             href="/templates"
             className="px-5 py-2 text-xs tracking-widest uppercase bg-[#c9a96e] text-[#0a0a0a] font-medium hover:bg-[#d4b87a] transition-colors duration-300"
           >
-            Pesan Sekarang
+            {t("nav.pesanSekarang")}
           </Link>
         </div>
 
         {/* Mobile Menu Button */}
         <div className="flex items-center gap-3 lg:hidden">
+          <LanguageToggle />
           <Link
             href="/cart"
             className="p-2 text-[#9a9a9a] hover:text-[#c9a96e] transition-colors"
-            aria-label="Keranjang"
+            aria-label={t("nav.keranjang")}
           >
             <ShoppingBag size={20} />
           </Link>
           <button
             className="p-2 text-[#faf8f5] hover:text-[#c9a96e] transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label={mobileOpen ? "Tutup menu" : "Buka menu"}
+            aria-label={mobileOpen ? t("nav.tutupMenu") : t("nav.bukaMenu")}
           >
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
@@ -129,7 +134,7 @@ export function Navbar() {
               onClick={() => setMobileOpen(false)}
               className="text-base tracking-wide text-[#9a9a9a] hover:text-[#c9a96e] transition-colors py-1"
             >
-              {link.label}
+              {t(link.key)}
             </Link>
           ))}
           <div className="pt-4 border-t border-white/[0.06]">
@@ -138,7 +143,7 @@ export function Navbar() {
               onClick={() => setMobileOpen(false)}
               className="inline-block px-6 py-3 text-xs tracking-widest uppercase bg-[#c9a96e] text-[#0a0a0a] font-medium"
             >
-              Pesan Sekarang
+              {t("nav.pesanSekarang")}
             </Link>
           </div>
         </div>

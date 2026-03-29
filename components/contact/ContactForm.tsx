@@ -7,9 +7,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { submitInquiry } from "@/app/actions/submitInquiry";
+import { useLanguage } from "@/lib/i18n/context";
 import type { ContactFormData } from "@/types";
 
 export function ContactForm() {
+  const { t } = useLanguage();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -38,7 +40,7 @@ export function ContactForm() {
       e.currentTarget.reset();
     } else {
       setStatus("error");
-      setErrorMsg(result.error || "Terjadi kesalahan. Silakan coba lagi.");
+      setErrorMsg(result.error || t("contact.terjadiError"));
     }
   };
 
@@ -47,10 +49,9 @@ export function ContactForm() {
       <div className="flex flex-col items-center text-center gap-5 py-16 px-8 border border-[#c9a96e]/30 bg-[#0f0f0f]">
         <CheckCircle size={40} className="text-[#c9a96e]" />
         <div className="space-y-2">
-          <h3 className="font-serif text-2xl text-[#faf8f5]">Terima Kasih</h3>
+          <h3 className="font-serif text-2xl text-[#faf8f5]">{t("contact.terimaKasih")}</h3>
           <p className="text-sm text-[#8a8a8a] max-w-sm">
-            Pertanyaan Anda sudah diterima. Tim kami akan menghubungi dalam 24
-            jam untuk mendiskusikan visi Anda.
+            {t("contact.suksesPertanyaan")}
           </p>
         </div>
         <Button
@@ -58,7 +59,7 @@ export function ContactForm() {
           onClick={() => setStatus("idle")}
           className="mt-2"
         >
-          Kirim Pertanyaan Lain
+          {t("contact.kirimPertanyaanLain")}
         </Button>
       </div>
     );
@@ -74,24 +75,24 @@ export function ContactForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-1.5">
           <Label htmlFor="fullName" className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
-            Nama Anda <span className="text-[#c9a96e]">*</span>
+            {t("contact.namaAnda")} <span className="text-[#c9a96e]">*</span>
           </Label>
           <Input
             id="fullName"
             name="fullName"
-            placeholder="Nama lengkap"
+            placeholder={t("contact.namaPlaceholder")}
             required
             className="bg-[#0f0f0f] border-white/10 text-[#faf8f5] placeholder:text-[#4a4a4a] text-sm focus:border-[#c9a96e]/50 focus:ring-[#c9a96e]/10"
           />
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="partnerName" className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
-            Nama Pasangan
+            {t("contact.namaPasangan")}
           </Label>
           <Input
             id="partnerName"
             name="partnerName"
-            placeholder="Nama lengkap pasangan"
+            placeholder={t("contact.pasanganPlaceholder")}
             className="bg-[#0f0f0f] border-white/10 text-[#faf8f5] placeholder:text-[#4a4a4a] text-sm focus:border-[#c9a96e]/50 focus:ring-[#c9a96e]/10"
           />
         </div>
@@ -101,26 +102,26 @@ export function ContactForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-1.5">
           <Label htmlFor="email" className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
-            Email <span className="text-[#c9a96e]">*</span>
+            {t("contact.email")} <span className="text-[#c9a96e]">*</span>
           </Label>
           <Input
             id="email"
             name="email"
             type="email"
-            placeholder="email@contoh.com"
+            placeholder={t("contact.emailPlaceholder")}
             required
             className="bg-[#0f0f0f] border-white/10 text-[#faf8f5] placeholder:text-[#4a4a4a] text-sm focus:border-[#c9a96e]/50"
           />
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="phone" className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
-            WhatsApp / Telepon
+            {t("contact.whatsappTelepon")}
           </Label>
           <Input
             id="phone"
             name="phone"
             type="tel"
-            placeholder="+62 xxx xxxx xxxx"
+            placeholder={t("contact.waPlaceholder")}
             className="bg-[#0f0f0f] border-white/10 text-[#faf8f5] placeholder:text-[#4a4a4a] text-sm focus:border-[#c9a96e]/50"
           />
         </div>
@@ -129,7 +130,7 @@ export function ContactForm() {
       {/* Row: Wedding Date */}
       <div className="space-y-1.5">
         <Label htmlFor="weddingDate" className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
-          Tanggal Pernikahan
+          {t("contact.tanggalPernikahan")}
         </Label>
         <Input
           id="weddingDate"
@@ -143,34 +144,34 @@ export function ContactForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-1.5">
           <Label className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
-            Layanan yang Dibutuhkan
+            {t("contact.layananDibutuhkan")}
           </Label>
           <select
             name="serviceType"
             className="w-full h-10 px-3 text-sm bg-[#0f0f0f] border border-white/10 text-[#faf8f5] rounded-md focus:border-[#c9a96e]/50 focus:outline-none focus:ring-1 focus:ring-[#c9a96e]/20"
             defaultValue=""
           >
-            <option value="" disabled className="text-[#4a4a4a]">Pilih layanan</option>
-            <option value="digital_invitation">Undangan Pernikahan Digital</option>
-            <option value="wedding_website">Website Pernikahan</option>
-            <option value="custom_design">Desain Custom</option>
-            <option value="other">Lainnya</option>
+            <option value="" disabled className="text-[#4a4a4a]">{t("contact.pilihLayanan")}</option>
+            <option value="digital_invitation">{t("contact.undanganDigital")}</option>
+            <option value="wedding_website">{t("contact.websitePernikahan")}</option>
+            <option value="custom_design">{t("contact.desainCustom")}</option>
+            <option value="other">{t("contact.lainnya")}</option>
           </select>
         </div>
         <div className="space-y-1.5">
           <Label className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
-            Minat Paket
+            {t("contact.minatPaket")}
           </Label>
           <select
             name="packageName"
             className="w-full h-10 px-3 text-sm bg-[#0f0f0f] border border-white/10 text-[#faf8f5] rounded-md focus:border-[#c9a96e]/50 focus:outline-none focus:ring-1 focus:ring-[#c9a96e]/20"
             defaultValue=""
           >
-            <option value="" disabled className="text-[#4a4a4a]">Pilih paket</option>
-            <option value="basic">Basic — Rp 299.000</option>
-            <option value="premium">Premium — Rp 599.000</option>
-            <option value="exclusive">Exclusive — Rp 999.000</option>
-            <option value="undecided">Belum memutuskan</option>
+            <option value="" disabled className="text-[#4a4a4a]">{t("contact.pilihPaket")}</option>
+            <option value="basic">{t("contact.basic")}</option>
+            <option value="premium">{t("contact.premium")}</option>
+            <option value="exclusive">{t("contact.exclusive")}</option>
+            <option value="undecided">{t("contact.belumMemutuskan")}</option>
           </select>
         </div>
       </div>
@@ -178,12 +179,12 @@ export function ContactForm() {
       {/* Template */}
       <div className="space-y-1.5">
         <Label htmlFor="templateName" className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
-          Template yang Diminati
+          {t("contact.templateDiminati")}
         </Label>
         <Input
           id="templateName"
           name="templateName"
-          placeholder="contoh: Eternal Gold, Nusantara Heritage..."
+          placeholder={t("contact.templatePlaceholder")}
           className="bg-[#0f0f0f] border-white/10 text-[#faf8f5] placeholder:text-[#4a4a4a] text-sm focus:border-[#c9a96e]/50"
         />
       </div>
@@ -191,12 +192,12 @@ export function ContactForm() {
       {/* Message */}
       <div className="space-y-1.5">
         <Label htmlFor="message" className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
-          Pesan <span className="text-[#c9a96e]">*</span>
+          {t("contact.pesan")} <span className="text-[#c9a96e]">*</span>
         </Label>
         <Textarea
           id="message"
           name="message"
-          placeholder="Ceritakan tentang pernikahan Anda, visi, dan kebutuhan khusus..."
+          placeholder={t("contact.pesanPlaceholder")}
           required
           rows={5}
           className="bg-[#0f0f0f] border-white/10 text-[#faf8f5] placeholder:text-[#4a4a4a] text-sm focus:border-[#c9a96e]/50 resize-none"
@@ -222,10 +223,10 @@ export function ContactForm() {
         {status === "loading" ? (
           <span className="flex items-center gap-2">
             <Loader size={14} className="animate-spin" />
-            Mengirim...
+            {t("contact.sedangMengirim")}
           </span>
         ) : (
-          "Kirim Pertanyaan"
+          t("contact.kirimPertanyaan")
         )}
       </Button>
     </form>

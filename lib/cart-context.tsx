@@ -2,9 +2,11 @@
 
 import { createContext, useContext, useReducer, useEffect, useMemo, ReactNode } from "react";
 
+export type CartItemType = "template" | "package" | "addon" | "save_the_date" | "website";
+
 export interface CartItem {
   id: string;
-  type: "template" | "package" | "addon";
+  type: CartItemType;
   name: string;
   price: string;
   priceValue: number;
@@ -26,6 +28,7 @@ interface CartState {
   items: CartItem[];
   isOpen: boolean;
   isBookingOpen: boolean;
+  isPaymentOpen: boolean;
   bookings: BookingData[];
   pendingCustomer: { name: string; whatsapp: string; referralCode: string } | null;
 }
@@ -40,7 +43,9 @@ type CartAction =
   | { type: "CLOSE_BOOKING" }
   | { type: "SET_PENDING_CUSTOMER"; payload: { name: string; whatsapp: string; referralCode: string } }
   | { type: "SAVE_BOOKING"; payload: BookingData }
-  | { type: "LOAD_BOOKINGS"; payload: BookingData[] };
+  | { type: "LOAD_BOOKINGS"; payload: BookingData[] }
+  | { type: "OPEN_PAYMENT" }
+  | { type: "CLOSE_PAYMENT" };
 
 function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
@@ -81,6 +86,10 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       };
     case "LOAD_BOOKINGS":
       return { ...state, bookings: action.payload };
+    case "OPEN_PAYMENT":
+      return { ...state, isPaymentOpen: true };
+    case "CLOSE_PAYMENT":
+      return { ...state, isPaymentOpen: false };
     default:
       return state;
   }
@@ -90,6 +99,7 @@ interface CartContextType {
   items: CartItem[];
   isOpen: boolean;
   isBookingOpen: boolean;
+  isPaymentOpen: boolean;
   bookings: BookingData[];
   pendingCustomer: { name: string; whatsapp: string; referralCode: string } | null;
   itemCount: number;
@@ -103,7 +113,9 @@ interface CartContextType {
   setPendingCustomer: (data: { name: string; whatsapp: string; referralCode: string }) => void;
   saveBooking: (booking: BookingData) => void;
   generateBookingId: () => string;
-  getWhatsAppLink: (customer: { name: string; whatsapp: string; referralCode: string }, bookingId: string) => string;
+  getWhatsAppLink: (customer: { name: string; whatsapp: string; referralCode: string }, bookingId: string, discountAmount?: number, discountNote?: string) => string;
+  openPayment: () => void;
+  closePayment: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -125,6 +137,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     items: [],
     isOpen: false,
     isBookingOpen: false,
+    isPaymentOpen: false,
     bookings: [],
     pendingCustomer: null,
   });
@@ -169,20 +182,35 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const setPendingCustomer = (data: { name: string; whatsapp: string; referralCode: string }) =>
     dispatch({ type: "SET_PENDING_CUSTOMER", payload: data });
   const saveBooking = (booking: BookingData) => dispatch({ type: "SAVE_BOOKING", payload: booking });
+  const openPayment = () => dispatch({ type: "OPEN_PAYMENT" });
+  const closePayment = () => dispatch({ type: "CLOSE_PAYMENT" });
 
   const getWhatsAppLink = (
     customer: { name: string; whatsapp: string; referralCode: string },
-    bookingId: string
+    bookingId: string,
+    discountAmount?: number,
+    discountNote?: string
   ) => {
     const waNumber = "6287779560264";
-    const formatted = new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(totalPrice);
+    const subtotal = totalPrice;
+    const discount = discountAmount ?? 0;
+    const finalTotal = subtotal - discount;
 
-    const typeLabel = (type: string) =>
-      type === "template" ? "Template" : type === "package" ? "Paket" : "Add-on";
+    const fmt = (n: number) =>
+      new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0,
+      }).format(n);
+
+    const typeLabel = (type: string) => {
+      if (type === "template") return "Template";
+      if (type === "package") return "Paket";
+      if (type === "addon") return "Add-on";
+      if (type === "save_the_date") return "Save the Date";
+      if (type === "website") return "Wedding Website";
+      return type;
+    };
 
     let message = `Halo FOR Vows! Saya ingin booking dengan detail berikut:\n\n`;
     message += `Booking ID: ${bookingId}\n`;
@@ -190,12 +218,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
     message += `WhatsApp: ${customer.whatsapp}\n`;
     if (customer.referralCode.trim()) {
       message += `Kode Referral: ${customer.referralCode.trim()}\n`;
+      if (discountNote) {
+        message += `Diskon: ${discountNote}\n`;
+      }
     }
     message += `\nPesanan:\n`;
     state.items.forEach((item, i) => {
       message += `${i + 1}. ${item.name} (${typeLabel(item.type)}) - ${item.price}\n`;
     });
-    message += `\nTotal: ${formatted}\n`;
+    message += `\nSubtotal: ${fmt(subtotal)}\n`;
+    if (discount > 0) {
+      message += `Diskon: -${fmt(discount)}\n`;
+    }
+    message += `Total: ${fmt(finalTotal)}\n`;
     message += `\nMohon informasi lengkap untuk pembayaran. Terima kasih! 🙏`;
     return `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
   };
@@ -205,6 +240,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       items: state.items,
       isOpen: state.isOpen,
       isBookingOpen: state.isBookingOpen,
+      isPaymentOpen: state.isPaymentOpen,
       bookings: state.bookings,
       pendingCustomer: state.pendingCustomer,
       itemCount,
@@ -219,6 +255,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       saveBooking,
       generateBookingId,
       getWhatsAppLink,
+      openPayment,
+      closePayment,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state]

@@ -1,14 +1,15 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/lib/i18n/context";
 import type { TemplateCategory } from "@/types";
 
-const categories: { value: TemplateCategory | "all"; label: string }[] = [
-  { value: "all", label: "All Templates" },
-  { value: "luxury", label: "Luxury" },
-  { value: "adat", label: "Adat" },
-  { value: "modern", label: "Modern" },
-  { value: "intimate", label: "Intimate" },
+const categoryKeys = [
+  { value: "all" as const, key: "templateFilter.semuaTemplate" },
+  { value: "luxury" as const, key: "templateFilter.luxury" },
+  { value: "adat" as const, key: "templateFilter.adat" },
+  { value: "modern" as const, key: "templateFilter.modern" },
+  { value: "intimate" as const, key: "templateFilter.intimate" },
 ];
 
 interface TemplateFilterProps {
@@ -17,9 +18,11 @@ interface TemplateFilterProps {
 }
 
 export function TemplateFilter({ active, onChange }: TemplateFilterProps) {
+  const { t } = useLanguage();
+
   return (
     <div className="flex flex-wrap gap-2 justify-center">
-      {categories.map((cat) => (
+      {categoryKeys.map((cat) => (
         <button
           key={cat.value}
           onClick={() => onChange(cat.value)}
@@ -30,7 +33,7 @@ export function TemplateFilter({ active, onChange }: TemplateFilterProps) {
               : "border-white/15 text-[#8a8a8a] hover:border-[#c9a96e]/50 hover:text-[#c9a96e]"
           )}
         >
-          {cat.label}
+          {t(cat.key)}
         </button>
       ))}
     </div>

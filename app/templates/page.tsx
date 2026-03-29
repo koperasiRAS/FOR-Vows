@@ -6,10 +6,12 @@ import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { TemplateCard } from "@/components/templates/TemplateCard";
 import { TemplateFilter } from "@/components/templates/TemplateFilter";
 import { templates } from "@/lib/templates";
+import { useLanguage } from "@/lib/i18n/context";
 import type { TemplateCategory } from "@/types";
 
 export default function TemplatesPage() {
   const [activeCategory, setActiveCategory] = useState<TemplateCategory | "all">("all");
+  const { t } = useLanguage();
 
   const filtered =
     activeCategory === "all"
@@ -22,9 +24,9 @@ export default function TemplatesPage() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-12 pb-10">
         <ScrollReveal>
           <SectionHeading
-            overline="Koleksi Kami"
-            title="Template Undangan Pernikahan"
-            subtitle="Delapan desain berbeda, masing-masing membawa jiwa uniknya sendiri. Temukan yang paling sesuai dengan perayaan Anda."
+            overline={t("pages.templates.overline")}
+            title={t("pages.templates.title")}
+            subtitle={t("pages.templates.subtitle")}
           />
         </ScrollReveal>
 
@@ -48,7 +50,7 @@ export default function TemplatesPage() {
         {filtered.length === 0 && (
           <div className="text-center py-20">
             <p className="text-[#6a6a6a] text-sm">
-              Template tidak ditemukan dalam kategori ini.
+              {t("pages.templates.noResults")}
             </p>
           </div>
         )}

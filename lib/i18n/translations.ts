@@ -1,0 +1,1650 @@
+export type Language = "id" | "en";
+
+export const translations = {
+  id: {
+    // ── Navbar ───────────────────────────────────────────────────────────────
+    nav: {
+      template: "Template",
+      harga: "Harga",
+      fitur: "Fitur",
+      caraPesan: "Cara Pesan",
+      portfolio: "Portfolio",
+      tentang: "Tentang",
+      hubungiKami: "Hubungi Kami",
+      keranjang: "Keranjang",
+      pesanSekarang: "Pesan Sekarang",
+      bukaMenu: "Buka menu",
+      tutupMenu: "Tutup menu",
+      lihatTemplate: "Lihat Template",
+    },
+
+    // ── Footer ──────────────────────────────────────────────────────────────
+    footer: {
+      brandDesc:
+        "Merek undangan pernikahan digital premium dari Frame Of Rangga. Menciptakan momen sakral menjadi pengalaman digital yang tak terlupakan.",
+      tagline: "Crafting Your Sacred Moments",
+      layanan: "Layanan",
+      perusahaan: "Perusahaan",
+      lainnya: "Lainnya",
+      template: "Template",
+      harga: "Harga",
+      fitur: "Fitur",
+      pesanCustom: "Pesan Custom",
+      tentangForvows: "Tentang FOR Vows",
+      portfolio: "Portfolio",
+      caraPesan: "Cara Pesan",
+      hubungiKami: "Hubungi Kami",
+      instagram: "Instagram",
+      tiktok: "TikTok",
+      legal: "Legal",
+      termsConditions: "Syarat & Ketentuan",
+      privacyPolicy: "Kebijakan Privasi",
+      copyright: "© {year} FOR Vows. Sub-brand dari Frame Of Rangga. Hak cipta dilindungi.",
+      premiumDigital:
+        "Premium Digital Wedding Invitations",
+    },
+
+    // ── Cart Drawer ─────────────────────────────────────────────────────────
+    cart: {
+      keranjang: "Keranjang",
+      tutupKeranjang: "Tutup keranjang",
+      keranjangKosong: "Keranjang masih kosong",
+      pilihTemplateAtauPaket:
+        "Pilih template atau paket untuk memulai pesanan",
+      lihatTemplate: "Lihat Template",
+      template: "Template",
+      paket: "Paket",
+      addon: "Add-on",
+      saveTheDate: "Save the Date",
+      website: "Wedding Website",
+      hapus: "Hapus {name}",
+      total: "Total",
+      pesanSekarang: "Pesan Sekarang",
+      kosongkan: "Kosongkan Keranjang",
+    },
+
+    // ── Booking Modal ───────────────────────────────────────────────────────
+    booking: {
+      lengkapiData: "Lengkapi Data Pemesanan",
+      bookingBerhasil: "Booking Berhasil!",
+      dataInfo:
+        "Data ini akan digunakan untuk konfirmasi dan generate invoice",
+      tutup: "Tutup",
+      invoiceIdPreview: "Invoice ID (akan digenerate)",
+      ringkasanPesanan: "Ringkasan Pesanan",
+      template: "Template",
+      paket: "Paket",
+      addon: "Add-on",
+      saveTheDate: "Save the Date",
+      website: "Wedding Website",
+      total: "Total",
+      namaLengkap: "Nama Lengkap *",
+      namaLengkapPlaceholder: "Nama lengkap Anda",
+      noWhatsapp: "No. WhatsApp *",
+      waPlaceholder: "+62 8xx xxxx xxxx",
+      kodeReferral: "Kode Referral (opsional)",
+      referralPlaceholder: "Contoh: ANISA2026",
+      infoBooking:
+        "Setelah Anda mengirim pesan via WhatsApp, tim FOR Vows akan mengirimkan instruksi pembayaran dalam 24 jam. Mohon screeshot bukti transfer saat sudah bayar.",
+      kirimWhatsApp: "Kirim via WhatsApp",
+      kirimPesananWA: "Kirim Pesanan via WhatsApp",
+      bookingId: "Booking ID",
+      simpanId: "Simpan ID ini untuk konfirmasi pembayaran",
+      tersalin: "Tersalin!",
+      salin: "Salin",
+      nama: "Nama",
+      whatsapp: "WhatsApp",
+      langkahSelanjutnya: "Langkah selanjutnya:",
+      langkah1: "Klik tombol di atas untuk kirim pesanan via WhatsApp",
+      langkah2: "Tim FOR Vows akan kirim instruksi pembayaran",
+      langkah3: "Transfer ke rekening yang tertera",
+      langkah4:
+        "Kirim bukti transfer via WhatsApp dengan menyertakan Booking ID",
+      referralValid: "Kode referral valid!",
+      referralInvalid: "Kode referral tidak ditemukan",
+      referralDiscount: "Diskon",
+      referralBy: "via {referrer}",
+    },
+
+    // ── Payment Modal ───────────────────────────────────────────────────────
+    payment: {
+      pilihMetode: "Pilih Metode Pembayaran",
+      bookingId: "Booking ID",
+      salin: "Salin",
+      tersalin: "Tersalin!",
+      template: "Template",
+      paket: "Paket",
+      addon: "Add-on",
+      total: "Total",
+      pilihMetodeBayar: "Pilih metode pembayaran",
+      membukaPembayaran: "Membuka pembayaran...",
+      bayarSekarang: "Bayar Sekarang (Transfer, GoPay, OVO, Dana, dll)",
+      bayarNantiWA: "Bayar Nanti via WhatsApp",
+      sesiPembayaran: "Sesi Pembayaran",
+      buktiBayarInfo:
+        "Jika sudah melakukan pembayaran, silakan kirim bukti transfer via WhatsApp dengan menyertakan Booking ID di bawah.",
+      kirimBuktiWA: "Kirim Bukti Bayar via WhatsApp",
+      infoMidtrans: "Pembayaran diproses oleh Midtrans. Data kartu Anda aman.",
+    },
+
+    // ── Cart Page ───────────────────────────────────────────────────────────
+    cartPage: {
+      lanjutPilihTemplate: "Lanjut Pilih Template",
+      pesananAnda: "Pesanan Anda",
+      keranjang: "Keranjang",
+      itemCount: "{count} item dalam keranjang",
+      keranjangKosong: "Keranjang Kosong",
+      belumAdaItem:
+        "Belum ada item di keranjang. Pilih template atau paket untuk memulai.",
+      lihatTemplate: "Lihat Template",
+      templateDigital: "Template Undangan Digital",
+      paketLayanan: "Paket Layanan",
+      addonLabel: "Add-on",
+      subtotal: "Subtotal ({count} item)",
+      belumTermasukAddons:
+        "Harga belum termasuk add-on tambahan. Add-ons dapat dipilih setelah pemesanan.",
+      pesanSekarang: "Pesan Sekarang",
+      kosongkan: "Kosongkan",
+      infoPesan:
+        "Info: Setelah mengirim pesanan via WhatsApp, tim FOR Vows akan menghubungi Anda dalam 24 jam untuk konfirmasi detail dan metode pembayaran.",
+    },
+
+    // ── Contact Form ────────────────────────────────────────────────────────
+    contact: {
+      terimaKasih: "Terima Kasih",
+      suksesPertanyaan:
+        "Pertanyaan Anda sudah diterima. Tim kami akan menghubungi dalam 24 jam untuk mendiskusikan visi Anda.",
+      kirimPertanyaanLain: "Kirim Pertanyaan Lain",
+      namaAnda: "Nama Anda *",
+      namaPlaceholder: "Nama lengkap",
+      namaPasangan: "Nama Pasangan",
+      pasanganPlaceholder: "Nama lengkap pasangan",
+      email: "Email *",
+      emailPlaceholder: "email@contoh.com",
+      whatsappTelepon: "WhatsApp / Telepon",
+      waPlaceholder: "+62 xxx xxxx xxxx",
+      tanggalPernikahan: "Tanggal Pernikahan",
+      layananDibutuhkan: "Layanan yang Dibutuhkan",
+      pilihLayanan: "Pilih layanan",
+      undanganDigital: "Undangan Pernikahan Digital",
+      websitePernikahan: "Website Pernikahan",
+      desainCustom: "Desain Custom",
+      lainnya: "Lainnya",
+      minatPaket: "Minat Paket",
+      pilihPaket: "Pilih paket",
+      basic: "Basic — Rp 299.000",
+      premium: "Premium — Rp 599.000",
+      exclusive: "Exclusive — Rp 999.000",
+      belumMemutuskan: "Belum memutuskan",
+      templateDiminati: "Template yang Diminati",
+      templatePlaceholder: "contoh: Eternal Gold, Nusantara Heritage...",
+      pesan: "Pesan *",
+      pesanPlaceholder:
+        "Ceritakan tentang pernikahan Anda, visi, dan kebutuhan khusus...",
+      sedangMengirim: "Mengirim...",
+      kirimPertanyaan: "Kirim Pertanyaan",
+      terjadiError: "Terjadi kesalahan. Silakan coba lagi.",
+    },
+
+    // ── AddToCart Button ────────────────────────────────────────────────────
+    addToCart: {
+      tambahKeranjang: "Tambah ke Keranjang",
+      ditambahkan: "Ditambahkan!",
+      sudahDiKeranjang: "Sudah di Keranjang",
+      pilih: "Pilih",
+    },
+
+    // ── Template Filter ──────────────────────────────────────────────────────
+    templateFilter: {
+      semuaTemplate: "All Templates",
+      luxury: "Luxury",
+      adat: "Adat",
+      modern: "Modern",
+      intimate: "Intimate",
+    },
+
+    // ── Preview Button ──────────────────────────────────────────────────────
+    preview: {
+      previewLiveDemo: "Preview Live Demo",
+      comingSoon: "Live preview for {name} coming soon! Contact us to schedule a personal demo.",
+    },
+
+    // ── Pricing Card ────────────────────────────────────────────────────────
+    pricingCard: {
+      pilihPaket: "Pilih Paket {name}",
+      hubungiCustom: "Hubungi Kami untuk Custom Order",
+    },
+
+    // ── 404 ─────────────────────────────────────────────────────────────────
+    notFound: {
+      title404: "404",
+      pageNotFound: "Page Not Found",
+      notFoundDesc:
+        "The page you're looking for doesn't exist, or may have been moved. Let's take you back.",
+      kembaliBeranda: "Return Home",
+    },
+
+    // ── Submit Inquiry (Server Action) ──────────────────────────────────────
+    submitInquiry: {
+      namaRequired: "Name is required.",
+      emailRequired: "A valid email address is required.",
+      pesanRequired: "Please include a message.",
+      gagalSubmit: "Failed to submit inquiry. Please try again.",
+      errorUnexpected: "An unexpected error occurred. Please try again.",
+    },
+
+    // ── Language Toggle ──────────────────────────────────────────────────────
+    langToggle: {
+      switchToEn: "English",
+      switchToId: "Bahasa Indonesia",
+    },
+
+    // ── Marketing Pages: Templates ────────────────────────────────────────────
+    pages: {
+      templates: {
+        overline: "Koleksi Kami",
+        title: "Template Undangan Pernikahan",
+        subtitle: "Delapan desain berbeda, masing-masing membawa jiwa uniknya sendiri. Temukan yang paling sesuai dengan perayaan Anda.",
+        noResults: "Template tidak ditemukan dalam kategori ini.",
+        backToAll: "All Templates",
+        description: "Description",
+        suitableFor: "Cocok Untuk",
+        includedFeatures: "Fitur yang Termasuk",
+        startingFrom: "Mulai dari",
+        startWithThis: "Mulai dengan Template Ini",
+        relatedTemplates: "Template Terkait",
+        youMayAlsoLike: "You May Also Like",
+      },
+      pricing: {
+        overline: "Investasi",
+        title: "Harga Sederhana & Transparan",
+        subtitle: "Tiga paket yang didesain dengan cermat — masing-masing dibuat untuk memberikan undangan pernikahan Anda perhatian yang layak. Tanpa biaya tersembunyi.",
+        enhancePackage: "Tingkatkan Paket Anda",
+        optionalAddons: "Add-on Opsional",
+        priceNote: "Semua harga dalam Rupiah Indonesia (IDR) dan sudah termasuk arahan kreatif, pengiriman digital, dan 1 sesi revisi. Revisi tambahan tersedia dengan biaya Rp 75.000 per sesi.",
+        notSure: "Belum Yakin Paket Mana?",
+        findRightTitle: "Mari Cari yang Tepat Bersama",
+        findRightSubtitle: "Booking konsultasi gratis dan kami akan membantu Anda memilih paket yang sempurna untuk visi Anda.",
+        bookConsultation: "Booking Konsultasi",
+        lihatTemplate: "Lihat Template",
+        hubungiKami: "Hubungi Kami",
+        saveTheDate: {
+          overline: "Save the Date",
+          title: "Pengumuman Elegant Sebelum Hari H",
+          subtitle: "Bangun antisipasi tamu dengan Save the Date yang berkesan — langkah pertama menuju hari spesial Anda.",
+          essentials: {
+            name: "Essentials",
+            description:
+              "Pengumuman elegan untuk Save the Date — sampaikan tanggal spesial Anda dengan cara yang berkesan.",
+          },
+          premium: {
+            name: "Premium",
+            description:
+              "Save the Date dengan visual premium dan fitur tambahan untuk membangun antisipasi tamu.",
+          },
+        },
+        website: {
+          overline: "Wedding Website",
+          title: "Website Pernikahan Lengkap",
+          subtitle: "Semua informasi pernikahan Anda di satu tempat — tamu cukup scan QR atau buka link untuk menemukan segalanya.",
+          basic: {
+            name: "Basic",
+            description:
+              "Website pernikahan lengkap dengan semua informasi penting untuk tamu Anda.",
+          },
+          premium: {
+            name: "Premium",
+            description:
+              "Website pernikahan lengkap dengan fitur premium untuk pengalaman tamu terbaik.",
+          },
+          exclusive: {
+            name: "Exclusive",
+            description:
+              "Website pernikahan bespoke dengan kustomisasi penuh dan dukungan prioritas.",
+          },
+        },
+      },
+      howItWorks: {
+        overline: "Perjalanan Anda",
+        title: "Dari Visi Menuju Undangan Terbit",
+        subtitle: "Proses yang seamless dan penuh perhatian — agar Anda bisa fokus merayakan sementara kami yang menangani undangannya.",
+        daysNote: "Hari kerja pengiriman",
+        revisionsNote: "Sesi revisi gratis",
+        rushNote: "Opsi pengiriman kilat tersedia",
+        readyToStart: "Siap Memulai?",
+        fiveStepsTitle: "Undangan Sempurna Anda Tinggal Lima Langkah",
+        fiveStepsSubtitle: "Mulailah dengan memilih template yang berbicara di hati Anda.",
+        lihatTemplate: "Lihat Template",
+        hubungiKami: "Hubungi Kami",
+      },
+      terms: {
+        title: "Syarat & Ketentuan",
+        description: "Syarat dan ketentuan penggunaan layanan FOR Vows.",
+        lastUpdated: "Terakhir diperbarui: 29 Maret 2026",
+        effectiveDateLabel: "Berlaku sejak",
+        footerNote: "Jika Anda memiliki pertanyaan tentang Syarat & Ketentuan ini, silakan hubungi kami di hello@forvows.com",
+        sections: [
+          {
+            title: "1. Penerimaan Syarat",
+            content: [
+              "Dengan mengakses dan menggunakan layanan website FOR Vows, Anda согласно menyetujui syarat dan ketentuan yang tercantum di bawah ini. Jika Anda tidak setuju dengan salah satu syarat, mohon untuk tidak menggunakan layanan kami.",
+              "FOR Vows berhak mengubah, memodifikasi, atau memperbarui syarat dan ketentuan ini sewaktu-waktu tanpa pemberitahuan terlebih dahulu. Perubahan akan berlaku sejak tanggal publikasi di website ini.",
+            ],
+          },
+          {
+            title: "2. Layanan Kami",
+            content: [
+              "FOR Vows menyediakan layanan pembuatan undangan pernikahan digital premium, termasuk namun tidak terbatas pada: template undangan digital, Save the Date, dan website pernikahan.",
+              "Layanan mencakup proses kreatif, desain, pengiriman digital, dan dukungan revisi sesuai dengan paket yang dipilih oleh Klien.",
+            ],
+          },
+          {
+            title: "3. Pemesanan & Pembayaran",
+            content: [
+              "Pemesanan dilakukan melalui website FOR Vows dengan memilih paket yang tersedia. Harga tercantum dalam Rupiah Indonesia (IDR) dan sudah termasuk pajak yang berlaku.",
+              "Pembayaran dapat dilakukan melalui transfer bank, e-wallet (GoPay, OVO, Dana), atau kartu kredit/debit melalui payment gateway Midtrans yang aman.",
+              "Pesanan akan diproses setelah pembayaran diterima dan diverifikasi. Status pembayaran akan dikonfirmasi melalui email atau WhatsApp dalam 1x24 jam kerja.",
+              "Untuk paket Exclusive, tersedia opsi cicilan sesuai kesepakatan dengan tim FOR Vows.",
+            ],
+          },
+          {
+            title: "4. Proses Pengerjaan & Pengiriman",
+            content: [
+              "Estimasi pengiriman: Basic & Premium 5-7 hari kerja; Exclusive 7-14 hari kerja; setelah seluruh data dan pembayaran diterima.",
+              "Pengiriman dilakukan secara digital melalui link URL yang dapat diakses oleh Klien dan dibagikan kepada tamu undangan.",
+              "Opsi pengiriman kilat (48 jam) tersedia dengan biaya tambahan sesuai paket yang dipilih.",
+            ],
+          },
+          {
+            title: "5. Revisi",
+            content: [
+              "Setiap paket sudah termasuk jumlah sesi revisi sesuai deskripsi paket. Revisi tambahan tersedia dengan biaya Rp 75.000 per sesi.",
+              "Revisi yang diminta setelah 30 hari sejak tanggal persetujuan draft akan dikenakan biaya penuh seperti pemesanan baru.",
+            ],
+          },
+          {
+            title: "6. Data & Privasi Klien",
+            content: [
+              "Seluruh data pribadi Klien (nama, foto, tanggal pernikahan, dll.) yang dikirimkan untuk keperluan pembuatan undangan dijamin kerahasiaannya dan tidak akan dibagikan kepada pihak ketiga manapun tanpa persetujuan tertulis.",
+              "Data hanya digunakan untuk keperluan produksi undangan digital dan komunikasi terkait pesanan.",
+            ],
+          },
+          {
+            title: "7. Hak Kekayaan Intelektual",
+            content: [
+              "Hasil desain undangan digital yang telah lunas menjadi milik Klien untuk digunakan sebagai undangan pernikahan mereka.",
+              "FOR Vows berhak menggunakan hasil kerja (foto/non-foto) untuk keperluan portofolio dan promosi di media sosial dan website dengan tetap menjaga privasi Klien, kecuali ada permintaan tertulis untuk tidak ditampilkan.",
+            ],
+          },
+          {
+            title: "8. Pembatalan & Refund",
+            content: [
+              "Pembatalan sebelum pembayaran diverifikasi: tanpa penalti, pengembalian dana penuh.",
+              "Pembatalan setelah pembayaran diverifikasi tapi sebelum pengerjaan dimulai: refund 80% dari jumlah yang dibayarkan.",
+              "Pembatalan setelah pengerjaan dimulai: tidak ada refund. Pekerjaan yang sudah selesai akan tetap dikirimkan kepada Klien.",
+              "Pengajuan refund harus dilakukan secara tertulis melalui email ke hello@forvows.com dalam 7 hari kerja sejak tanggal pengajuan pembatalan.",
+            ],
+          },
+          {
+            title: "9. Penundaan (Force Majeure)",
+            content: [
+              "FOR Vows tidak bertanggung jawab atas keterlambatan atau kegagalan layanan yang disebabkan oleh kondisi di luar kendali kami, termasuk namun tidak terbatas pada: bencana alam, gangguan internet, gangguan server, atau tindakan pemerintah.",
+            ],
+          },
+          {
+            title: "10. Komunikasi",
+            content: [
+              "Seluruh komunikasi terkait pesanan akan dilakukan melalui WhatsApp atau email yang terdaftar pada saat pemesanan.",
+              "Tim FOR Vows dapat dihubungi di: WhatsApp +62 877 7956 0264 atau email hello@forvows.com.",
+            ],
+          },
+          {
+            title: "11. Hukum yang Berlaku",
+            content: [
+              "Syarat dan ketentuan ini diatur oleh dan ditafsirkan sesuai dengan hukum Republik Indonesia. Setiap perselisihan yang timbul akan diselesaikan secara musyawarah untuk mufakat, dan jika tidak достигнуто согласия, akan diselesaikan melalui Pengadilan Negeri Jakarta Selatan.",
+            ],
+          },
+        ],
+      },
+      privacy: {
+        title: "Kebijakan Privasi",
+        description: "Kebijakan privasi dan perlindungan data pengguna FOR Vows.",
+        lastUpdated: "Terakhir diperbarui: 29 Maret 2026",
+        effectiveDateLabel: "Berlaku sejak",
+        footerNote: "Jika Anda memiliki pertanyaan tentang Kebijakan Privasi ini, silakan hubungi kami di hello@forvows.com",
+        sections: [
+          {
+            title: "1. Informasi yang Kami Kumpulkan",
+            content: [
+              "Data pribadi yang kami kumpulkan meliputi: nama lengkap, nama pasangan, alamat email, nomor WhatsApp/telepon, tanggal pernikahan, paket/layanan yang dipilih, dan materi yang Anda kirimkan (foto, video, informasi acara).",
+              "Data dikumpulkan melalui: formulir pemesanan di website, komunikasi via WhatsApp atau email, dan cookies saat Anda mengakses website kami.",
+            ],
+          },
+          {
+            title: "2. Cara Kami Menggunakan Data",
+            content: [
+              "Data pribadi Anda digunakan untuk: memproses pesanan dan membuat undangan digital, berkomunikasi mengenai pesanan dan pengiriman hasil, memproses pembayaran melalui payment gateway Midtrans, mengirimkan notifikasi terkait pesanan, dan meningkatkan layanan kami.",
+              "Kami tidak menggunakan data Anda untuk tujuan marketing tanpa persetujuan eksplisit dari Anda.",
+            ],
+          },
+          {
+            title: "3. Pembagian Data kepada Pihak Ketiga",
+            content: [
+              "Kami tidak menjual, memperdagangkan, atau memindahtangankan data pribadi Anda kepada pihak ketiga tanpa persetujuan Anda, kecuali untuk keperluan pemrosesan pembayaran (Midtrans) dan penyedia layanan hosting website (Vercel/Supabase) yang terikat соглашение kerahasiaan.",
+              "Data kartu kredit/debit diproses langsung oleh Midtrans dan tidak pernah menyentuh server kami.",
+            ],
+          },
+          {
+            title: "4. Keamanan Data",
+            content: [
+              "Kami menerapkan langkah-langkah keamanan yang sesuai untuk melindungi data pribadi Anda dari akses tidak sah, perubahan, pengungkapan, atau penghancuran.",
+              "Data disimpan secara aman di server Supabase dengan enkripsi yang sesuai standar industri.",
+              "Pengiriman data melalui website dilindungi oleh koneksi SSL (HTTPS).",
+            ],
+          },
+          {
+            title: "5. Retensi Data",
+            content: [
+              "Data pribadi Anda disimpan selama diperlukan untuk memenuhi tujuan yang disebutkan di atas, biasanya selama 2 tahun setelah pesanan selesai.",
+              "Anda dapat meminta penghapusan data pribadi Anda kapan saja dengan mengirim email ke hello@forvows.com. Kami akan memproses permintaan dalam 7 hari kerja.",
+            ],
+          },
+          {
+            title: "6. Hak Anda",
+            content: [
+              "Anda berhak untuk: mengakses data pribadi yang kami miliki tentang Anda, memperbaiki data yang tidak akurat, meminta penghapusan data, menolak pemrosesan data dalam kondisi tertentu, dan menarik persetujuan kapan saja.",
+              "Untuk行使 hak-hak tersebut, silakan hubungi kami di hello@forvows.com.",
+            ],
+          },
+          {
+            title: "7. Cookies",
+            content: [
+              "Website kami menggunakan cookies untuk meningkatkan pengalaman browsing Anda, mengingat preferensi bahasa, dan menyimpan informasi keranjang belanja.",
+              "Cookies yang kami gunakan: essential cookies (wajib untuk fungsi website), preference cookies (menyimpan preferensi bahasa), dan analytics cookies (membantu kami memahami cara penggunaan website — menggunakan data agregat/anonymized).",
+              "Anda dapat menonaktifkan cookies melalui pengaturan browser Anda, namun beberapa fitur website mungkin tidak berfungsi dengan baik.",
+            ],
+          },
+          {
+            title: "8. Perubahan Kebijakan",
+            content: [
+              "Kebijakan Privasi ini dapat diperbarui sewaktu-waktu. Perubahan akan diumumkan melalui website ini dengan memperbarui tanggal 'Terakhir diperbarui' di bagian atas halaman ini.",
+              "Kami mendorong Anda untuk meninjau Kebijakan Privasi ini secara berkala.",
+            ],
+          },
+          {
+            title: "9. Informasi Perusahaan",
+            content: [
+              "FOR Vows adalah sub-brand premium dari Frame Of Rangga.",
+              "Alamat: Jakarta, Indonesia",
+              "Email: hello@forvows.com",
+              "WhatsApp: +62 877 7956 0264",
+            ],
+          },
+        ],
+      },
+    },
+
+    // ── Templates Data ──────────────────────────────────────────────────────
+    templates: {
+      eternalGold: {
+        name: "Eternal Gold",
+        description: "Undangan megah terinspirasi dari kehangatan istana berlapis emas. Gradasi emas pekat bertemu latar belakang charcoal kaya, dihiasi detail ornamental halus yang memancarkan perayaan tak lekang waktu.",
+        shortDescription: "Kemewahan megah dengan aksen emas dan keanggunan bernuansa istana.",
+        suitableFor: ["Pesta pernikahan besar", "Ballroom hotel", "Acara black-tie"],
+        features: [
+          "Nama tamu personal",
+          "Manajemen RSVP",
+          "Amplop hadiah digital",
+          "Hitung mundur pernikahan",
+          "Galeri foto",
+          "Musik latar",
+          "Doa dan harapan tamu",
+          "Integrasi Google Maps",
+          "Berbagai acara",
+        ],
+      },
+      ivoryElegance: {
+        name: "Ivory Elegance",
+        description: "Bersih, halus, dan sophistication yang memukau. Palet mendominasi ivory dengan detail champagne dan emas subtil — sempurna untuk pasangan modern yang percaya kemewahan berbicara dengan lembut.",
+        shortDescription: "Nuansa ivory halus dengan sentuhan emas yang menyejukkan.",
+        suitableFor: ["Tempat jardim", "Pantai", "Perayaan minimalis"],
+        features: [
+          "Nama tamu personal",
+          "Manajemen RSVP",
+          "Hitung mundur pernikahan",
+          "Galeri foto",
+          "Musik latar",
+          "Integrasi Google Maps",
+          "Berbagai acara",
+        ],
+      },
+      nusanteraHeritage: {
+        name: "Nusantara Heritage",
+        description: "Berakar pada kekayaan bahasa visual kepulauan Indonesia. Motif bermotif batik, warna earthy hangat, dan bingkai ornamental tradisional bersatu dalam undangan digital yang menghormati budaya.",
+        shortDescription: "Motif batik yang menghormati keindahan tradisi Indonesia.",
+        suitableFor: ["Upacara tradisional", "Tempat bersejarah", "Perayaan budaya"],
+        features: [
+          "Nama tamu personal",
+          "Manajemen RSVP",
+          "Hitung mundur pernikahan",
+          "Galeri foto",
+          "Musik latar",
+          "Doa dan harapan tamu",
+          "Integrasi Google Maps",
+        ],
+      },
+      javaneseSymphony: {
+        name: "Javanese Symphony",
+        description: "Terinspirasi oleh keanggunan seni kerajaan Jawa. Undangan ini membawa keeleganan warisan Jawa — aksen bermotif wayang, garis emas yang halus, dan palet terinspirasi batu kuil dan cahaya lilin.",
+        shortDescription: "Keanggunan kerajaan Jawa dengan nuansa batu kuil.",
+        suitableFor: ["Pernikahan bertema kerajaan", "Tempat bernuansa kraton", "Upacara budaya"],
+        features: [
+          "Nama tamu personal",
+          "Manajemen RSVP",
+          "Amplop hadiah digital",
+          "Hitung mundur pernikahan",
+          "Galeri foto",
+          "Musik latar",
+          "Doa dan harapan tamu",
+          "Integrasi Google Maps",
+          "Berbagai acara",
+        ],
+      },
+      gardenTerrace: {
+        name: "Garden Terrace",
+        description: "Undangan kontemporer yang bernapas dengan cahaya alami. Hijau sage lembut, netral hangat, dan seni garis botanikal menciptakan pengalaman digital terbuka yang terasa hidup dan penuh kegembiraan.",
+        shortDescription: "Kesegaran botanikal dengan keanggunan masa kini.",
+        suitableFor: ["Taman terbuka", "Tempat botanikal", "Pernikahan semi dan panas"],
+        features: [
+          "Nama tamu personal",
+          "Manajemen RSVP",
+          "Hitung mundur pernikahan",
+          "Galeri foto",
+          "Musik latar",
+          "Integrasi Google Maps",
+        ],
+      },
+      minimalistRomance: {
+        name: "Minimalist Romance",
+        description: "Ketika kurang menjadi segalanya. Tipografi murni, white space luas, dan satu warna aksen menciptakan undangan yang membiarkan cerita cinta Anda menjadi pusat perhatian — understated, intentional, dan mendalam.",
+        shortDescription: "Tipografi murni dan white space merayakan cinta yang understated.",
+        suitableFor: ["Tempat urban", "Ruang loft", "Galeri seni kontemporer"],
+        features: [
+          "Nama tamu personal",
+          "Manajemen RSVP",
+          "Galeri foto",
+          "Musik latar",
+          "Integrasi Google Maps",
+        ],
+      },
+      secretGarden: {
+        name: "Secret Garden",
+        description: "Atmosfer intim tersINDERap dalam bentuk digital. Nuansa burgundi pekat, bunga lembut, dan pencahayaan amber hangat menciptakan undangan yang terasa seperti ajakan berbisik pada sesuatu yang sakral dan privat.",
+        shortDescription: "Intimasi cahaya lilin dengan kehangatan burgundi pekat.",
+        suitableFor: ["Upacara intim", "Estate privat", "Perayaan malam"],
+        features: [
+          "Nama tamu personal",
+          "Manajemen RSVP",
+          "Amplop hadiah digital",
+          "Hitung mundur pernikahan",
+          "Galeri foto",
+          "Musik latar",
+          "Doa dan harapan tamu",
+          "Integrasi Google Maps",
+        ],
+      },
+      cozyCelebration: {
+        name: "Cozy Celebration",
+        description: "Hangat, mengundang, dan penuh hati. Nuansa peach dan blush lembut berpadu dengan latar cream halus menciptakan undangan digital yang membungkus tamu dalam kehangatan perayaan Anda.",
+        shortDescription: "Kehangatan blush lembut untuk pertemuan intim penuh cinta.",
+        suitableFor: ["Pertemuan kecil", "Perayaan di rumah", "Acara keluarga"],
+        features: [
+          "Nama tamu personal",
+          "Manajemen RSVP",
+          "Hitung mundur pernikahan",
+          "Galeri foto",
+          "Musik latar",
+          "Integrasi Google Maps",
+        ],
+      },
+      categories: {
+        luxury: "Luxury",
+        adat: "Adat",
+        modern: "Modern",
+        intimate: "Intimate",
+      },
+      pricing: {
+        basic: {
+          name: "Basic",
+          description: "Segala yang Anda butuhkan untuk undangan pernikahan digital yang indah dan fungsional.",
+          features: [
+            "1 template undangan pernikahan",
+            "Nama tamu personal",
+            "Manajemen RSVP",
+            "Galeri foto (hingga 20 foto)",
+            "Hitung mundur pernikahan",
+            "Musik latar",
+            "Integrasi Google Maps",
+            "Desain optimal mobile",
+            "Link berbagi via WhatsApp",
+          ],
+        },
+        premium: {
+          name: "Premium",
+          description: "Pilihan paling populer untuk pasangan yang menginginkan pengalaman digital yang benar-benar berkesan.",
+          badge: "Paling Populer",
+          features: [
+            "1 template undangan premium",
+            "Nama tamu personal",
+            "Manajemen RSVP",
+            "Amplop hadiah digital (QR)",
+            "Hitung mundur pernikahan",
+            "Galeri foto (hingga 50 foto)",
+            "Musik latar dengan kontrol",
+            "Doa dan harapan tamu",
+            "Integrasi Google Maps",
+            "Dukungan berbagai acara",
+            "Link live streaming",
+            "Dukungan prioritas",
+            "Aksen warna custom",
+          ],
+        },
+        exclusive: {
+          name: "Exclusive",
+          description: "Undangan digital bespoke dengan kustomisasi penuh dan arahan kreatif dedicated.",
+          badge: "Bespoke",
+          features: [
+            "Template yang didesain custom",
+            "Identitas brand yang matching",
+            "Nama tamu personal",
+            "Manajemen RSVP",
+            "Amplop hadiah digital (QR)",
+            "Hitung mundur pernikahan",
+            "Galeri foto (tanpa batas)",
+            "Musik latar dengan kontrol",
+            "Doa dan harapan tamu",
+            "Integrasi Google Maps",
+            "Dukungan berbagai acara",
+            "Link live streaming",
+            "Efek animasi premium",
+            "Domain custom (1 tahun)",
+            "Pengiriman kilat (48 jam)",
+            "Revisi tanpa batas",
+            "Creative director dedicated",
+          ],
+        },
+      },
+      addons: {
+        domainCustom: { name: "Domain Custom", description: "Domain sendiri untuk halaman undangan Anda", price: "Rp 150.000 per tahun" },
+        rushDelivery: { name: "Pengiriman Kilat", description: "Pengiriman 48 jam dari standar 5-7 hari", price: "Rp 100.000" },
+        premiumAnimation: { name: "Animasi Premium", description: "Animasi entrance dan transisi yang elegan", price: "Rp 75.000" },
+        extraGallery: { name: "Galeri Extra", description: "50 foto tambahan di luar batas paket", price: "Rp 50.000" },
+        qrGiftEnvelope: { name: "QR Hadiah Digital", description: "Kode QR mengarah ke rekening bank atau e-wallet", price: "Rp 25.000" },
+        customGuestLink: { name: "Link Tamu Custom", description: "Link pendek unik untuk setiap tamu atau keluarga", price: "Rp 50.000" },
+      },
+      features: {
+        personalGuestName: { title: "Nama Tamu Personal", description: "Setiap undangan menyebutkan nama tamu Anda, menciptakan pengalaman intim dan penuh perhatian sejak sentuhan pertama." },
+        smartRsvp: { title: "RSVP Cerdas", description: "Manajemen RSVP yang streamline dengan preferensi makanan, jumlah kehadiran, dan update daftar tamu secara instan." },
+        giftEnvelope: { title: "Amplop Hadiah Digital", description: "Kotak hadiah digital elegan dengan kode QR yang mengarah ke rekening bank atau e-wallet pilihan Anda." },
+        countdownTimer: { title: "Hitung Mundur Pernikahan", description: "Timer hitung mundur yang indah membangun antisipasi dari saat tamu membuka undangan." },
+        loveStory: { title: "Kisah Cinta", description: "Bagikan timeline kisah cinta Anda, dari pertemuan pertama hingga lamaran, dengan presentasi yang indah." },
+        photoGallery: { title: "Galeri Foto", description: "Galeri foto kurasi yang menampilkan perjalanan Anda bersama, dengan tampilan lightbox yang elegan." },
+        mapsIntegration: { title: "Integrasi Maps", description: "Google Maps interaktif dengan arah venue, informasi parkir, dan foto tempat." },
+        backgroundMusic: { title: "Musik Latar", description: "Musik ambient yang dipilih dengan cermat yang menetapkan nada emosional untuk undangan Anda." },
+        guestWishes: { title: "Doa dan Harapan Tamu", description: "Ruang khusus bagi tamu untuk meninggalkan pesan dan harapan tulus untuk persatuan Anda." },
+        multipleEvents: { title: "Berbagai Acara", description: "Dukungan untuk akad, ceremony, resepsi, dan acara lainnya dengan jadwal dan venue masing-masing." },
+        liveStreaming: { title: "Live Streaming", description: "Link live streaming terintegrasi untuk tamu yang tidak dapat hadir secara langsung." },
+        mobileOptimized: { title: "Optimal Mobile", description: "Desain sempurna untuk setiap layar, dari ponsel terkecil hingga desktop terbesar." },
+      },
+      testimonials: {
+        anisaRizky: { quote: "FOR Vows mengubah undangan kami menjadi karya seni. Tamu-tamu kami benar-benar terharu. Beberapa bilang ini undangan pernikahan paling indah yang pernah mereka terima.", weddingDate: "Desember 2025" },
+        dewiFachry: { quote: "Manajemen RSVP saja menghemat berminggu-minggu telepon follow-up. Semuanya terorganisir, elegan, dan mudah. Worth every rupiah.", weddingDate: "Oktober 2025" },
+        sarahMichael: { quote: "Sebagai pasangan yang menginginkan sesuatu yang sangat personal, paket Exclusive melampaui imajinasi kami. Arah kreatif tim sangat impeccable.", weddingDate: "Januari 2026" },
+      },
+      howItWorks: {
+        step1: { title: "Pilih Template Anda", description: "Jelajahi koleksi template undangan premium kami. Filter berdasarkan gaya, Luxury, Adat, Modern, atau Intimate, dan temukan yang paling sesuai dengan kisah cinta Anda." },
+        step2: { title: "Kirim Detail Anda", description: "Isi formulir brief elegan kami dengan informasi pernikahan Anda, nama, tanggal, tempat, kisah, dan foto. Tim kami menangani sisanya dengan penuh perhatian." },
+        step3: { title: "Review & Setuju", description: "Terima draft personal Anda dalam 5-7 hari kerja. Minta revisi hingga setiap detail sesuai dengan visi Anda. Kami perbaiki sampai sempurna." },
+        step4: { title: "Lakukan Pembayaran", description: "Setelah puas dengan hasilnya, selesaikan pembayaran Anda. Kami menawarkan opsi cicilan fleksibel untuk paket Exclusive." },
+        step5: { title: "Publikasi & Bagikan", description: "Undangan digital Anda live. Terima URL unik dan link berbagi WhatsApp. Saksikan RSVP mengalir saat tamu berbagi dalam kebahagiaan Anda." },
+      },
+      portfolio: {
+        eternalGold: "Pesta ballroom, Jakarta",
+        nusanteraHeritage: "Upacara tradisional, Yogyakarta",
+        secretGarden: "Estate privat, Bali",
+        gardenTerrace: "Taman botanikal, Bandung",
+        ivoryElegance: "Resor tepi pantai, Lombok",
+        javaneseSymphony: "Tempat bernuansa kraton, Solo",
+        cozyCelebration: "Taman rumah, Surabaya",
+        minimalistRomance: "Loft urban, Jakarta",
+      },
+    },
+
+    // ── Features Page ──────────────────────────────────────────────────────────
+    features: {
+      overline: "Kemampuan",
+      title: "Fitur yang Berarti",
+      subtitle: "Setiap elemen undangan digital Anda didesain untuk menciptakan pengalaman yang seamless dan elegan bagi Anda dan tamu Anda.",
+      note: "Semua fitur sudah termasuk berdasarkan paket yang Anda pilih. Paket Exclusive mencakup semua fitur dengan kustomisasi penuh.",
+      ctaOverline: "Siap Merasakannya?",
+      ctaTitle: "Lihat Fitur Ini Beraksi",
+      ctaSubtitle: "Pilih template dan temukan bagaimana undangan digital premium bisa terasa.",
+      ctaJelajahi: "Jelajahi Template",
+      ctaLihatHarga: "Lihat Harga",
+    },
+
+    // ── Portfolio Page ────────────────────────────────────────────────────────
+    portfolio: {
+      overline: "Karya Kami",
+      title: "Undangan Pilihan",
+      subtitle: "Seleksi kurasi karya kami — masing-masing perayaan unik yang diabadikan dalam bentuk digital.",
+      note: "Setiap undangan dibuat custom untuk pasangan masing-masing. Untuk melihat demo langsung template apapun, hubungi kami dan kami akan arrange walkthrough personal.",
+      ctaOverline: "Buat Milik Anda",
+      ctaTitle: "Undangan Anda Bisa Jadi Berikutnya",
+      ctaSubtitle: "Bergabunglah dengan pasangan yang memilih FOR Vows untuk perayaan paling penting mereka.",
+      ctaMulai: "Mulai Undangan Anda",
+      ctaLihat: "Lihat Template",
+    },
+
+    // ── About Page ────────────────────────────────────────────────────────────
+    about: {
+      overline: "Kisah Kami",
+      headline: "FOR Vows lahir dari keyakinan sederhana",
+      storyP1: "Undangan pernikahan bukan sekadar formalitas — ini adalah napas pertama perayaan Anda, momen pertama tamu merasakan bobot dan kegembiraan yang akan datang. Ia layak lebih dari template generik.",
+      storyP2A: "FOR Vows didirikan sebagai divisi undangan pernikahan dari ",
+      storyP2B: "Frame Of Rangga",
+      storyP2C: ", studio kreatif yang dikenal dengan karya editorial dalam fotografi dan storytelling visual. Dari turunan itu, kami membawa standar, selera, dan dedikasi yang sama ke dunia undangan pernikahan digital.",
+      storyP3: "Nama kami membawa niat: FOR — untuk melayani — Vows — janji suci yang Anda berikan satu sama lain. Setiap undangan yang kami buat adalah testamentasi untuk dedikasi itu.",
+      lihatKarya: "Lihat karya utama Frame Of Rangga",
+      subBrand: "Sub-brand dari",
+      philosophyOverline: "Filosofi Kami",
+      philosophyTitle: "Apa yang Kami Utamakan",
+      philosophySubtitle: "Empat prinsip yang memandu setiap undangan yang kami buat",
+      v1Title: "Niat Di atas Kecepatan",
+      v1Desc: "Kami mengambil waktu untuk memahami kisah, estetika, dan visi Anda — lalu kami membuat undangan yang hanya bisa milik Anda.",
+      v2Title: "Tamu Utama",
+      v2Desc: "Setiap keputusan — dari tipografi hingga navigasi — dibuat dengan pengalaman tamu Anda sebagai prioritas. Undangan seharusnya terasa seperti pelukan.",
+      v3Title: "Kemewahan Terkurung",
+      v3Desc: "Keeleganan sejati bukan tentang berlebih lebihan. Kami percaya pada detail yang refined, tipografi yang cermat, dan ornamentasi yang bermakna — tanpa clutter.",
+      v4Title: "Teknologi untuk Melayani",
+      v4Desc: "Tool digital memungkinkan kami membuat sesuatu yang tidak bisa dilakukan kertas — interaktif, personal, hidup. Kami menggunakan teknologi untuk memperdalam, bukan mengalihkan.",
+      ctaOverline: "Bekerja Sama Dengan Kami",
+      ctaTitle: "Siap Membuat Sesuatu yang Indah?",
+      ctaSubtitle: "Mari bicarakan pernikahan Anda dan buat undangan yang layak untuk kisah Anda.",
+      ctaHubungi: "Hubungi Kami",
+      ctaLihat: "Lihat Template",
+    },
+
+    // ── Home Page ─────────────────────────────────────────────────────────────
+    home: {
+      heroTagline: "A Premium Wedding Invitation Studio",
+      heroCta1: "View Templates",
+      heroCta2: "Start Your Invitation",
+      heroSubBrand: "A sub-brand of Frame Of Rangga",
+      scrollLabel: "Scroll",
+      featuredOverline: "Curated Collection",
+      featuredTitle: "Featured Templates",
+      featuredSubtitle: "Handpicked invitation designs for the most discerning couples",
+      viewAllTemplates: "View All Templates",
+      categoriesOverline: "By Style",
+      categoriesTitle: "Find Your Perfect Invitation",
+      categoriesSubtitle: "Four distinct collections, each crafted with its own soul",
+      whyOverline: "Why FOR Vows",
+      whyTitle: "Where Design Meets Devotion",
+      whySubtitle: "We believe a wedding invitation is more than paper — it's the first chapter of your celebration. We craft it accordingly.",
+      learnStory: "Learn Our Story",
+      howOverline: "The Process",
+      howTitle: "How It Works",
+      howSubtitle: "From vision to published invitation in five thoughtful steps",
+      learnMore: "Learn More",
+      testimonialsOverline: "Couples Stories",
+      testimonialsTitle: "Words From Our Couples",
+      testimonialsSubtitle: "The greatest compliment is when our work becomes part of your memory",
+      ctaOverline: "Begin Your Journey",
+      ctaTitle: "Your Invitation Deserves to Be Remembered",
+      ctaSubtitle: "Let us craft a digital invitation that reflects the depth of your celebration and the beauty of your love.",
+      ctaStart: "Start Your Invitation",
+      ctaExplore: "Explore Templates",
+      vp1Title: "Premium Design Direction",
+      vp1Desc: "Every invitation is crafted with the sensibility of a high-end editorial studio — no templates, no compromises.",
+      vp2Title: "Thoughtful Guest Experience",
+      vp2Desc: "Your guests receive an invitation that feels personal, elegant, and effortless to navigate on any device.",
+      vp3Title: "Seamless RSVP Management",
+      vp3Desc: "Eliminate the chaos of spreadsheets. Track responses, dietary needs, and attendance in real time.",
+      catLuxury: "Grand, opulent designs for the celebration of a lifetime",
+      catAdat: "Honoring tradition with culturally rich visual narratives",
+      catModern: "Contemporary minimalism that speaks in clean, bold lines",
+      catIntimate: "Warm, personal designs for the most private of celebrations",
+    },
+
+    // ── UI Labels ────────────────────────────────────────────────────────────
+    ui: {
+      featured: "Featured",
+      preview: "Preview",
+      pilih: "Pilih",
+    },
+  },
+
+  en: {
+    // ── Navbar ───────────────────────────────────────────────────────────────
+    nav: {
+      template: "Templates",
+      harga: "Pricing",
+      fitur: "Features",
+      caraPesan: "How It Works",
+      portfolio: "Portfolio",
+      tentang: "About",
+      hubungiKami: "Contact Us",
+      keranjang: "Cart",
+      pesanSekarang: "Book Now",
+      bukaMenu: "Open menu",
+      tutupMenu: "Close menu",
+      lihatTemplate: "View Templates",
+    },
+
+    // ── Footer ──────────────────────────────────────────────────────────────
+    footer: {
+      brandDesc:
+        "Premium digital wedding invitation brand from Frame Of Rangga. Turning sacred moments into unforgettable digital experiences.",
+      tagline: "Crafting Your Sacred Moments",
+      layanan: "Services",
+      perusahaan: "Company",
+      lainnya: "Other",
+      template: "Templates",
+      harga: "Pricing",
+      fitur: "Features",
+      pesanCustom: "Custom Orders",
+      tentangForvows: "About FOR Vows",
+      portfolio: "Portfolio",
+      caraPesan: "How It Works",
+      hubungiKami: "Contact Us",
+      instagram: "Instagram",
+      tiktok: "TikTok",
+      legal: "Legal",
+      termsConditions: "Terms & Conditions",
+      privacyPolicy: "Privacy Policy",
+      copyright: "© {year} FOR Vows. A sub-brand of Frame Of Rangga. All rights reserved.",
+      premiumDigital: "Premium Digital Wedding Invitations",
+    },
+
+    // ── Cart Drawer ─────────────────────────────────────────────────────────
+    cart: {
+      keranjang: "Cart",
+      tutupKeranjang: "Close cart",
+      keranjangKosong: "Your cart is empty",
+      pilihTemplateAtauPaket:
+        "Choose a template or package to start your order",
+      lihatTemplate: "View Templates",
+      template: "Template",
+      paket: "Package",
+      addon: "Add-on",
+      hapus: "Remove {name}",
+      total: "Total",
+      pesanSekarang: "Book Now",
+      kosongkan: "Clear Cart",
+    },
+
+    // ── Booking Modal ───────────────────────────────────────────────────────
+    booking: {
+      lengkapiData: "Complete Your Order",
+      bookingBerhasil: "Booking Confirmed!",
+      dataInfo:
+        "This data will be used for confirmation and invoice generation",
+      tutup: "Close",
+      invoiceIdPreview: "Invoice ID (will be generated)",
+      ringkasanPesanan: "Order Summary",
+      template: "Template",
+      paket: "Package",
+      addon: "Add-on",
+      saveTheDate: "Save the Date",
+      website: "Wedding Website",
+      total: "Total",
+      namaLengkap: "Full Name *",
+      namaLengkapPlaceholder: "Your full name",
+      noWhatsapp: "WhatsApp Number *",
+      waPlaceholder: "+62 8xx xxxx xxxx",
+      kodeReferral: "Referral Code (optional)",
+      referralPlaceholder: "e.g. ANISA2026",
+      infoBooking:
+        "After you send the message via WhatsApp, the FOR Vows team will send payment instructions within 24 hours. Please take a screenshot of the transfer receipt once payment is made.",
+      kirimWhatsApp: "Send via WhatsApp",
+      kirimPesananWA: "Send Order via WhatsApp",
+      bookingId: "Booking ID",
+      simpanId: "Save this ID for payment confirmation",
+      tersalin: "Copied!",
+      salin: "Copy",
+      nama: "Name",
+      whatsapp: "WhatsApp",
+      langkahSelanjutnya: "Next steps:",
+      langkah1: "Click the button above to send your order via WhatsApp",
+      langkah2: "FOR Vows team will send payment instructions",
+      langkah3: "Transfer to the listed account",
+      langkah4:
+        "Send proof of transfer via WhatsApp with your Booking ID",
+      referralValid: "Referral code applied!",
+      referralInvalid: "Referral code not found",
+      referralDiscount: "Discount",
+      referralBy: "via {referrer}",
+    },
+
+    // ── Payment Modal ───────────────────────────────────────────────────────
+    payment: {
+      pilihMetode: "Choose Payment Method",
+      bookingId: "Booking ID",
+      salin: "Copy",
+      tersalin: "Copied!",
+      template: "Template",
+      paket: "Package",
+      addon: "Add-on",
+      total: "Total",
+      pilihMetodeBayar: "Choose payment method",
+      membukaPembayaran: "Opening payment...",
+      bayarSekarang: "Pay Now (Transfer, GoPay, OVO, Dana, etc.)",
+      bayarNantiWA: "Pay Later via WhatsApp",
+      sesiPembayaran: "Payment Session",
+      buktiBayarInfo:
+        "If you have already made payment, please send proof of transfer via WhatsApp with your Booking ID below.",
+      kirimBuktiWA: "Send Payment Proof via WhatsApp",
+      infoMidtrans: "Payments are processed by Midtrans. Your card data is secure.",
+    },
+
+    // ── Cart Page ───────────────────────────────────────────────────────────
+    cartPage: {
+      lanjutPilihTemplate: "Continue Choosing Templates",
+      pesananAnda: "Your Order",
+      keranjang: "Cart",
+      itemCount: "{count} item in cart",
+      keranjangKosong: "Your Cart is Empty",
+      belumAdaItem:
+        "No items in your cart yet. Choose a template or package to get started.",
+      lihatTemplate: "View Templates",
+      templateDigital: "Digital Wedding Template",
+      paketLayanan: "Service Package",
+      addonLabel: "Add-on",
+      subtotal: "Subtotal ({count} item)",
+      belumTermasukAddons:
+        "Price does not include additional add-ons. Add-ons can be selected after ordering.",
+      pesanSekarang: "Book Now",
+      kosongkan: "Clear",
+      infoPesan:
+        "Info: After sending your order via WhatsApp, the FOR Vows team will contact you within 24 hours to confirm details and payment method.",
+    },
+
+    // ── Contact Form ────────────────────────────────────────────────────────
+    contact: {
+      terimaKasih: "Thank You",
+      suksesPertanyaan:
+        "Your inquiry has been received. Our team will reach out within 24 hours to discuss your vision.",
+      kirimPertanyaanLain: "Send Another Inquiry",
+      namaAnda: "Your Name *",
+      namaPlaceholder: "Full name",
+      namaPasangan: "Partner's Name",
+      pasanganPlaceholder: "Partner's full name",
+      email: "Email *",
+      emailPlaceholder: "email@example.com",
+      whatsappTelepon: "WhatsApp / Phone",
+      waPlaceholder: "+62 xxx xxxx xxxx",
+      tanggalPernikahan: "Wedding Date",
+      layananDibutuhkan: "Service Needed",
+      pilihLayanan: "Select service",
+      undanganDigital: "Digital Wedding Invitation",
+      websitePernikahan: "Wedding Website",
+      desainCustom: "Custom Design",
+      lainnya: "Other",
+      minatPaket: "Interested Package",
+      pilihPaket: "Select package",
+      basic: "Basic — Rp 299,000",
+      premium: "Premium — Rp 599,000",
+      exclusive: "Exclusive — Rp 999,000",
+      belumMemutuskan: "Not yet decided",
+      templateDiminati: "Templates of Interest",
+      templatePlaceholder: "e.g. Eternal Gold, Nusantara Heritage...",
+      pesan: "Message *",
+      pesanPlaceholder:
+        "Tell us about your wedding, vision, and any special needs...",
+      sedangMengirim: "Sending...",
+      kirimPertanyaan: "Send Inquiry",
+      terjadiError: "An error occurred. Please try again.",
+    },
+
+    // ── AddToCart Button ────────────────────────────────────────────────────
+    addToCart: {
+      tambahKeranjang: "Add to Cart",
+      ditambahkan: "Added!",
+      sudahDiKeranjang: "In Cart",
+      pilih: "Choose",
+    },
+
+    // ── Template Filter ──────────────────────────────────────────────────────
+    templateFilter: {
+      semuaTemplate: "All Templates",
+      luxury: "Luxury",
+      adat: "Adat",
+      modern: "Modern",
+      intimate: "Intimate",
+    },
+
+    // ── Preview Button ──────────────────────────────────────────────────────
+    preview: {
+      previewLiveDemo: "Preview Live Demo",
+      comingSoon: "Live preview for {name} coming soon! Contact us to schedule a personal demo.",
+    },
+
+    // ── Pricing Card ────────────────────────────────────────────────────────
+    pricingCard: {
+      pilihPaket: "Choose {name} Package",
+      hubungiCustom: "Contact Us for Custom Order",
+    },
+
+    // ── 404 ─────────────────────────────────────────────────────────────────
+    notFound: {
+      title404: "404",
+      pageNotFound: "Page Not Found",
+      notFoundDesc:
+        "The page you're looking for doesn't exist, or may have been moved. Let's take you back.",
+      kembaliBeranda: "Return Home",
+    },
+
+    // ── Submit Inquiry (Server Action) ──────────────────────────────────────
+    submitInquiry: {
+      namaRequired: "Name is required.",
+      emailRequired: "A valid email address is required.",
+      pesanRequired: "Please include a message.",
+      gagalSubmit: "Failed to submit inquiry. Please try again.",
+      errorUnexpected: "An unexpected error occurred. Please try again.",
+    },
+
+    // ── Language Toggle ──────────────────────────────────────────────────────
+    langToggle: {
+      switchToEn: "English",
+      switchToId: "Bahasa Indonesia",
+    },
+
+    // ── Marketing Pages: Templates ────────────────────────────────────────────
+    pages: {
+      templates: {
+        overline: "Our Collection",
+        title: "Wedding Invitation Templates",
+        subtitle: "Eight distinct designs, each carrying its own unique soul. Find the one that speaks to your celebration.",
+        noResults: "No templates found in this category.",
+        backToAll: "All Templates",
+        description: "Description",
+        suitableFor: "Suitable For",
+        includedFeatures: "Included Features",
+        startingFrom: "Starting from",
+        startWithThis: "Start with This Template",
+        relatedTemplates: "Related Templates",
+        youMayAlsoLike: "You May Also Like",
+      },
+      pricing: {
+        overline: "Investment",
+        title: "Simple & Transparent Pricing",
+        subtitle: "Three carefully crafted packages — each designed to give your wedding invitation the attention it deserves. No hidden fees.",
+        enhancePackage: "Enhance Your Package",
+        optionalAddons: "Optional Add-ons",
+        priceNote: "All prices in Indonesian Rupiah (IDR) and include creative direction, digital delivery, and 1 revision session. Additional revisions available at Rp 75,000 per session.",
+        notSure: "Not Sure Which Package?",
+        findRightTitle: "Let's Find the Right Fit Together",
+        findRightSubtitle: "Book a free consultation and we'll help you choose the perfect package for your vision.",
+        bookConsultation: "Book Consultation",
+        lihatTemplate: "View Templates",
+        hubungiKami: "Contact Us",
+        saveTheDate: {
+          overline: "Save the Date",
+          title: "Elegant Announcements Before the Big Day",
+          subtitle: "Build guest anticipation with a memorable Save the Date — the first step toward your special day.",
+          essentials: {
+            name: "Essentials",
+            description:
+              "Elegant announcement for your Save the Date — share your special date in a memorable way.",
+          },
+          premium: {
+            name: "Premium",
+            description:
+              "Save the Date with premium visuals and extra features to build guest anticipation.",
+          },
+        },
+        website: {
+          overline: "Wedding Website",
+          title: "Complete Wedding Website",
+          subtitle: "All your wedding information in one place — guests just scan the QR or open the link to find everything.",
+          basic: {
+            name: "Basic",
+            description:
+              "Complete wedding website with all the important information for your guests.",
+          },
+          premium: {
+            name: "Premium",
+            description:
+              "Complete wedding website with premium features for the best guest experience.",
+          },
+          exclusive: {
+            name: "Exclusive",
+            description:
+              "Bespoke wedding website with full customization and priority support.",
+          },
+        },
+      },
+      howItWorks: {
+        overline: "Your Journey",
+        title: "From Vision to Published Invitation",
+        subtitle: "A seamless and thoughtful process — so you can focus on celebrating while we handle the invitations.",
+        daysNote: "Business days for delivery",
+        revisionsNote: "Free revision session",
+        rushNote: "Rush delivery option available",
+        readyToStart: "Ready to Start?",
+        fiveStepsTitle: "Your Perfect Invitation Is Just Five Steps Away",
+        fiveStepsSubtitle: "Start by choosing the template that speaks to your heart.",
+        lihatTemplate: "View Templates",
+        hubungiKami: "Contact Us",
+      },
+      terms: {
+        title: "Terms & Conditions",
+        description: "Terms and conditions for using FOR Vows services.",
+        lastUpdated: "Last updated: March 29, 2026",
+        effectiveDateLabel: "Effective date",
+        footerNote: "If you have any questions about these Terms & Conditions, please contact us at hello@forvows.com",
+        sections: [
+          {
+            title: "1. Acceptance of Terms",
+            content: [
+              "By accessing and using the FOR Vows website and services, you agree to be bound by these terms and conditions. If you do not agree with any of the terms, please do not use our services.",
+              "FOR Vows reserves the right to change, modify, or update these terms and conditions at any time without prior notice. Changes will take effect from the date of publication on this website.",
+            ],
+          },
+          {
+            title: "2. Our Services",
+            content: [
+              "FOR Vows provides premium digital wedding invitation services, including but not limited to: digital invitation templates, Save the Date, and wedding websites.",
+              "Services include the creative process, design, digital delivery, and revision support according to the package selected by the Client.",
+            ],
+          },
+          {
+            title: "3. Ordering & Payment",
+            content: [
+              "Orders are placed through the FOR Vows website by selecting an available package. Prices are listed in Indonesian Rupiah (IDR) and include applicable taxes.",
+              "Payment can be made via bank transfer, e-wallets (GoPay, OVO, Dana), or credit/debit cards through the secure Midtrans payment gateway.",
+              "Orders will be processed after payment is received and verified. Payment status will be confirmed via email or WhatsApp within 1x24 business hours.",
+              "For Exclusive packages, installment options are available by arrangement with the FOR Vows team.",
+            ],
+          },
+          {
+            title: "4. Production & Delivery",
+            content: [
+              "Estimated delivery: Basic & Premium 5-7 business days; Exclusive 7-14 business days; after all data and payment are received.",
+              "Delivery is made digitally via a URL link that can be accessed by the Client and shared with wedding guests.",
+              "Rush delivery (48 hours) is available with additional fees according to the selected package.",
+            ],
+          },
+          {
+            title: "5. Revisions",
+            content: [
+              "Each package includes revision sessions as specified in the package description. Additional revisions are available at Rp 75,000 per session.",
+              "Revisions requested after 30 days from the draft approval date will be charged at full new order rates.",
+            ],
+          },
+          {
+            title: "6. Client Data & Privacy",
+            content: [
+              "All client personal data (names, photos, wedding date, etc.) submitted for invitation creation is kept strictly confidential and will not be shared with any third parties without written consent.",
+              "Data is used solely for the purpose of producing digital wedding invitations and communication related to the order.",
+            ],
+          },
+          {
+            title: "7. Intellectual Property",
+            content: [
+              "The resulting digital invitation design, once fully paid, becomes the property of the Client for use as their wedding invitation.",
+              "FOR Vows reserves the right to use the work (photos/non-photos) for portfolio and promotional purposes on social media and the website while maintaining Client privacy, unless there is a written request not to display it.",
+            ],
+          },
+          {
+            title: "8. Cancellation & Refund",
+            content: [
+              "Cancellation before payment verification: no penalty, full refund.",
+              "Cancellation after payment verification but before production starts: 80% refund of the amount paid.",
+              "Cancellation after production starts: no refund. Completed work will still be delivered to the Client.",
+              "Refund requests must be submitted in writing via email to hello@forvows.com within 7 business days of the cancellation request date.",
+            ],
+          },
+          {
+            title: "9. Force Majeure",
+            content: [
+              "FOR Vows is not responsible for delays or service failures caused by conditions beyond our control, including but not limited to: natural disasters, internet disruptions, server outages, or government actions.",
+            ],
+          },
+          {
+            title: "10. Communication",
+            content: [
+              "All communications related to orders will be made via WhatsApp or the email registered during ordering.",
+              "The FOR Vows team can be contacted at: WhatsApp +62 877 7956 0264 or email hello@forvows.com.",
+            ],
+          },
+          {
+            title: "11. Governing Law",
+            content: [
+              "These terms and conditions are governed by and construed in accordance with the laws of the Republic of Indonesia. Any disputes arising will first be settled amicably, and if no agreement is reached, will be resolved through the South Jakarta District Court.",
+            ],
+          },
+        ],
+      },
+      privacy: {
+        title: "Privacy Policy",
+        description: "Privacy policy and data protection for FOR Vows users.",
+        lastUpdated: "Last updated: March 29, 2026",
+        effectiveDateLabel: "Effective date",
+        footerNote: "If you have any questions about this Privacy Policy, please contact us at hello@forvows.com",
+        sections: [
+          {
+            title: "1. Information We Collect",
+            content: [
+              "The personal data we collect includes: full name, partner's name, email address, WhatsApp/phone number, wedding date, selected package/service, and materials you submit (photos, videos, event information).",
+              "Data is collected through: the order form on our website, communication via WhatsApp or email, and cookies when you browse our website.",
+            ],
+          },
+          {
+            title: "2. How We Use Your Data",
+            content: [
+              "Your personal data is used to: process orders and create digital invitations, communicate regarding orders and delivery, process payments through the Midtrans payment gateway, send notifications related to orders, and improve our services.",
+              "We do not use your data for marketing purposes without your explicit consent.",
+            ],
+          },
+          {
+            title: "3. Sharing Data with Third Parties",
+            content: [
+              "We do not sell, trade, or transfer your personal data to third parties without your consent, except for payment processing (Midtrans) and website hosting service providers (Vercel/Supabase) who are bound by confidentiality agreements.",
+              "Credit/debit card data is processed directly by Midtrans and never touches our servers.",
+            ],
+          },
+          {
+            title: "4. Data Security",
+            content: [
+              "We implement appropriate security measures to protect your personal data from unauthorized access, alteration, disclosure, or destruction.",
+              "Data is stored securely on Supabase servers with industry-standard encryption.",
+              "Data transmission through our website is protected by SSL (HTTPS) connection.",
+            ],
+          },
+          {
+            title: "5. Data Retention",
+            content: [
+              "Your personal data is stored for as long as necessary to fulfill the purposes mentioned above, typically for 2 years after the order is completed.",
+              "You may request deletion of your personal data at any time by sending an email to hello@forvows.com. We will process the request within 7 business days.",
+            ],
+          },
+          {
+            title: "6. Your Rights",
+            content: [
+              "You have the right to: access the personal data we hold about you, correct inaccurate data, request deletion of data, object to processing under certain conditions, and withdraw consent at any time.",
+              "To exercise these rights, please contact us at hello@forvows.com.",
+            ],
+          },
+          {
+            title: "7. Cookies",
+            content: [
+              "Our website uses cookies to enhance your browsing experience, remember language preferences, and store shopping cart information.",
+              "Cookies we use: essential cookies (required for website function), preference cookies (storing language preferences), and analytics cookies (helping us understand how the website is used — using aggregated/anonymized data).",
+              "You can disable cookies through your browser settings, but some website features may not work properly.",
+            ],
+          },
+          {
+            title: "8. Policy Changes",
+            content: [
+              "This Privacy Policy may be updated from time to time. Changes will be announced on this website by updating the 'Last updated' date at the top of this page.",
+              "We encourage you to review this Privacy Policy periodically.",
+            ],
+          },
+          {
+            title: "9. Company Information",
+            content: [
+              "FOR Vows is a premium sub-brand of Frame Of Rangga.",
+              "Address: Jakarta, Indonesia",
+              "Email: hello@forvows.com",
+              "WhatsApp: +62 877 7956 0264",
+            ],
+          },
+        ],
+      },
+    },
+
+    // ── Templates Data ──────────────────────────────────────────────────────
+    templates: {
+      eternalGold: {
+        name: "Eternal Gold",
+        description: "A grand invitation inspired by the warmth of a gold-clad palace. Deep gold gradients meet rich charcoal backgrounds, adorned with subtle ornamental details that emit a timeless celebration.",
+        shortDescription: "Grand luxury with gold accents and palace-inspired elegance.",
+        suitableFor: ["Large wedding parties", "Hotel ballrooms", "Black-tie events"],
+        features: [
+          "Personal guest names",
+          "RSVP management",
+          "Digital gift envelope",
+          "Wedding countdown",
+          "Photo gallery",
+          "Background music",
+          "Guest wishes & prayers",
+          "Google Maps integration",
+          "Multiple events",
+        ],
+      },
+      ivoryElegance: {
+        name: "Ivory Elegance",
+        description: "Clean, refined, and stunningly sophisticated. A dominant ivory palette with subtle champagne and gold details — perfect for the modern couple who believes luxury speaks softly.",
+        shortDescription: "Subtle ivory tones with a soothing gold touch.",
+        suitableFor: ["Garden venues", "Beach locations", "Minimalist celebrations"],
+        features: [
+          "Personal guest names",
+          "RSVP management",
+          "Wedding countdown",
+          "Photo gallery",
+          "Background music",
+          "Google Maps integration",
+          "Multiple events",
+        ],
+      },
+      nusanteraHeritage: {
+        name: "Nusantara Heritage",
+        description: "Rooted in the rich visual language of the Indonesian archipelago. Batik-patterned motifs, warm earthy tones, and traditional ornamental frames unite in a digital invitation that honors culture.",
+        shortDescription: "Batik motifs honoring the beauty of Indonesian tradition.",
+        suitableFor: ["Traditional ceremonies", "Heritage venues", "Cultural celebrations"],
+        features: [
+          "Personal guest names",
+          "RSVP management",
+          "Wedding countdown",
+          "Photo gallery",
+          "Background music",
+          "Guest wishes & prayers",
+          "Google Maps integration",
+        ],
+      },
+      javaneseSymphony: {
+        name: "Javanese Symphony",
+        description: "Inspired by the elegance of Javanese royal arts. This invitation brings the refinement of Javanese heritage — wayang-patterned accents, subtle gold lines, and a palette inspired by temple stones and candlelight.",
+        shortDescription: "Royal Javanese elegance with temple stone tones.",
+        suitableFor: ["Royal-themed weddings", "Kraton-inspired venues", "Cultural ceremonies"],
+        features: [
+          "Personal guest names",
+          "RSVP management",
+          "Digital gift envelope",
+          "Wedding countdown",
+          "Photo gallery",
+          "Background music",
+          "Guest wishes & prayers",
+          "Google Maps integration",
+          "Multiple events",
+        ],
+      },
+      gardenTerrace: {
+        name: "Garden Terrace",
+        description: "A contemporary invitation that breathes with natural light. Soft sage greens, warm neutrals, and botanical line art create an open, living digital experience that feels joyful and alive.",
+        shortDescription: "Botanical freshness with modern elegance.",
+        suitableFor: ["Open gardens", "Botanical venues", "Spring and summer weddings"],
+        features: [
+          "Personal guest names",
+          "RSVP management",
+          "Wedding countdown",
+          "Photo gallery",
+          "Background music",
+          "Google Maps integration",
+        ],
+      },
+      minimalistRomance: {
+        name: "Minimalist Romance",
+        description: "When less becomes everything. Pure typography, generous white space, and one accent color create an invitation that lets your love story take center stage — understated, intentional, and profound.",
+        shortDescription: "Pure typography and white space celebrating understated love.",
+        suitableFor: ["Urban venues", "Loft spaces", "Contemporary art galleries"],
+        features: [
+          "Personal guest names",
+          "RSVP management",
+          "Photo gallery",
+          "Background music",
+          "Google Maps integration",
+        ],
+      },
+      secretGarden: {
+        name: "Secret Garden",
+        description: "An intimate atmosphere woven into digital form. Deep burgundy hues, soft florals, and warm amber lighting create an invitation that feels like a whisper invitation to something sacred and private.",
+        shortDescription: "Candlelit intimacy with deep burgundy warmth.",
+        suitableFor: ["Intimate ceremonies", "Private estates", "Evening celebrations"],
+        features: [
+          "Personal guest names",
+          "RSVP management",
+          "Digital gift envelope",
+          "Wedding countdown",
+          "Photo gallery",
+          "Background music",
+          "Guest wishes & prayers",
+          "Google Maps integration",
+        ],
+      },
+      cozyCelebration: {
+        name: "Cozy Celebration",
+        description: "Warm, inviting, and full of heart. Soft peach and blush tones paired with a smooth cream background create a digital invitation that wraps guests in the warmth of your celebration.",
+        shortDescription: "Soft blush warmth for an intimate gathering full of love.",
+        suitableFor: ["Small gatherings", "Home celebrations", "Family events"],
+        features: [
+          "Personal guest names",
+          "RSVP management",
+          "Wedding countdown",
+          "Photo gallery",
+          "Background music",
+          "Google Maps integration",
+        ],
+      },
+      categories: {
+        luxury: "Luxury",
+        adat: "Adat",
+        modern: "Modern",
+        intimate: "Intimate",
+      },
+      pricing: {
+        basic: {
+          name: "Basic",
+          description: "Everything you need for a beautiful and functional digital wedding invitation.",
+          features: [
+            "1 wedding invitation template",
+            "Personal guest names",
+            "RSVP management",
+            "Photo gallery (up to 20 photos)",
+            "Wedding countdown",
+            "Background music",
+            "Google Maps integration",
+            "Mobile-optimized design",
+            "WhatsApp share link",
+          ],
+        },
+        premium: {
+          name: "Premium",
+          description: "The most popular choice for couples who want a truly memorable digital experience.",
+          badge: "Most Popular",
+          features: [
+            "1 premium invitation template",
+            "Personal guest names",
+            "RSVP management",
+            "Digital gift envelope (QR)",
+            "Wedding countdown",
+            "Photo gallery (up to 50 photos)",
+            "Background music with controls",
+            "Guest wishes & prayers",
+            "Google Maps integration",
+            "Multiple events support",
+            "Live streaming link",
+            "Priority support",
+            "Custom color accents",
+          ],
+        },
+        exclusive: {
+          name: "Exclusive",
+          description: "Bespoke digital invitation with full customization and dedicated creative direction.",
+          badge: "Bespoke",
+          features: [
+            "Custom-designed template",
+            "Matching brand identity",
+            "Personal guest names",
+            "RSVP management",
+            "Digital gift envelope (QR)",
+            "Wedding countdown",
+            "Photo gallery (unlimited)",
+            "Background music with controls",
+            "Guest wishes & prayers",
+            "Google Maps integration",
+            "Multiple events support",
+            "Live streaming link",
+            "Premium animation effects",
+            "Custom domain (1 year)",
+            "Rush delivery (48 hours)",
+            "Unlimited revisions",
+            "Dedicated creative director",
+          ],
+        },
+      },
+      addons: {
+        domainCustom: { name: "Custom Domain", description: "Your own domain for your invitation page", price: "Rp 150,000 per year" },
+        rushDelivery: { name: "Rush Delivery", description: "48-hour delivery instead of standard 5-7 days", price: "Rp 100,000" },
+        premiumAnimation: { name: "Premium Animation", description: "Elegant entrance animations and transitions", price: "Rp 75,000" },
+        extraGallery: { name: "Extra Gallery", description: "50 additional photos beyond package limit", price: "Rp 50,000" },
+        qrGiftEnvelope: { name: "Digital Gift QR", description: "QR code linking to bank account or e-wallet", price: "Rp 25,000" },
+        customGuestLink: { name: "Custom Guest Link", description: "Unique short link for each guest or family", price: "Rp 50,000" },
+      },
+      features: {
+        personalGuestName: { title: "Personal Guest Names", description: "Each invitation addresses your guest by name, creating an intimate and thoughtful experience from the very first touch." },
+        smartRsvp: { title: "Smart RSVP", description: "Streamlined RSVP management with dietary preferences, attendance count, and guest list updates in real time." },
+        giftEnvelope: { title: "Digital Gift Envelope", description: "An elegant digital gift box with a QR code linking to your bank account or e-wallet of choice." },
+        countdownTimer: { title: "Wedding Countdown", description: "A beautiful countdown timer that builds anticipation from the moment guests open the invitation." },
+        loveStory: { title: "Love Story", description: "Share your love story timeline, from first meeting to the proposal, with a beautiful presentation." },
+        photoGallery: { title: "Photo Gallery", description: "A curated photo gallery showcasing your journey together, with an elegant lightbox display." },
+        mapsIntegration: { title: "Maps Integration", description: "Interactive Google Maps with venue directions, parking information, and venue photos." },
+        backgroundMusic: { title: "Background Music", description: "Carefully selected ambient music that sets the emotional tone for your invitation." },
+        guestWishes: { title: "Guest Wishes & Prayers", description: "A dedicated space for guests to leave messages and heartfelt wishes for your union." },
+        multipleEvents: { title: "Multiple Events", description: "Support for akad, ceremony, reception, and other events with their own schedules and venues." },
+        liveStreaming: { title: "Live Streaming", description: "Integrated live streaming link for guests who cannot attend in person." },
+        mobileOptimized: { title: "Mobile Optimized", description: "Pixel-perfect design for every screen, from the smallest phone to the largest desktop." },
+      },
+      testimonials: {
+        anisaRizky: { quote: "FOR Vows transformed our invitation into a work of art. Our guests were truly moved. Several said it was the most beautiful wedding invitation they had ever received.", weddingDate: "December 2025" },
+        dewiFachry: { quote: "The RSVP management alone saved us weeks of follow-up calls. Everything was organized, elegant, and easy. Worth every rupiah.", weddingDate: "October 2025" },
+        sarahMichael: { quote: "As a couple who wanted something truly personal, the Exclusive package exceeded our imagination. The creative direction from the team was impeccable.", weddingDate: "January 2026" },
+      },
+      howItWorks: {
+        step1: { title: "Choose Your Template", description: "Browse our collection of premium invitation templates. Filter by style — Luxury, Adat, Modern, or Intimate — and find the one that matches your love story." },
+        step2: { title: "Send Your Details", description: "Fill out our elegant brief form with your wedding information, names, date, venue, story, and photos. Our team handles the rest with care." },
+        step3: { title: "Review & Approve", description: "Receive your personal draft within 5-7 business days. Request revisions until every detail matches your vision. We perfect it until it's right." },
+        step4: { title: "Make Payment", description: "Once satisfied with the result, complete your payment. We offer flexible installment options for the Exclusive package." },
+        step5: { title: "Publish & Share", description: "Your digital invitation goes live. Receive your unique URL and WhatsApp share link. Watch the RSVPs roll in as guests share in your joy." },
+      },
+      portfolio: {
+        eternalGold: "Ballroom party, Jakarta",
+        nusanteraHeritage: "Traditional ceremony, Yogyakarta",
+        secretGarden: "Private estate, Bali",
+        gardenTerrace: "Botanical garden, Bandung",
+        ivoryElegance: "Beachfront resort, Lombok",
+        javaneseSymphony: "Kraton-inspired venue, Solo",
+        cozyCelebration: "Home garden, Surabaya",
+        minimalistRomance: "Urban loft, Jakarta",
+      },
+    },
+
+    // ── Features Page ──────────────────────────────────────────────────────────
+    features: {
+      overline: "Capabilities",
+      title: "Features That Matter",
+      subtitle: "Every element of your digital wedding invitation is designed to create a seamless and elegant experience for you and your guests.",
+      note: "All features are included based on your selected package. The Exclusive package covers all features with full customization.",
+      ctaOverline: "Ready to Experience It?",
+      ctaTitle: "See These Features in Action",
+      ctaSubtitle: "Choose a template and discover what premium digital wedding invitations feel like.",
+      ctaJelajahi: "Explore Templates",
+      ctaLihatHarga: "View Pricing",
+    },
+
+    // ── Portfolio Page ────────────────────────────────────────────────────────
+    portfolio: {
+      overline: "Our Work",
+      title: "Selected Invitations",
+      subtitle: "A curated selection of our work — each celebration unique, immortalized in digital form.",
+      note: "Each invitation is custom-made for each couple. To see a live demo of any template, contact us and we'll arrange a personal walkthrough.",
+      ctaOverline: "Make It Yours",
+      ctaTitle: "Your Invitation Could Be Next",
+      ctaSubtitle: "Join the couples who chose FOR Vows for their most important celebration.",
+      ctaMulai: "Start Your Invitation",
+      ctaLihat: "View Templates",
+    },
+
+    // ── About Page ────────────────────────────────────────────────────────────
+    about: {
+      overline: "Our Story",
+      headline: "FOR Vows was born from a simple belief",
+      storyP1: "A wedding invitation is not just a formality — it is the first breath of your celebration, the first moment guests feel the weight and joy to come. It deserves more than a generic template.",
+      storyP2A: "FOR Vows was founded as the wedding invitation division of ",
+      storyP2B: "Frame Of Rangga",
+      storyP2C: ", a creative studio known for editorial work in photography and visual storytelling. From that lineage, we bring the same standards, taste, and dedication to the world of digital wedding invitations.",
+      storyP3: "Our name carries intention: FOR — to serve — Vows — the sacred promises you make to each other. Every invitation we create is a testament to that dedication.",
+      lihatKarya: "View Frame Of Rangga's main works",
+      subBrand: "A sub-brand of",
+      philosophyOverline: "Our Philosophy",
+      philosophyTitle: "What We Stand For",
+      philosophySubtitle: "Four principles that guide every invitation we create",
+      v1Title: "Intention Over Speed",
+      v1Desc: "We take time to understand your story, aesthetic, and vision — then we create an invitation that can only belong to you.",
+      v2Title: "Guests First",
+      v2Desc: "Every decision — from typography to navigation — is made with your guests' experience as the priority. An invitation should feel like an embrace.",
+      v3Title: "Contained Luxury",
+      v3Desc: "True elegance is not about excess. We believe in refined details, careful typography, and meaningful ornamentation — without clutter.",
+      v4Title: "Technology in Service",
+      v4Desc: "Digital tools allow us to create what paper cannot — interactive, personal, alive. We use technology to deepen, not distract.",
+      ctaOverline: "Work With Us",
+      ctaTitle: "Ready to Create Something Beautiful?",
+      ctaSubtitle: "Let's talk about your wedding and craft an invitation worthy of your story.",
+      ctaHubungi: "Contact Us",
+      ctaLihat: "View Templates",
+    },
+
+    // ── Home Page ─────────────────────────────────────────────────────────────
+    home: {
+      heroTagline: "A Premium Wedding Invitation Studio",
+      heroCta1: "View Templates",
+      heroCta2: "Start Your Invitation",
+      heroSubBrand: "A sub-brand of Frame Of Rangga",
+      scrollLabel: "Scroll",
+      featuredOverline: "Curated Collection",
+      featuredTitle: "Featured Templates",
+      featuredSubtitle: "Handpicked invitation designs for the most discerning couples",
+      viewAllTemplates: "View All Templates",
+      categoriesOverline: "By Style",
+      categoriesTitle: "Find Your Perfect Invitation",
+      categoriesSubtitle: "Four distinct collections, each crafted with its own soul",
+      whyOverline: "Why FOR Vows",
+      whyTitle: "Where Design Meets Devotion",
+      whySubtitle: "We believe a wedding invitation is more than paper — it's the first chapter of your celebration. We craft it accordingly.",
+      learnStory: "Learn Our Story",
+      howOverline: "The Process",
+      howTitle: "How It Works",
+      howSubtitle: "From vision to published invitation in five thoughtful steps",
+      learnMore: "Learn More",
+      testimonialsOverline: "Couples Stories",
+      testimonialsTitle: "Words From Our Couples",
+      testimonialsSubtitle: "The greatest compliment is when our work becomes part of your memory",
+      ctaOverline: "Begin Your Journey",
+      ctaTitle: "Your Invitation Deserves to Be Remembered",
+      ctaSubtitle: "Let us craft a digital invitation that reflects the depth of your celebration and the beauty of your love.",
+      ctaStart: "Start Your Invitation",
+      ctaExplore: "Explore Templates",
+      vp1Title: "Premium Design Direction",
+      vp1Desc: "Every invitation is crafted with the sensibility of a high-end editorial studio — no templates, no compromises.",
+      vp2Title: "Thoughtful Guest Experience",
+      vp2Desc: "Your guests receive an invitation that feels personal, elegant, and effortless to navigate on any device.",
+      vp3Title: "Seamless RSVP Management",
+      vp3Desc: "Eliminate the chaos of spreadsheets. Track responses, dietary needs, and attendance in real time.",
+      catLuxury: "Grand, opulent designs for the celebration of a lifetime",
+      catAdat: "Honoring tradition with culturally rich visual narratives",
+      catModern: "Contemporary minimalism that speaks in clean, bold lines",
+      catIntimate: "Warm, personal designs for the most private of celebrations",
+    },
+
+    // ── UI Labels ────────────────────────────────────────────────────────────
+    ui: {
+      featured: "Featured",
+      preview: "Preview",
+      pilih: "Choose",
+    },
+  },
+} as const;
+
+export type TranslationKey = keyof typeof translations.id;

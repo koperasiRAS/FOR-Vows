@@ -5,7 +5,10 @@ import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { TemplateCard } from "@/components/templates/TemplateCard";
 import { PreviewButton } from "@/components/templates/PreviewButton";
-import { getTemplateBySlug, getRelatedTemplates } from "@/lib/templates";
+import { getTemplateBySlug, getRelatedTemplates, getTranslatedTemplate } from "@/lib/templates";
+import { getServerLanguage } from "@/lib/i18n/server";
+import { translations } from "@/lib/i18n/translations";
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -13,13 +16,17 @@ interface Props {
 
 export default async function TemplateDetailPage({ params }: Props) {
   const { slug } = await params;
-  const template = getTemplateBySlug(slug);
+  const lang = await getServerLanguage();
+  const t = translations[lang].pages.templates;
 
+  const template = getTemplateBySlug(slug);
   if (!template) {
     notFound();
   }
 
-  const related = getRelatedTemplates(slug, template.category, 3);
+  const translated = getTranslatedTemplate(slug, lang);
+  const related = getRelatedTemplates(slug, template.category, 3, lang);
+  const categoryLabel = translations[lang].templates.categories[template.category as keyof typeof translations.id.templates.categories];
 
   return (
     <div className="bg-[#0a0a0a] min-h-screen pt-24 pb-20">
@@ -30,7 +37,7 @@ export default async function TemplateDetailPage({ params }: Props) {
           className="inline-flex items-center gap-2 text-[11px] tracking-[0.15em] uppercase text-[#6a6a6a] hover:text-[#c9a96e] transition-colors"
         >
           <ArrowLeft size={12} />
-          All Templates
+          {t.backToAll}
         </Link>
       </div>
 
@@ -56,7 +63,7 @@ export default async function TemplateDetailPage({ params }: Props) {
                 {/* Overlay ornament */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
                   <p className="font-serif italic text-2xl text-white/60">
-                    {template.name}
+                    {translated?.name ?? template.name}
                   </p>
                   <div
                     className="w-12 h-px"
@@ -100,34 +107,34 @@ export default async function TemplateDetailPage({ params }: Props) {
                     background: template.accentColor + "10",
                   }}
                 >
-                  {template.category}
+                  {categoryLabel}
                 </span>
               </div>
 
               <div>
                 <h1 className="font-serif text-3xl lg:text-4xl text-[#faf8f5] leading-tight">
-                  {template.name}
+                  {translated?.name ?? template.name}
                 </h1>
-                <p className="text-sm text-[#6a6a6a] mt-2">{template.shortDescription}</p>
+                <p className="text-sm text-[#6a6a6a] mt-2">{translated?.shortDescription ?? template.shortDescription}</p>
               </div>
 
               <div className="h-px bg-white/[0.06]" />
 
               <div>
                 <p className="text-xs tracking-[0.2em] uppercase text-[#c9a96e] mb-3">
-                  Description
+                  {t.description}
                 </p>
                 <p className="text-sm text-[#8a8a8a] leading-relaxed">
-                  {template.description}
+                  {translated?.description ?? template.description}
                 </p>
               </div>
 
               <div>
                 <p className="text-xs tracking-[0.2em] uppercase text-[#c9a96e] mb-3">
-                  Suitable For
+                  {t.suitableFor}
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {template.suitableFor.map((s) => (
+                  {(translated?.suitableFor ?? template.suitableFor).map((s) => (
                     <span
                       key={s}
                       className="text-xs text-[#6a6a6a] border border-white/[0.08] px-3 py-1"
@@ -140,10 +147,10 @@ export default async function TemplateDetailPage({ params }: Props) {
 
               <div>
                 <p className="text-xs tracking-[0.2em] uppercase text-[#c9a96e] mb-3">
-                  Included Features
+                  {t.includedFeatures}
                 </p>
                 <ul className="space-y-2">
-                  {template.features.map((f) => (
+                  {(translated?.features ?? template.features).map((f) => (
                     <li key={f} className="flex items-center gap-2.5">
                       <Check size={12} className="text-[#c9a96e] shrink-0" />
                       <span className="text-xs text-[#8a8a8a]">{f}</span>
@@ -155,7 +162,7 @@ export default async function TemplateDetailPage({ params }: Props) {
               <div className="h-px bg-white/[0.06]" />
 
               <div>
-                <p className="text-xs text-[#6a6a6a] mb-1">Starting from</p>
+                <p className="text-xs text-[#6a6a6a] mb-1">{t.startingFrom}</p>
                 <p className="font-serif text-2xl text-[#faf8f5]">{template.price}</p>
               </div>
 
@@ -165,10 +172,20 @@ export default async function TemplateDetailPage({ params }: Props) {
                   href={`/contact?template=${template.slug}`}
                   className="flex items-center justify-center gap-2 w-full py-3.5 text-[11px] tracking-[0.18em] uppercase bg-[#c9a96e] text-[#0a0a0a] font-medium hover:bg-[#d4b87a] transition-all duration-300"
                 >
-                  Start with This Template
+                  {t.startWithThis}
                   <ArrowRight size={14} />
                 </Link>
-                <PreviewButton templateName={template.name} />
+                <PreviewButton templateName={translated?.name ?? template.name} />
+                <AddToCartButton
+                  item={{
+                    id: `template-${template.slug}`,
+                    type: "template",
+                    name: translated?.name ?? template.name,
+                    price: template.price,
+                    priceValue: parseInt(template.price.replace(/[^\d]/g, "")),
+                  }}
+                  label={translations[lang].ui.pilih}
+                />
               </div>
             </div>
           </ScrollReveal>
@@ -179,8 +196,8 @@ export default async function TemplateDetailPage({ params }: Props) {
           <div className="mt-20 pt-12 border-t border-white/[0.06]">
             <ScrollReveal>
               <SectionHeading
-                overline="You May Also Like"
-                title="Related Templates"
+                overline={t.youMayAlsoLike}
+                title={t.relatedTemplates}
               />
             </ScrollReveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">

@@ -2,18 +2,24 @@ import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { FeatureCard } from "@/components/features/FeatureCard";
 import { CTASection } from "@/components/sections/CTASection";
-import { features } from "@/lib/templates";
+import { getTranslatedFeatures } from "@/lib/templates";
+import { getServerLanguage } from "@/lib/i18n/server";
+import { translations } from "@/lib/i18n/translations";
 
-export default function FeaturesPage() {
+export default async function FeaturesPage() {
+  const lang = await getServerLanguage();
+  const t = translations[lang].features;
+  const features = getTranslatedFeatures(lang);
+
   return (
     <div className="bg-[#0a0a0a] min-h-screen pt-24 pb-20">
       {/* Header */}
       <div className="max-w-4xl mx-auto px-6 lg:px-8 pt-12 pb-16 text-center">
         <ScrollReveal>
           <SectionHeading
-            overline="Kemampuan"
-            title="Fitur yang Berarti"
-            subtitle="Setiap elemen undangan digital Anda didesain untuk menciptakan pengalaman yang seamless dan elegan bagi Anda dan tamu Anda."
+            overline={t.overline}
+            title={t.title}
+            subtitle={t.subtitle}
           />
         </ScrollReveal>
       </div>
@@ -33,19 +39,18 @@ export default function FeaturesPage() {
       <ScrollReveal delay={300}>
         <div className="max-w-2xl mx-auto px-6 mt-16 text-center">
           <p className="text-xs text-[#5a5a5a] leading-relaxed">
-            Semua fitur sudah termasuk berdasarkan paket yang Anda pilih. Paket
-            Exclusive mencakup semua fitur dengan kustomisasi penuh.
+            {t.note}
           </p>
         </div>
       </ScrollReveal>
 
       {/* CTA */}
       <CTASection
-        overline="Siap Merasakannya?"
-        title="Lihat Fitur Ini Beraksi"
-        subtitle="Pilih template dan temukan bagaimana undangan digital premium bisa terasa."
-        primaryCta={{ label: "Jelajahi Template", href: "/templates" }}
-        secondaryCta={{ label: "Lihat Harga", href: "/pricing" }}
+        overline={t.ctaOverline}
+        title={t.ctaTitle}
+        subtitle={t.ctaSubtitle}
+        primaryCta={{ label: t.ctaJelajahi, href: "/templates" }}
+        secondaryCta={{ label: t.ctaLihatHarga, href: "/pricing" }}
       />
     </div>
   );

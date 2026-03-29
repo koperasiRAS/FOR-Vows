@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Check } from "lucide-react";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
+import { useLanguage } from "@/lib/i18n/context";
 import type { PricingTier } from "@/types";
 
 interface PricingCardProps {
@@ -10,6 +11,8 @@ interface PricingCardProps {
 }
 
 export function PricingCard({ tier }: PricingCardProps) {
+  const { t } = useLanguage();
+
   return (
     <div
       className={`relative flex flex-col p-8 border transition-all duration-300 ${
@@ -70,13 +73,13 @@ export function PricingCard({ tier }: PricingCardProps) {
             priceValue: parseInt(tier.price.replace(/[^\d]/g, "")),
           }}
           variant={tier.highlighted ? "gold" : "outline"}
-          label={`Pilih Paket ${tier.name}`}
+          label={t("pricingCard.pilihPaket", { name: tier.name })}
         />
         <Link
           href={`/contact?package=${tier.name.toLowerCase()}`}
           className="flex items-center justify-center py-2.5 text-[11px] tracking-widest uppercase text-[#6a6a6a] hover:text-[#8a8a8a] transition-colors"
         >
-          Hubungi Kami untuk Custom Order
+          {t("pricingCard.hubungiCustom")}
         </Link>
       </div>
     </div>

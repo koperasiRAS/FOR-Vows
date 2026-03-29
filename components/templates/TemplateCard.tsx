@@ -3,21 +3,26 @@
 import Link from "next/link";
 import { Eye } from "lucide-react";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
+import { useLanguage } from "@/lib/i18n/context";
 import type { WeddingTemplate } from "@/types";
-
-const categoryLabels: Record<string, string> = {
-  luxury: "Luxury",
-  adat: "Adat",
-  modern: "Modern",
-  intimate: "Intimate",
-};
 
 interface TemplateCardProps {
   template: WeddingTemplate;
   showActions?: boolean;
 }
 
+const categoryKeys: Record<string, "luxury" | "adat" | "modern" | "intimate"> = {
+  luxury: "luxury",
+  adat: "adat",
+  modern: "modern",
+  intimate: "intimate",
+};
+
 export function TemplateCard({ template, showActions = true }: TemplateCardProps) {
+  const { t } = useLanguage();
+  const catKey = categoryKeys[template.category] ?? "luxury";
+  const categoryLabel = t(`templates.categories.${catKey}` as const);
+
   return (
     <div className="group bg-[#141414] border border-white/[0.06] hover:border-[#c9a96e]/30 transition-all duration-500 flex flex-col overflow-hidden">
       {/* Preview */}
@@ -48,21 +53,21 @@ export function TemplateCard({ template, showActions = true }: TemplateCardProps
               border: `1px solid ${template.accentColor}40`,
             }}
           >
-            {categoryLabels[template.category]}
+            {categoryLabel}
           </span>
         </div>
         {/* Featured badge */}
         {template.featured && (
           <div className="absolute top-3 right-3">
             <span className="text-[10px] tracking-[0.1em] uppercase px-2.5 py-1 bg-[#c9a96e] text-[#0a0a0a]">
-              Featured
+              {t("ui.featured")}
             </span>
           </div>
         )}
         {/* Hover overlay */}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
           <span className="text-[11px] tracking-[0.15em] uppercase text-white border border-white/40 px-4 py-2 backdrop-blur-sm">
-            Preview
+            {t("ui.preview")}
           </span>
         </div>
       </Link>
@@ -86,7 +91,7 @@ export function TemplateCard({ template, showActions = true }: TemplateCardProps
               className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[10px] tracking-[0.12em] uppercase border border-white/15 text-[#8a8a8a] hover:border-[#c9a96e]/40 hover:text-[#c9a96e] transition-all duration-300"
             >
               <Eye size={12} />
-              Preview
+              {t("ui.preview")}
             </Link>
             <AddToCartButton
               item={{
@@ -96,7 +101,7 @@ export function TemplateCard({ template, showActions = true }: TemplateCardProps
                 price: template.price,
                 priceValue: parseInt(template.price.replace(/[^\d]/g, "")),
               }}
-              label="Pilih"
+              label={t("ui.pilih")}
               className="flex-1"
             />
           </div>
