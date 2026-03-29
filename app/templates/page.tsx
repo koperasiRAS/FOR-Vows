@@ -22,9 +22,9 @@ export default function TemplatesPage() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-12 pb-10">
         <ScrollReveal>
           <SectionHeading
-            overline="Our Collection"
-            title="Wedding Invitation Templates"
-            subtitle="Eight distinct designs, each carrying its own soul. Find the one that speaks to your celebration."
+            overline="Koleksi Kami"
+            title="Template Undangan Pernikahan"
+            subtitle="Delapan desain berbeda, masing-masing membawa jiwa uniknya sendiri. Temukan yang paling sesuai dengan perayaan Anda."
           />
         </ScrollReveal>
 
@@ -48,7 +48,7 @@ export default function TemplatesPage() {
         {filtered.length === 0 && (
           <div className="text-center py-20">
             <p className="text-[#6a6a6a] text-sm">
-              No templates found in this category.
+              Template tidak ditemukan dalam kategori ini.
             </p>
           </div>
         )}

@@ -58,6 +58,7 @@ export interface HowItWorksStep {
 
 export interface PortfolioItem {
   id: string;
+  slug: string;
   title: string;
   category: TemplateCategory;
   gradientFrom: string;

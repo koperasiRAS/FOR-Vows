@@ -11,9 +11,9 @@ export default function PricingPage() {
       <div className="max-w-4xl mx-auto px-6 lg:px-8 pt-12 pb-16 text-center">
         <ScrollReveal>
           <SectionHeading
-            overline="Investment"
-            title="Simple, Transparent Pricing"
-            subtitle="Three carefully designed packages — each crafted to give your wedding invitation the attention it deserves. No hidden fees."
+            overline="Investasi"
+            title="Harga Sederhana & Transparan"
+            subtitle="Tiga paket yang didesain dengan cermat — masing-masing dibuat untuk memberikan undangan pernikahan Anda perhatian yang layak. Tanpa biaya tersembunyi."
           />
         </ScrollReveal>
       </div>
@@ -34,10 +34,10 @@ export default function PricingPage() {
         <ScrollReveal>
           <div className="text-center mb-10">
             <p className="text-xs tracking-[0.3em] uppercase text-[#c9a96e] mb-3">
-              Enhance Your Package
+              Tingkatkan Paket Anda
             </p>
             <h2 className="font-serif text-2xl lg:text-3xl text-[#faf8f5]">
-              Optional Add-ons
+              Add-on Opsional
             </h2>
           </div>
         </ScrollReveal>
@@ -70,20 +70,20 @@ export default function PricingPage() {
       <ScrollReveal delay={200}>
         <div className="max-w-2xl mx-auto px-6 mt-12 text-center">
           <p className="text-xs text-[#5a5a5a] leading-relaxed">
-            All prices are in Indonesian Rupiah (IDR) and include creative
-            direction, digital delivery, and 1 revision round. Additional
-            revisions are available at Rp 75.000 per round.
+            Semua harga dalam Rupiah Indonesia (IDR) dan sudah termasuk
+            arahan kreatif, pengiriman digital, dan 1 sesi revisi. Revisi
+            tambahan tersedia dengan biaya Rp 75.000 per sesi.
           </p>
         </div>
       </ScrollReveal>
 
       {/* CTA */}
       <CTASection
-        overline="Not Sure Which Package?"
-        title="Let's Find the Right Fit Together"
-        subtitle="Book a free consultation and we'll help you choose the perfect package for your vision."
-        primaryCta={{ label: "Book a Consultation", href: "/contact" }}
-        secondaryCta={{ label: "View Templates", href: "/templates" }}
+        overline="Belum Yakin Paket Mana?"
+        title="Mari Cari yang Tepat Bersama"
+        subtitle="Booking konsultasi gratis dan kami akan membantu Anda memilih paket yang sempurna untuk visi Anda."
+        primaryCta={{ label: "Booking Konsultasi", href: "/contact" }}
+        secondaryCta={{ label: "Lihat Template", href: "/templates" }}
       />
     </div>
   );

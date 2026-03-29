@@ -11,9 +11,9 @@ export default function PortfolioPage() {
       <div className="max-w-4xl mx-auto px-6 lg:px-8 pt-12 pb-16 text-center">
         <ScrollReveal>
           <SectionHeading
-            overline="Our Work"
-            title="Selected Invitations"
-            subtitle="A curated selection of our work — each one a unique celebration captured in digital form."
+            overline="Karya Kami"
+            title="Undangan Pilihan"
+            subtitle="Seleksi kurasi karya kami — masing-masing perayaan unik yang diabadikan dalam bentuk digital."
           />
         </ScrollReveal>
       </div>
@@ -33,19 +33,19 @@ export default function PortfolioPage() {
       <ScrollReveal delay={300}>
         <div className="max-w-2xl mx-auto px-6 mt-12 text-center">
           <p className="text-xs text-[#5a5a5a] leading-relaxed">
-            Each invitation is custom-crafted for its couple. To see a live demo
-            of any template, contact us and we&apos;ll arrange a personal walkthrough.
+            Setiap undangan dibuat custom untuk pasangan masing-masing. Untuk melihat demo langsung
+            template apapun, hubungi kami dan kami akan arrange walkthrough personal.
           </p>
         </div>
       </ScrollReveal>
 
       {/* CTA */}
       <CTASection
-        overline="Create Yours"
-        title="Your Invitation Could Be Next"
-        subtitle="Join the couples who chose FOR Vows for their most important celebration."
-        primaryCta={{ label: "Start Your Invitation", href: "/contact" }}
-        secondaryCta={{ label: "View Templates", href: "/templates" }}
+        overline="Buat Milik Anda"
+        title="Undangan Anda Bisa Jadi Berikutnya"
+        subtitle="Bergabunglah dengan pasangan yang memilih FOR Vows untuk perayaan paling penting mereka."
+        primaryCta={{ label: "Mulai Undangan Anda", href: "/contact" }}
+        secondaryCta={{ label: "Lihat Template", href: "/templates" }}
       />
     </div>
   );

@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { Check } from "lucide-react";
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import type { PricingTier } from "@/types";
 
 interface PricingCardProps {
@@ -57,16 +60,25 @@ export function PricingCard({ tier }: PricingCardProps) {
       </ul>
 
       {/* CTA */}
-      <Link
-        href={`/contact?package=${tier.name.toLowerCase()}`}
-        className={`block text-center py-3.5 text-[11px] tracking-[0.18em] uppercase font-medium transition-all duration-300 mt-auto ${
-          tier.highlighted
-            ? "bg-[#c9a96e] text-[#0a0a0a] hover:bg-[#d4b87a]"
-            : "border border-white/15 text-[#faf8f5] hover:border-white/30 hover:bg-white/5"
-        }`}
-      >
-        Choose {tier.name}
-      </Link>
+      <div className="mt-auto space-y-3">
+        <AddToCartButton
+          item={{
+            id: `package-${tier.name.toLowerCase()}`,
+            type: "package",
+            name: `Paket ${tier.name}`,
+            price: tier.price,
+            priceValue: parseInt(tier.price.replace(/[^\d]/g, "")),
+          }}
+          variant={tier.highlighted ? "gold" : "outline"}
+          label={`Pilih Paket ${tier.name}`}
+        />
+        <Link
+          href={`/contact?package=${tier.name.toLowerCase()}`}
+          className="flex items-center justify-center py-2.5 text-[11px] tracking-widest uppercase text-[#6a6a6a] hover:text-[#8a8a8a] transition-colors"
+        >
+          Hubungi Kami untuk Custom Order
+        </Link>
+      </div>
     </div>
   );
 }

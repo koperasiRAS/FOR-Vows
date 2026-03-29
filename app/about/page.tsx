@@ -11,31 +11,43 @@ export default function AboutPage() {
           <ScrollReveal>
             <div className="space-y-6">
               <p className="text-xs tracking-[0.3em] uppercase text-[#c9a96e]">
-                Our Story
+                Kisah Kami
               </p>
               <h1 className="font-serif text-4xl lg:text-5xl text-[#faf8f5] leading-tight">
-                FOR Vows was born from a simple belief
+                FOR Vows lahir dari keyakinan sederhana
               </h1>
               <div className="space-y-4 text-[#8a8a8a] leading-relaxed text-sm">
                 <p>
-                  A wedding invitation is not merely a formality — it is the first
-                  breath of your celebration, the first moment your guests feel
-                  the weight and the joy of what is to come. It deserves more than
-                  a generic template.
+                  Undangan pernikahan bukan sekadar formalitas — ini adalah napas
+                  pertama perayaan Anda, momen pertama tamu merasakan bobot dan
+                  kegembiraan yang akan datang. Ia layak lebih dari template generik.
                 </p>
                 <p>
-                  FOR Vows was founded as the dedicated wedding division of{" "}
-                  <span className="text-[#faf8f5]">Frame Of Rangga</span>, a
-                  creative studio known for its editorial work in photography and
-                  visual storytelling. From that lineage, we brought the same
-                  rigor, taste, and devotion to the world of digital wedding
-                  invitations.
+                  FOR Vows didirikan sebagai divisi undangan pernikahan dari{" "}
+                  <span className="text-[#faf8f5]">Frame Of Rangga</span>, studio
+                  kreatif yang dikenal dengan karya editorial dalam fotografi dan
+                  storytelling visual. Dari turunan itu, kami membawa standar,
+                  selera, dan dedikasi yang sama ke dunia undangan pernikahan digital.
                 </p>
                 <p>
-                  Our name carries intention: <em>FOR</em> — in service of —{" "}
-                  <em>Vows</em> — the sacred promises you make to each other. Every
-                  invitation we create is a testament to that devotion.
+                  Nama kami membawa niat: <em>FOR</em> — untuk melayani —{" "}
+                  <em>Vows</em> — janji suci yang Anda berikan satu sama lain. Setiap
+                  undangan yang kami buat adalah testamentasi untuk dedikasi itu.
                 </p>
+              </div>
+              {/* Frame Of Rangga Link */}
+              <div className="pt-4 border-t border-white/[0.06]">
+                <a
+                  href="https://for-portofolio.netlify.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-xs text-[#c9a96e]/60 hover:text-[#c9a96e] transition-colors group"
+                >
+                  <span>Lihat karya utama Frame Of Rangga</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
+                    <path d="M7 17L17 7M7 7h10v10" />
+                  </svg>
+                </a>
               </div>
             </div>
           </ScrollReveal>
@@ -46,7 +58,7 @@ export default function AboutPage() {
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center p-10">
                 <div className="space-y-2">
                   <span className="text-xs tracking-[0.3em] uppercase text-[#c9a96e]/50">
-                    A sub-brand of
+                    Sub-brand dari
                   </span>
                   <p className="font-serif text-2xl text-[#c9a96e]/60">
                     Frame Of Rangga
@@ -73,9 +85,9 @@ export default function AboutPage() {
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
           <ScrollReveal>
             <SectionHeading
-              overline="Our Philosophy"
-              title="What We Stand For"
-              subtitle="Four principles that guide every invitation we create"
+              overline="Filosofi Kami"
+              title="Apa yang Kamiutamakan"
+              subtitle="Empat prinsip yang memandu setiap undangan yang kami buat"
             />
           </ScrollReveal>
 
@@ -83,27 +95,27 @@ export default function AboutPage() {
             {[
               {
                 num: "01",
-                title: "Intention Over Speed",
+                title: "Niat Di atas Kecepatan",
                 description:
-                  "We take the time to understand your story, your aesthetic, and your vision — then we create an invitation that could only be yours.",
+                  "Kami mengambil waktu untuk memahami kisah, estetika, dan visi Anda — lalu kami membuat undangan yang hanya bisa milik Anda.",
               },
               {
                 num: "02",
-                title: "Guests First",
+                title: "Tamu Utama",
                 description:
-                  "Every decision — from typography to navigation — is made with your guests' experience in mind. An invitation should feel like an embrace.",
+                  "Setiap keputusan — dari tipografi hingga navigasi — dibuat dengan pengalaman tamu Anda sebagai prioritas. Undangan seharusnya terasa seperti pelukan.",
               },
               {
                 num: "03",
-                title: "Restrained Luxury",
+                title: "Kemewahan Terkurung",
                 description:
-                  "True elegance is not about excess. We believe in refined details, careful typography, and meaningful ornamentation — never clutter.",
+                  "Keeleganan sejati bukan tentang berlebih lebihan. Kami percaya pada detail yang refined, tipografi yang cermat, dan ornamentasi yang bermakna — tanpa clutter.",
               },
               {
                 num: "04",
-                title: "Technology in Service",
+                title: "Teknologi untuk Melayani",
                 description:
-                  "Digital tools allow us to create something that paper never could — interactive, personal, alive. We use technology to deepen, not distract.",
+                  "Tool digital memungkinkan kami membuat sesuatu yang tidak bisa dilakukan kertas — interaktif, personal, hidup. Kami menggunakan teknologi untuk memperdalam, bukan mengalihkan.",
               },
             ].map((value, i) => (
               <ScrollReveal key={value.num} delay={i * 80}>
@@ -126,11 +138,11 @@ export default function AboutPage() {
 
       {/* CTA */}
       <CTASection
-        overline="Work With Us"
-        title="Ready to Create Something Beautiful?"
-        subtitle="Let's talk about your wedding and craft an invitation worthy of your story."
-        primaryCta={{ label: "Get in Touch", href: "/contact" }}
-        secondaryCta={{ label: "View Templates", href: "/templates" }}
+        overline="Bekerja Sama Dengan Kami"
+        title="Siap Membuat Sesuatu yang Indah?"
+        subtitle="Mari bicarakan pernikahan Anda dan buat undangan yang layak untuk kisah Anda."
+        primaryCta={{ label: "Hubungi Kami", href: "/contact" }}
+        secondaryCta={{ label: "Lihat Template", href: "/templates" }}
       />
     </div>
   );

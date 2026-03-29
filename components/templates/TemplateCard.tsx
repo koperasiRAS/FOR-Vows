@@ -1,6 +1,8 @@
+"use client";
+
 import Link from "next/link";
-import { Eye, ArrowRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Eye } from "lucide-react";
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import type { WeddingTemplate } from "@/types";
 
 const categoryLabels: Record<string, string> = {
@@ -19,7 +21,10 @@ export function TemplateCard({ template, showActions = true }: TemplateCardProps
   return (
     <div className="group bg-[#141414] border border-white/[0.06] hover:border-[#c9a96e]/30 transition-all duration-500 flex flex-col overflow-hidden">
       {/* Preview */}
-      <Link href={`/templates/${template.slug}`} className="block relative aspect-[4/3] overflow-hidden">
+      <Link
+        href={`/templates/${template.slug}`}
+        className="block relative aspect-[4/3] overflow-hidden"
+      >
         <div
           className="absolute inset-0 transition-transform duration-700 group-hover:scale-105"
           style={{
@@ -71,6 +76,7 @@ export function TemplateCard({ template, showActions = true }: TemplateCardProps
           <p className="text-xs text-[#6a6a6a] mt-1 leading-relaxed">
             {template.shortDescription}
           </p>
+          <p className="text-xs text-[#c9a96e] mt-1 font-medium">{template.price}</p>
         </div>
 
         {showActions && (
@@ -82,13 +88,17 @@ export function TemplateCard({ template, showActions = true }: TemplateCardProps
               <Eye size={12} />
               Preview
             </Link>
-            <Link
-              href={`/contact?template=${template.slug}`}
-              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[10px] tracking-[0.12em] uppercase bg-[#c9a96e] text-[#0a0a0a] hover:bg-[#d4b87a] transition-all duration-300"
-            >
-              Choose
-              <ArrowRight size={12} />
-            </Link>
+            <AddToCartButton
+              item={{
+                id: `template-${template.slug}`,
+                type: "template",
+                name: template.name,
+                price: template.price,
+                priceValue: parseInt(template.price.replace(/[^\d]/g, "")),
+              }}
+              label="Pilih"
+              className="flex-1"
+            />
           </div>
         )}
       </div>

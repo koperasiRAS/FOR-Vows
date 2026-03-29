@@ -1,21 +1,24 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ShoppingBag } from "lucide-react";
+import { useCart } from "@/lib/cart-context";
 
 const navLinks = [
-  { href: "/templates", label: "Templates" },
-  { href: "/pricing", label: "Pricing" },
-  { href: "/features", label: "Features" },
-  { href: "/how-it-works", label: "How It Works" },
+  { href: "/templates", label: "Template" },
+  { href: "/pricing", label: "Harga" },
+  { href: "/features", label: "Fitur" },
+  { href: "/how-it-works", label: "Cara Pesan" },
   { href: "/portfolio", label: "Portfolio" },
-  { href: "/about", label: "About" },
+  { href: "/about", label: "Tentang" },
 ];
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { itemCount, setOpen } = useCart();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -23,7 +26,6 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -40,12 +42,15 @@ export function Navbar() {
       <nav className="max-w-7xl mx-auto px-6 lg:px-8 h-16 lg:h-18 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <span className="font-serif text-lg tracking-[0.2em] text-[#faf8f5] group-hover:text-[#c9a96e] transition-colors duration-300">
-            FOR
-          </span>
-          <span className="font-serif italic text-lg tracking-[0.15em] text-[#c9a96e]">
-            Vows
-          </span>
+          <div className="relative h-8 w-auto">
+            <Image
+              src="/images/logo-brand.png"
+              alt="FOR Vows"
+              width={120}
+              height={32}
+              className="h-full w-auto object-contain group-hover:opacity-80 transition-opacity"
+            />
+          </div>
         </Link>
 
         {/* Desktop Nav */}
@@ -69,24 +74,45 @@ export function Navbar() {
             href="/contact"
             className="text-sm tracking-wide text-[#9a9a9a] hover:text-[#faf8f5] transition-colors duration-300"
           >
-            Contact
+            Hubungi Kami
           </Link>
-          <Link
-            href="/contact"
-            className="px-5 py-2 text-sm tracking-widest uppercase bg-[#c9a96e] text-[#0a0a0a] font-medium hover:bg-[#d4b87a] transition-colors duration-300"
+          <button
+            onClick={() => setOpen(true)}
+            className="relative p-2 text-[#9a9a9a] hover:text-[#c9a96e] transition-colors duration-300"
+            aria-label="Keranjang"
           >
-            Start Invitation
+            <ShoppingBag size={20} />
+            {itemCount > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 bg-[#c9a96e] text-[#0a0a0a] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                {itemCount > 9 ? "9+" : itemCount}
+              </span>
+            )}
+          </button>
+          <Link
+            href="/templates"
+            className="px-5 py-2 text-xs tracking-widest uppercase bg-[#c9a96e] text-[#0a0a0a] font-medium hover:bg-[#d4b87a] transition-colors duration-300"
+          >
+            Pesan Sekarang
           </Link>
         </div>
 
         {/* Mobile Menu Button */}
-        <button
-          className="lg:hidden p-2 text-[#faf8f5] hover:text-[#c9a96e] transition-colors"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-        >
-          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        <div className="flex items-center gap-3 lg:hidden">
+          <Link
+            href="/cart"
+            className="p-2 text-[#9a9a9a] hover:text-[#c9a96e] transition-colors"
+            aria-label="Keranjang"
+          >
+            <ShoppingBag size={20} />
+          </Link>
+          <button
+            className="p-2 text-[#faf8f5] hover:text-[#c9a96e] transition-colors"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? "Tutup menu" : "Buka menu"}
+          >
+            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile Menu */}
@@ -108,11 +134,11 @@ export function Navbar() {
           ))}
           <div className="pt-4 border-t border-white/[0.06]">
             <Link
-              href="/contact"
+              href="/templates"
               onClick={() => setMobileOpen(false)}
-              className="inline-block px-6 py-3 text-sm tracking-widest uppercase bg-[#c9a96e] text-[#0a0a0a] font-medium"
+              className="inline-block px-6 py-3 text-xs tracking-widest uppercase bg-[#c9a96e] text-[#0a0a0a] font-medium"
             >
-              Start Invitation
+              Pesan Sekarang
             </Link>
           </div>
         </div>

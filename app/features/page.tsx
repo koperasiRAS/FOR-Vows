@@ -11,9 +11,9 @@ export default function FeaturesPage() {
       <div className="max-w-4xl mx-auto px-6 lg:px-8 pt-12 pb-16 text-center">
         <ScrollReveal>
           <SectionHeading
-            overline="Capabilities"
-            title="Features That Matter"
-            subtitle="Every element of your digital invitation is designed to create a seamless, elegant experience for you and your guests."
+            overline="Kemampuan"
+            title="Fitur yang Berarti"
+            subtitle="Setiap elemen undangan digital Anda didesain untuk menciptakan pengalaman yang seamless dan elegan bagi Anda dan tamu Anda."
           />
         </ScrollReveal>
       </div>
@@ -33,19 +33,19 @@ export default function FeaturesPage() {
       <ScrollReveal delay={300}>
         <div className="max-w-2xl mx-auto px-6 mt-16 text-center">
           <p className="text-xs text-[#5a5a5a] leading-relaxed">
-            All features are included based on your selected package. The
-            Exclusive package includes every feature with full customization.
+            Semua fitur sudah termasuk berdasarkan paket yang Anda pilih. Paket
+            Exclusive mencakup semua fitur dengan kustomisasi penuh.
           </p>
         </div>
       </ScrollReveal>
 
       {/* CTA */}
       <CTASection
-        overline="Ready to Experience It?"
-        title="See These Features in Action"
-        subtitle="Choose a template and discover what a premium digital invitation can feel like."
-        primaryCta={{ label: "Explore Templates", href: "/templates" }}
-        secondaryCta={{ label: "View Pricing", href: "/pricing" }}
+        overline="Siap Merasakannya?"
+        title="Lihat Fitur Ini Beraksi"
+        subtitle="Pilih template dan temukan bagaimana undangan digital premium bisa terasa."
+        primaryCta={{ label: "Jelajahi Template", href: "/templates" }}
+        secondaryCta={{ label: "Lihat Harga", href: "/pricing" }}
       />
     </div>
   );
