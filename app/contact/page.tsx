@@ -12,7 +12,7 @@ export default function ContactPage() {
           <SectionHeading
             overline="Hubungi Kami"
             title="Mari Buat Undangan Anda"
-            subtitle="Ceritakan tentang pernikahan Anda dan kami akan membantu menemukan undangan sempurna — atau menciptakan sesuatu yang sepenuhnya baru."
+            subtitle="Ceritakan tentang pernikahan Anda dan kami akan membantu menemukan undangan sempurna, atau menciptakan sesuatu yang sepenuhnya baru."
           />
         </ScrollReveal>
       </div>
@@ -43,7 +43,7 @@ export default function ContactPage() {
                 </h3>
                 <p className="text-sm text-[#6a6a6a] leading-relaxed">
                   Untuk bantuan langsung, pertanyaan, atau diskusi tentang
-                  visi Anda — hubungi kami langsung via WhatsApp.
+                  visi Anda, hubungi kami langsung via WhatsApp.
                 </p>
                 <a
                   href="https://wa.me/6287779560264"

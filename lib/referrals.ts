@@ -52,13 +52,13 @@ export const REFERRAL_CODES: Record<string, ReferralCode> = {
     referrerName: "FOR Vows Launch",
     discountType: "percentage",
     discountValue: 15,
-    note: "Diskon 15% — Welcome Offer",
+    note: "Diskon 15% - Welcome Offer",
   },
   FRAMEOFRANGGA: {
     referrerName: "Frame Of Rangga",
     discountType: "percentage",
     discountValue: 10,
-    note: "Diskon 10% — FOR Family",
+    note: "Diskon 10% - FOR Family",
   },
 };
 

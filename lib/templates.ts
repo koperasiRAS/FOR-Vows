@@ -43,7 +43,7 @@ export const templates: WeddingTemplate[] = [
     name: "Ivory Elegance",
     category: "luxury",
     description:
-      "Bersih, halus, dan sophistication yang memukau. Palet mendominasi ivory dengan detail champagne dan emas subtil — sempurna untuk pasangan modern yang percaya kemewahan berbicara dengan lembut.",
+      "Bersih, halus, dan sophistication yang memukau. Palet mendominasi ivory dengan detail champagne dan emas subtil, sempurna untuk pasangan modern yang percaya kemewahan berbicara dengan lembut.",
     shortDescription: "Nuansa ivory halus dengan sentuhan emas yang menyejukkan.",
     gradientFrom: "#f5f0e8",
     gradientTo: "#e8e0d0",
@@ -91,7 +91,7 @@ export const templates: WeddingTemplate[] = [
     name: "Javanese Symphony",
     category: "adat",
     description:
-      "Terinspirasi oleh keanggunan seni kerajaan Jawa. Undangan ini membawa keeleganan warisan Jawa — aksen bermotif wayang, garis emas yang halus, dan palet terinspirasi batu kuil dan cahaya lilin.",
+      "Terinspirasi oleh keanggunan seni kerajaan Jawa. Undangan ini membawa keeleganan warisan Jawa, aksen bermotif wayang, garis emas yang halus, dan palet terinspirasi batu kuil dan cahaya lilin.",
     shortDescription: "Keanggunan kerajaan Jawa dengan nuansa batu kuil.",
     gradientFrom: "#1e1508",
     gradientTo: "#3a2810",
@@ -140,7 +140,7 @@ export const templates: WeddingTemplate[] = [
     name: "Minimalist Romance",
     category: "modern",
     description:
-      "Ketika kurang menjadi segalanya. Tipografi murni, white space luas, dan satu warna aksen menciptakan undangan yang membiarkan cerita cinta Anda menjadi pusat perhatian — understated, intentional, dan mendalam.",
+      "Ketika kurang menjadi segalanya. Tipografi murni, white space luas, dan satu warna aksen menciptakan undangan yang membiarkan cerita cinta Anda menjadi pusat perhatian, understated, intentional, dan mendalam.",
     shortDescription: "Tipografi murni dan white space merayakan cinta yang understated.",
     gradientFrom: "#f8f6f3",
     gradientTo: "#efe9e1",
@@ -312,7 +312,7 @@ export const saveTheDateTiers: PricingTier[] = [
     name: "Essentials",
     price: "Rp 99.000",
     description:
-      "Pengumuman elegan untuk Save the Date — sampaikan tanggal spesial Anda dengan cara yang berkesan.",
+      "Pengumuman elegan untuk Save the Date, sampaikan tanggal spesial Anda dengan cara yang berkesan.",
     features: [
       "1 desain Save the Date",
       "Foto & nama pasangan",

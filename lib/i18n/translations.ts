@@ -172,9 +172,9 @@ export const translations = {
       lainnya: "Lainnya",
       minatPaket: "Minat Paket",
       pilihPaket: "Pilih paket",
-      basic: "Basic — Rp 299.000",
-      premium: "Premium — Rp 599.000",
-      exclusive: "Exclusive — Rp 999.000",
+      basic: "Basic Rp 299.000",
+      premium: "Premium Rp 599.000",
+      exclusive: "Exclusive Rp 999.000",
       belumMemutuskan: "Belum memutuskan",
       templateDiminati: "Template yang Diminati",
       templatePlaceholder: "contoh: Eternal Gold, Nusantara Heritage...",
@@ -258,7 +258,7 @@ export const translations = {
       pricing: {
         overline: "Investasi",
         title: "Harga Sederhana & Transparan",
-        subtitle: "Tiga paket yang didesain dengan cermat — masing-masing dibuat untuk memberikan undangan pernikahan Anda perhatian yang layak. Tanpa biaya tersembunyi.",
+        subtitle: "Tiga paket yang didesain dengan cermat, masing-masing dibuat untuk memberikan undangan pernikahan Anda perhatian yang layak. Tanpa biaya tersembunyi.",
         enhancePackage: "Tingkatkan Paket Anda",
         optionalAddons: "Add-on Opsional",
         priceNote: "Semua harga dalam Rupiah Indonesia (IDR) dan sudah termasuk arahan kreatif, pengiriman digital, dan 1 sesi revisi. Revisi tambahan tersedia dengan biaya Rp 75.000 per sesi.",
@@ -271,11 +271,11 @@ export const translations = {
         saveTheDate: {
           overline: "Save the Date",
           title: "Pengumuman Elegant Sebelum Hari H",
-          subtitle: "Bangun antisipasi tamu dengan Save the Date yang berkesan — langkah pertama menuju hari spesial Anda.",
+          subtitle: "Bangun antisipasi tamu dengan Save the Date yang berkesan, langkah pertama menuju hari spesial Anda.",
           essentials: {
             name: "Essentials",
             description:
-              "Pengumuman elegan untuk Save the Date — sampaikan tanggal spesial Anda dengan cara yang berkesan.",
+              "Pengumuman elegan untuk Save the Date, sampaikan tanggal spesial Anda dengan cara yang berkesan.",
           },
           premium: {
             name: "Premium",
@@ -286,7 +286,7 @@ export const translations = {
         website: {
           overline: "Wedding Website",
           title: "Website Pernikahan Lengkap",
-          subtitle: "Semua informasi pernikahan Anda di satu tempat — tamu cukup scan QR atau buka link untuk menemukan segalanya.",
+          subtitle: "Semua informasi pernikahan Anda di satu tempat, tamu cukup scan QR atau buka link untuk menemukan segalanya.",
           basic: {
             name: "Basic",
             description:
@@ -307,7 +307,7 @@ export const translations = {
       howItWorks: {
         overline: "Perjalanan Anda",
         title: "Dari Visi Menuju Undangan Terbit",
-        subtitle: "Proses yang seamless dan penuh perhatian — agar Anda bisa fokus merayakan sementara kami yang menangani undangannya.",
+        subtitle: "Proses yang seamless dan penuh perhatian, agar Anda bisa fokus merayakan sementara kami yang menangani undangannya.",
         daysNote: "Hari kerja pengiriman",
         revisionsNote: "Sesi revisi gratis",
         rushNote: "Opsi pengiriman kilat tersedia",
@@ -327,7 +327,7 @@ export const translations = {
           {
             title: "1. Penerimaan Syarat",
             content: [
-              "Dengan mengakses dan menggunakan layanan website FOR Vows, Anda согласно menyetujui syarat dan ketentuan yang tercantum di bawah ini. Jika Anda tidak setuju dengan salah satu syarat, mohon untuk tidak menggunakan layanan kami.",
+              "Dengan mengakses dan menggunakan layanan website FOR Vows, Anda secara tegas menyetujui syarat dan ketentuan yang tercantum di bawah ini. Jika Anda tidak setuju dengan salah satu syarat, mohon untuk tidak menggunakan layanan kami.",
               "FOR Vows berhak mengubah, memodifikasi, atau memperbarui syarat dan ketentuan ini sewaktu-waktu tanpa pemberitahuan terlebih dahulu. Perubahan akan berlaku sejak tanggal publikasi di website ini.",
             ],
           },
@@ -401,7 +401,7 @@ export const translations = {
           {
             title: "11. Hukum yang Berlaku",
             content: [
-              "Syarat dan ketentuan ini diatur oleh dan ditafsirkan sesuai dengan hukum Republik Indonesia. Setiap perselisihan yang timbul akan diselesaikan secara musyawarah untuk mufakat, dan jika tidak достигнуто согласия, akan diselesaikan melalui Pengadilan Negeri Jakarta Selatan.",
+              "Syarat dan ketentuan ini diatur oleh dan ditafsirkan sesuai dengan hukum Republik Indonesia. Setiap perselisihan yang timbul akan diselesaikan secara musyawarah untuk mufakat, dan jika tidak tercapai kesepakatan, akan diselesaikan melalui Pengadilan Negeri Jakarta Selatan.",
             ],
           },
         ],
@@ -430,7 +430,7 @@ export const translations = {
           {
             title: "3. Pembagian Data kepada Pihak Ketiga",
             content: [
-              "Kami tidak menjual, memperdagangkan, atau memindahtangankan data pribadi Anda kepada pihak ketiga tanpa persetujuan Anda, kecuali untuk keperluan pemrosesan pembayaran (Midtrans) dan penyedia layanan hosting website (Vercel/Supabase) yang terikat соглашение kerahasiaan.",
+              "Kami tidak menjual, memperdagangkan, atau memindahtangankan data pribadi Anda kepada pihak ketiga tanpa persetujuan Anda, kecuali untuk keperluan pemrosesan pembayaran (Midtrans) dan penyedia layanan hosting website (Vercel/Supabase) yang terikat perjanjian kerahasiaan.",
               "Data kartu kredit/debit diproses langsung oleh Midtrans dan tidak pernah menyentuh server kami.",
             ],
           },
@@ -453,14 +453,14 @@ export const translations = {
             title: "6. Hak Anda",
             content: [
               "Anda berhak untuk: mengakses data pribadi yang kami miliki tentang Anda, memperbaiki data yang tidak akurat, meminta penghapusan data, menolak pemrosesan data dalam kondisi tertentu, dan menarik persetujuan kapan saja.",
-              "Untuk行使 hak-hak tersebut, silakan hubungi kami di hello@forvows.com.",
+              "Untuk menggunakan hak-hak tersebut, silakan hubungi kami di hello@forvows.com.",
             ],
           },
           {
             title: "7. Cookies",
             content: [
               "Website kami menggunakan cookies untuk meningkatkan pengalaman browsing Anda, mengingat preferensi bahasa, dan menyimpan informasi keranjang belanja.",
-              "Cookies yang kami gunakan: essential cookies (wajib untuk fungsi website), preference cookies (menyimpan preferensi bahasa), dan analytics cookies (membantu kami memahami cara penggunaan website — menggunakan data agregat/anonymized).",
+              "Cookies yang kami gunakan: essential cookies (wajib untuk fungsi website), preference cookies (menyimpan preferensi bahasa), dan analytics cookies (membantu kami memahami cara penggunaan website, menggunakan data agregat/anonymized).",
               "Anda dapat menonaktifkan cookies melalui pengaturan browser Anda, namun beberapa fitur website mungkin tidak berfungsi dengan baik.",
             ],
           },
@@ -505,7 +505,7 @@ export const translations = {
       },
       ivoryElegance: {
         name: "Ivory Elegance",
-        description: "Bersih, halus, dan sophistication yang memukau. Palet mendominasi ivory dengan detail champagne dan emas subtil — sempurna untuk pasangan modern yang percaya kemewahan berbicara dengan lembut.",
+        description: "Bersih, halus, dan sophistication yang memukau. Palet mendominasi ivory dengan detail champagne dan emas subtil, sempurna untuk pasangan modern yang percaya kemewahan berbicara dengan lembut.",
         shortDescription: "Nuansa ivory halus dengan sentuhan emas yang menyejukkan.",
         suitableFor: ["Tempat jardim", "Pantai", "Perayaan minimalis"],
         features: [
@@ -535,7 +535,7 @@ export const translations = {
       },
       javaneseSymphony: {
         name: "Javanese Symphony",
-        description: "Terinspirasi oleh keanggunan seni kerajaan Jawa. Undangan ini membawa keeleganan warisan Jawa — aksen bermotif wayang, garis emas yang halus, dan palet terinspirasi batu kuil dan cahaya lilin.",
+        description: "Terinspirasi oleh keanggunan seni kerajaan Jawa. Undangan ini membawa keeleganan warisan Jawa, aksen bermotif wayang, garis emas yang halus, dan palet terinspirasi batu kuil dan cahaya lilin.",
         shortDescription: "Keanggunan kerajaan Jawa dengan nuansa batu kuil.",
         suitableFor: ["Pernikahan bertema kerajaan", "Tempat bernuansa kraton", "Upacara budaya"],
         features: [
@@ -566,7 +566,7 @@ export const translations = {
       },
       minimalistRomance: {
         name: "Minimalist Romance",
-        description: "Ketika kurang menjadi segalanya. Tipografi murni, white space luas, dan satu warna aksen menciptakan undangan yang membiarkan cerita cinta Anda menjadi pusat perhatian — understated, intentional, dan mendalam.",
+        description: "Ketika kurang menjadi segalanya. Tipografi murni, white space luas, dan satu warna aksen menciptakan undangan yang membiarkan cerita cinta Anda menjadi pusat perhatian, understated, intentional, dan mendalam.",
         shortDescription: "Tipografi murni dan white space merayakan cinta yang understated.",
         suitableFor: ["Tempat urban", "Ruang loft", "Galeri seni kontemporer"],
         features: [
@@ -737,7 +737,7 @@ export const translations = {
     portfolio: {
       overline: "Karya Kami",
       title: "Undangan Pilihan",
-      subtitle: "Seleksi kurasi karya kami — masing-masing perayaan unik yang diabadikan dalam bentuk digital.",
+      subtitle: "Seleksi kurasi karya kami, masing-masing perayaan unik yang diabadikan dalam bentuk digital.",
       note: "Setiap undangan dibuat custom untuk pasangan masing-masing. Untuk melihat demo langsung template apapun, hubungi kami dan kami akan arrange walkthrough personal.",
       ctaOverline: "Buat Milik Anda",
       ctaTitle: "Undangan Anda Bisa Jadi Berikutnya",
@@ -750,24 +750,24 @@ export const translations = {
     about: {
       overline: "Kisah Kami",
       headline: "FOR Vows lahir dari keyakinan sederhana",
-      storyP1: "Undangan pernikahan bukan sekadar formalitas — ini adalah napas pertama perayaan Anda, momen pertama tamu merasakan bobot dan kegembiraan yang akan datang. Ia layak lebih dari template generik.",
+      storyP1: "Undangan pernikahan bukan sekadar formalitas, ini adalah napas pertama perayaan Anda, momen pertama tamu merasakan bobot dan kegembiraan yang akan datang. Ia layak lebih dari template generik.",
       storyP2A: "FOR Vows didirikan sebagai divisi undangan pernikahan dari ",
       storyP2B: "Frame Of Rangga",
       storyP2C: ", studio kreatif yang dikenal dengan karya editorial dalam fotografi dan storytelling visual. Dari turunan itu, kami membawa standar, selera, dan dedikasi yang sama ke dunia undangan pernikahan digital.",
-      storyP3: "Nama kami membawa niat: FOR — untuk melayani — Vows — janji suci yang Anda berikan satu sama lain. Setiap undangan yang kami buat adalah testamentasi untuk dedikasi itu.",
+      storyP3: "Nama kami membawa niat: FOR, untuk melayani, Vows, janji suci yang Anda berikan satu sama lain. Setiap undangan yang kami buat adalah testamentasi untuk dedikasi itu.",
       lihatKarya: "Lihat karya utama Frame Of Rangga",
       subBrand: "Sub-brand dari",
       philosophyOverline: "Filosofi Kami",
       philosophyTitle: "Apa yang Kami Utamakan",
       philosophySubtitle: "Empat prinsip yang memandu setiap undangan yang kami buat",
       v1Title: "Niat Di atas Kecepatan",
-      v1Desc: "Kami mengambil waktu untuk memahami kisah, estetika, dan visi Anda — lalu kami membuat undangan yang hanya bisa milik Anda.",
+      v1Desc: "Kami mengambil waktu untuk memahami kisah, estetika, dan visi Anda, lalu kami membuat undangan yang hanya bisa milik Anda.",
       v2Title: "Tamu Utama",
-      v2Desc: "Setiap keputusan — dari tipografi hingga navigasi — dibuat dengan pengalaman tamu Anda sebagai prioritas. Undangan seharusnya terasa seperti pelukan.",
+      v2Desc: "Setiap keputusan, dari tipografi hingga navigasi, dibuat dengan pengalaman tamu Anda sebagai prioritas. Undangan seharusnya terasa seperti pelukan.",
       v3Title: "Kemewahan Terkurung",
-      v3Desc: "Keeleganan sejati bukan tentang berlebih lebihan. Kami percaya pada detail yang refined, tipografi yang cermat, dan ornamentasi yang bermakna — tanpa clutter.",
+      v3Desc: "Keeleganan sejati bukan tentang berlebih lebihan. Kami percaya pada detail yang refined, tipografi yang cermat, dan ornamentasi yang bermakna, tanpa clutter.",
       v4Title: "Teknologi untuk Melayani",
-      v4Desc: "Tool digital memungkinkan kami membuat sesuatu yang tidak bisa dilakukan kertas — interaktif, personal, hidup. Kami menggunakan teknologi untuk memperdalam, bukan mengalihkan.",
+      v4Desc: "Tool digital memungkinkan kami membuat sesuatu yang tidak bisa dilakukan kertas, interaktif, personal, hidup. Kami menggunakan teknologi untuk memperdalam, bukan mengalihkan.",
       ctaOverline: "Bekerja Sama Dengan Kami",
       ctaTitle: "Siap Membuat Sesuatu yang Indah?",
       ctaSubtitle: "Mari bicarakan pernikahan Anda dan buat undangan yang layak untuk kisah Anda.",
@@ -791,7 +791,7 @@ export const translations = {
       categoriesSubtitle: "Four distinct collections, each crafted with its own soul",
       whyOverline: "Why FOR Vows",
       whyTitle: "Where Design Meets Devotion",
-      whySubtitle: "We believe a wedding invitation is more than paper — it's the first chapter of your celebration. We craft it accordingly.",
+      whySubtitle: "We believe a wedding invitation is more than paper, it's the first chapter of your celebration. We craft it accordingly.",
       learnStory: "Learn Our Story",
       howOverline: "The Process",
       howTitle: "How It Works",
@@ -806,7 +806,7 @@ export const translations = {
       ctaStart: "Start Your Invitation",
       ctaExplore: "Explore Templates",
       vp1Title: "Premium Design Direction",
-      vp1Desc: "Every invitation is crafted with the sensibility of a high-end editorial studio — no templates, no compromises.",
+      vp1Desc: "Every invitation is crafted with the sensibility of a high-end editorial studio, no templates, no compromises.",
       vp2Title: "Thoughtful Guest Experience",
       vp2Desc: "Your guests receive an invitation that feels personal, elegant, and effortless to navigate on any device.",
       vp3Title: "Seamless RSVP Management",
@@ -993,9 +993,9 @@ export const translations = {
       lainnya: "Other",
       minatPaket: "Interested Package",
       pilihPaket: "Select package",
-      basic: "Basic — Rp 299,000",
-      premium: "Premium — Rp 599,000",
-      exclusive: "Exclusive — Rp 999,000",
+      basic: "Basic Rp 299,000",
+      premium: "Premium Rp 599,000",
+      exclusive: "Exclusive Rp 999,000",
       belumMemutuskan: "Not yet decided",
       templateDiminati: "Templates of Interest",
       templatePlaceholder: "e.g. Eternal Gold, Nusantara Heritage...",
@@ -1079,7 +1079,7 @@ export const translations = {
       pricing: {
         overline: "Investment",
         title: "Simple & Transparent Pricing",
-        subtitle: "Three carefully crafted packages — each designed to give your wedding invitation the attention it deserves. No hidden fees.",
+        subtitle: "Three carefully crafted packages, each designed to give your wedding invitation the attention it deserves. No hidden fees.",
         enhancePackage: "Enhance Your Package",
         optionalAddons: "Optional Add-ons",
         priceNote: "All prices in Indonesian Rupiah (IDR) and include creative direction, digital delivery, and 1 revision session. Additional revisions available at Rp 75,000 per session.",
@@ -1092,11 +1092,11 @@ export const translations = {
         saveTheDate: {
           overline: "Save the Date",
           title: "Elegant Announcements Before the Big Day",
-          subtitle: "Build guest anticipation with a memorable Save the Date — the first step toward your special day.",
+          subtitle: "Build guest anticipation with a memorable Save the Date, the first step toward your special day.",
           essentials: {
             name: "Essentials",
             description:
-              "Elegant announcement for your Save the Date — share your special date in a memorable way.",
+              "Elegant announcement for your Save the Date, share your special date in a memorable way.",
           },
           premium: {
             name: "Premium",
@@ -1107,7 +1107,7 @@ export const translations = {
         website: {
           overline: "Wedding Website",
           title: "Complete Wedding Website",
-          subtitle: "All your wedding information in one place — guests just scan the QR or open the link to find everything.",
+          subtitle: "All your wedding information in one place, guests just scan the QR or open the link to find everything.",
           basic: {
             name: "Basic",
             description:
@@ -1128,7 +1128,7 @@ export const translations = {
       howItWorks: {
         overline: "Your Journey",
         title: "From Vision to Published Invitation",
-        subtitle: "A seamless and thoughtful process — so you can focus on celebrating while we handle the invitations.",
+        subtitle: "A seamless and thoughtful process, so you can focus on celebrating while we handle the invitations.",
         daysNote: "Business days for delivery",
         revisionsNote: "Free revision session",
         rushNote: "Rush delivery option available",
@@ -1281,7 +1281,7 @@ export const translations = {
             title: "7. Cookies",
             content: [
               "Our website uses cookies to enhance your browsing experience, remember language preferences, and store shopping cart information.",
-              "Cookies we use: essential cookies (required for website function), preference cookies (storing language preferences), and analytics cookies (helping us understand how the website is used — using aggregated/anonymized data).",
+              "Cookies we use: essential cookies (required for website function), preference cookies (storing language preferences), and analytics cookies (helping us understand how the website is used, using aggregated/anonymized data).",
               "You can disable cookies through your browser settings, but some website features may not work properly.",
             ],
           },
@@ -1326,7 +1326,7 @@ export const translations = {
       },
       ivoryElegance: {
         name: "Ivory Elegance",
-        description: "Clean, refined, and stunningly sophisticated. A dominant ivory palette with subtle champagne and gold details — perfect for the modern couple who believes luxury speaks softly.",
+        description: "Clean, refined, and stunningly sophisticated. A dominant ivory palette with subtle champagne and gold details, perfect for the modern couple who believes luxury speaks softly.",
         shortDescription: "Subtle ivory tones with a soothing gold touch.",
         suitableFor: ["Garden venues", "Beach locations", "Minimalist celebrations"],
         features: [
@@ -1356,7 +1356,7 @@ export const translations = {
       },
       javaneseSymphony: {
         name: "Javanese Symphony",
-        description: "Inspired by the elegance of Javanese royal arts. This invitation brings the refinement of Javanese heritage — wayang-patterned accents, subtle gold lines, and a palette inspired by temple stones and candlelight.",
+        description: "Inspired by the elegance of Javanese royal arts. This invitation brings the refinement of Javanese heritage, wayang-patterned accents, subtle gold lines, and a palette inspired by temple stones and candlelight.",
         shortDescription: "Royal Javanese elegance with temple stone tones.",
         suitableFor: ["Royal-themed weddings", "Kraton-inspired venues", "Cultural ceremonies"],
         features: [
@@ -1387,7 +1387,7 @@ export const translations = {
       },
       minimalistRomance: {
         name: "Minimalist Romance",
-        description: "When less becomes everything. Pure typography, generous white space, and one accent color create an invitation that lets your love story take center stage — understated, intentional, and profound.",
+        description: "When less becomes everything. Pure typography, generous white space, and one accent color create an invitation that lets your love story take center stage, understated, intentional, and profound.",
         shortDescription: "Pure typography and white space celebrating understated love.",
         suitableFor: ["Urban venues", "Loft spaces", "Contemporary art galleries"],
         features: [
@@ -1523,7 +1523,7 @@ export const translations = {
         sarahMichael: { quote: "As a couple who wanted something truly personal, the Exclusive package exceeded our imagination. The creative direction from the team was impeccable.", weddingDate: "January 2026" },
       },
       howItWorks: {
-        step1: { title: "Choose Your Template", description: "Browse our collection of premium invitation templates. Filter by style — Luxury, Adat, Modern, or Intimate — and find the one that matches your love story." },
+        step1: { title: "Choose Your Template", description: "Browse our collection of premium invitation templates. Filter by style: Luxury, Adat, Modern, or Intimate, and find the one that matches your love story." },
         step2: { title: "Send Your Details", description: "Fill out our elegant brief form with your wedding information, names, date, venue, story, and photos. Our team handles the rest with care." },
         step3: { title: "Review & Approve", description: "Receive your personal draft within 5-7 business days. Request revisions until every detail matches your vision. We perfect it until it's right." },
         step4: { title: "Make Payment", description: "Once satisfied with the result, complete your payment. We offer flexible installment options for the Exclusive package." },
@@ -1558,7 +1558,7 @@ export const translations = {
     portfolio: {
       overline: "Our Work",
       title: "Selected Invitations",
-      subtitle: "A curated selection of our work — each celebration unique, immortalized in digital form.",
+      subtitle: "A curated selection of our work, each celebration unique, immortalized in digital form.",
       note: "Each invitation is custom-made for each couple. To see a live demo of any template, contact us and we'll arrange a personal walkthrough.",
       ctaOverline: "Make It Yours",
       ctaTitle: "Your Invitation Could Be Next",
@@ -1571,24 +1571,24 @@ export const translations = {
     about: {
       overline: "Our Story",
       headline: "FOR Vows was born from a simple belief",
-      storyP1: "A wedding invitation is not just a formality — it is the first breath of your celebration, the first moment guests feel the weight and joy to come. It deserves more than a generic template.",
+      storyP1: "A wedding invitation is not just a formality, it is the first breath of your celebration, the first moment guests feel the weight and joy to come. It deserves more than a generic template.",
       storyP2A: "FOR Vows was founded as the wedding invitation division of ",
       storyP2B: "Frame Of Rangga",
       storyP2C: ", a creative studio known for editorial work in photography and visual storytelling. From that lineage, we bring the same standards, taste, and dedication to the world of digital wedding invitations.",
-      storyP3: "Our name carries intention: FOR — to serve — Vows — the sacred promises you make to each other. Every invitation we create is a testament to that dedication.",
+      storyP3: "Our name carries intention: FOR, to serve, Vows, the sacred promises you make to each other. Every invitation we create is a testament to that dedication.",
       lihatKarya: "View Frame Of Rangga's main works",
       subBrand: "A sub-brand of",
       philosophyOverline: "Our Philosophy",
       philosophyTitle: "What We Stand For",
       philosophySubtitle: "Four principles that guide every invitation we create",
       v1Title: "Intention Over Speed",
-      v1Desc: "We take time to understand your story, aesthetic, and vision — then we create an invitation that can only belong to you.",
+      v1Desc: "We take time to understand your story, aesthetic, and vision, then we create an invitation that can only belong to you.",
       v2Title: "Guests First",
-      v2Desc: "Every decision — from typography to navigation — is made with your guests' experience as the priority. An invitation should feel like an embrace.",
+      v2Desc: "Every decision, from typography to navigation, is made with your guests' experience as the priority. An invitation should feel like an embrace.",
       v3Title: "Contained Luxury",
-      v3Desc: "True elegance is not about excess. We believe in refined details, careful typography, and meaningful ornamentation — without clutter.",
+      v3Desc: "True elegance is not about excess. We believe in refined details, careful typography, and meaningful ornamentation, without clutter.",
       v4Title: "Technology in Service",
-      v4Desc: "Digital tools allow us to create what paper cannot — interactive, personal, alive. We use technology to deepen, not distract.",
+      v4Desc: "Digital tools allow us to create what paper cannot, interactive, personal, alive. We use technology to deepen, not distract.",
       ctaOverline: "Work With Us",
       ctaTitle: "Ready to Create Something Beautiful?",
       ctaSubtitle: "Let's talk about your wedding and craft an invitation worthy of your story.",
@@ -1612,7 +1612,7 @@ export const translations = {
       categoriesSubtitle: "Four distinct collections, each crafted with its own soul",
       whyOverline: "Why FOR Vows",
       whyTitle: "Where Design Meets Devotion",
-      whySubtitle: "We believe a wedding invitation is more than paper — it's the first chapter of your celebration. We craft it accordingly.",
+      whySubtitle: "We believe a wedding invitation is more than paper, it's the first chapter of your celebration. We craft it accordingly.",
       learnStory: "Learn Our Story",
       howOverline: "The Process",
       howTitle: "How It Works",
@@ -1627,7 +1627,7 @@ export const translations = {
       ctaStart: "Start Your Invitation",
       ctaExplore: "Explore Templates",
       vp1Title: "Premium Design Direction",
-      vp1Desc: "Every invitation is crafted with the sensibility of a high-end editorial studio — no templates, no compromises.",
+      vp1Desc: "Every invitation is crafted with the sensibility of a high-end editorial studio, no templates, no compromises.",
       vp2Title: "Thoughtful Guest Experience",
       vp2Desc: "Your guests receive an invitation that feels personal, elegant, and effortless to navigate on any device.",
       vp3Title: "Seamless RSVP Management",

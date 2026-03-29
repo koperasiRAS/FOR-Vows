@@ -28,11 +28,11 @@ const cormorant = Cormorant_Garamond({
 
 export const metadata: Metadata = {
   title: {
-    default: "FOR Vows — Crafting Your Sacred Moments",
+    default: "FOR Vows | Crafting Your Sacred Moments",
     template: "%s | FOR Vows",
   },
   description:
-    "Premium digital wedding invitations crafted with elegance. FOR Vows transforms your sacred moments into timeless digital experiences — a luxury sub-brand of Frame Of Rangga.",
+    "Premium digital wedding invitations crafted with elegance. FOR Vows transforms your sacred moments into timeless digital experiences, a luxury sub-brand of Frame Of Rangga.",
   keywords: [
     "wedding invitation",
     "digital invitation",

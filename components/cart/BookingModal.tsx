@@ -99,7 +99,7 @@ export function BookingModal({
     // Build discount note for WhatsApp if referral is valid
     let discountNote: string | undefined;
     if (referralValidation?.valid && referralValidation.referral) {
-      discountNote = `${referralValidation.code} — ${formatDiscount(referralValidation.referral, lang)}`;
+      discountNote = `${referralValidation.code} - ${formatDiscount(referralValidation.referral, lang)}`;
     }
     onSaveAndSend(discountAmount, discountNote);
     setStep("success");
@@ -268,7 +268,7 @@ export function BookingModal({
                       }`}
                     >
                       {referralValidation?.valid
-                        ? `✓ ${t("booking.referralValid")}${referralValidation.referral ? ` — ${formatDiscount(referralValidation.referral, lang)}` : ""}`
+                        ? `✓ ${t("booking.referralValid")}${referralValidation.referral ? ` - ${formatDiscount(referralValidation.referral, lang)}` : ""}`
                         : `✗ ${t("booking.referralInvalid")}`}
                     </p>
                   )}

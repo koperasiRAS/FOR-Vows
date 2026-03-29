@@ -43,7 +43,7 @@ export function HeroSection() {
         {/* Subheadline */}
         <p className="font-accent italic text-xl md:text-2xl text-[#8a8a8a] max-w-2xl mx-auto leading-relaxed">
           Premium digital wedding invitations that transform your celebration
-          into a timeless, elegant experience — from FOR Vows.
+          into a timeless, elegant experience. From FOR Vows.
         </p>
 
         {/* CTAs */}
