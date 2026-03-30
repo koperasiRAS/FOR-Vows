@@ -40,4 +40,4 @@ export const SectionHeading = memo(function SectionHeading({
       )}
     </div>
   );
-}
+});
