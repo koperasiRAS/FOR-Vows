@@ -3,7 +3,6 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getPartnerById, PARTNER_COOKIE } from "@/lib/partners";
 
 // Next.js 16 — proxy.ts replaces middleware.ts, runs on Node.js runtime
-export const runtime = "nodejs";
 
 // ── Partner Proxy ────────────────────────────────────────────────────────────
 
