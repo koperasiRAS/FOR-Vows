@@ -40,7 +40,7 @@ function AdminLoginContent() {
       return;
     }
 
-    router.push("/admin/dashboard");
+    router.push("/admin/orders");
   };
 
   return (
