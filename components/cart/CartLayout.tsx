@@ -24,21 +24,29 @@ function BookingModalWrapper() {
   // Generate booking ID once when modal opens, not on every render
   const [bookingId] = useState(() => generateBookingId());
 
+  // Keep a ref of the latest customer data so handleSaveAndSend
+  // doesn't depend on stale React state from the previous render.
+  const latestCustomerRef = { current: pendingCustomer };
+
   const handleSubmit = (data: { name: string; whatsapp: string; referralCode: string }) => {
     setPendingCustomer(data);
+    // Also update ref immediately so handleSaveAndSend can read it
+    latestCustomerRef.current = data;
   };
 
   const handleSaveAndSend = (
     discountAmount: number,
     discountNote: string | undefined
   ) => {
-    if (!pendingCustomer) return;
+    // Use ref (set synchronously in handleSubmit) instead of state
+    const customer = latestCustomerRef.current;
+    if (!customer) return;
 
     const booking = {
       bookingId,
-      name: pendingCustomer.name,
-      whatsapp: pendingCustomer.whatsapp,
-      referralCode: pendingCustomer.referralCode,
+      name: customer.name,
+      whatsapp: customer.whatsapp,
+      referralCode: customer.referralCode,
       items: [...items],
       totalPrice,
       discountAmount,
@@ -57,9 +65,9 @@ function BookingModalWrapper() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         orderCode: bookingId,
-        name: pendingCustomer.name,
-        phone: pendingCustomer.whatsapp,
-        referralCode: pendingCustomer.referralCode,
+        name: customer.name,
+        phone: customer.whatsapp,
+        referralCode: customer.referralCode,
         items: booking.items,
         totalPrice: booking.totalPrice,
         discountAmount: booking.discountAmount,

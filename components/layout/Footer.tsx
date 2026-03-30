@@ -54,8 +54,8 @@ export function Footer() {
                 <Image
                   src="/images/logo-brand.png"
                   alt="FOR Vows"
-                  width={300}
-                  height={96}
+                  width={400}
+                  height={100}
                   className="h-full w-auto object-contain"
                 />
               </div>

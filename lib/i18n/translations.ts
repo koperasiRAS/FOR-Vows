@@ -256,7 +256,7 @@ export const translations = {
         youMayAlsoLike: "You May Also Like",
       },
       pricing: {
-        overline: "Investasi",
+        overline: "Undangan Digital",
         title: "Harga Sederhana & Transparan",
         subtitle: "Tiga paket yang didesain dengan cermat, masing-masing dibuat untuk memberikan undangan pernikahan Anda perhatian yang layak. Tanpa biaya tersembunyi.",
         enhancePackage: "Tingkatkan Paket Anda",
@@ -675,7 +675,7 @@ export const translations = {
         },
       },
       addons: {
-        domainCustom: { name: "Domain Custom", description: "Domain sendiri untuk halaman undangan Anda", price: "Rp 150.000 per tahun" },
+        domainCustom: { name: "Domain Custom", description: "Domain .my.id untuk halaman undangan Anda (tersedia .id mulai Rp 400rb, .com mulai Rp 600rb)", price: "Rp 250.000 per tahun" },
         rushDelivery: { name: "Pengiriman Kilat", description: "Pengiriman 48 jam dari standar 5-7 hari", price: "Rp 100.000" },
         premiumAnimation: { name: "Animasi Premium", description: "Animasi entrance dan transisi yang elegan", price: "Rp 75.000" },
         extraGallery: { name: "Galeri Extra", description: "50 foto tambahan di luar batas paket", price: "Rp 50.000" },
@@ -1161,7 +1161,7 @@ export const translations = {
         youMayAlsoLike: "You May Also Like",
       },
       pricing: {
-        overline: "Investment",
+        overline: "Digital Invitation",
         title: "Simple & Transparent Pricing",
         subtitle: "Three carefully crafted packages, each designed to give your wedding invitation the attention it deserves. No hidden fees.",
         enhancePackage: "Enhance Your Package",

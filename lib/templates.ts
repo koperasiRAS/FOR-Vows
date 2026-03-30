@@ -343,6 +343,25 @@ export const saveTheDateTiers: PricingTier[] = [
     badge: "Paling Populer",
     productType: "save_the_date",
   },
+  {
+    name: "Exclusive",
+    price: "Rp 349.000",
+    description:
+      "Save the Date premium dengan kustomisasi penuh, animasi cinematic, dan dukungan prioritas.",
+    features: [
+      "Semua fitur Premium",
+      "Desain fully custom",
+      "Animasi entrance cinematic",
+      "Musik latar custom",
+      "Galeri foto (hingga 10 foto)",
+      "Domain sementara (gratis)",
+      "Revisi major",
+      "Priority support",
+    ],
+    highlighted: false,
+    badge: "Bespoke",
+    productType: "save_the_date",
+  },
 ];
 
 export const websiteTiers: PricingTier[] = [
@@ -411,7 +430,7 @@ export const websiteTiers: PricingTier[] = [
 ];
 
 export const addOns: AddOn[] = [
-  { name: "Domain Custom", description: "Domain sendiri untuk halaman undangan Anda", price: "Rp 150.000 per tahun" },
+  { name: "Domain Custom", description: "Domain .my.id untuk halaman undangan Anda (tersedia .id mulai Rp 400rb, .com mulai Rp 600rb)", price: "Rp 250.000 per tahun" },
   { name: "Pengiriman Kilat", description: "Pengiriman 48 jam dari standar 5-7 hari", price: "Rp 100.000" },
   { name: "Animasi Premium", description: "Animasi entrance dan transisi yang elegan", price: "Rp 75.000" },
   { name: "Galeri Extra", description: "50 foto tambahan di luar batas paket", price: "Rp 50.000" },

@@ -3,8 +3,6 @@ import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { CTASection } from "@/components/sections/CTASection";
 import { PricingSection } from "@/components/sections/PricingSection";
-import { USPSection } from "@/components/sections/USPSection";
-import { ComingSoonSection } from "@/components/sections/ComingSoonSection";
 import { TemplateCard } from "@/components/templates/TemplateCard";
 import { TestimonialCard } from "@/components/shared/TestimonialCard";
 import { HowItWorksStep } from "@/components/shared/HowItWorksStep";
@@ -253,9 +251,6 @@ export default async function HomePage() {
       {/* Pricing */}
       <PricingSection />
 
-      {/* USP Section */}
-      <USPSection />
-
       {/* How It Works Preview */}
       <section className="bg-[#0f0f0f] py-20 lg:py-28">
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
@@ -312,8 +307,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Coming Soon Services */}
-      <ComingSoonSection />
+
 
       {/* CTA */}
       <CTASection

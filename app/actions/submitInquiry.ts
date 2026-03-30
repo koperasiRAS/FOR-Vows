@@ -1,9 +1,12 @@
 "use server";
 
-import { createClient as createSupabaseServer } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/server";
+import { WA_NUMBER } from "@/lib/config";
 import type { ContactFormData } from "@/types";
 
-export async function submitInquiry(data: ContactFormData): Promise<{ success: boolean; error?: string }> {
+export async function submitInquiry(
+  data: ContactFormData
+): Promise<{ success: boolean; error?: string; waLink?: string }> {
   // Validate required fields
   if (!data.fullName?.trim()) {
     return { success: false, error: "Name is required." };
@@ -16,7 +19,7 @@ export async function submitInquiry(data: ContactFormData): Promise<{ success: b
   }
 
   try {
-    const supabase = await createSupabaseServer();
+    const supabase = await createServiceClient();
 
     const { error } = await supabase.from("inquiries").insert({
       full_name: data.fullName.trim(),
@@ -32,12 +35,41 @@ export async function submitInquiry(data: ContactFormData): Promise<{ success: b
 
     if (error) {
       console.error("Supabase insert error:", error);
-      return { success: false, error: "Failed to submit inquiry. Please try again." };
+      return {
+        success: false,
+        error: "Failed to submit inquiry. Please try again.",
+      };
     }
 
-    return { success: true };
+    // Build WhatsApp notification link for admin
+    const lines = [
+      `📩 *Inquiry Baru dari Website*`,
+      ``,
+      `*Nama:* ${data.fullName.trim()}`,
+      data.partnerName?.trim() ? `*Pasangan:* ${data.partnerName.trim()}` : "",
+      `*Email:* ${data.email.trim()}`,
+      data.phone?.trim() ? `*WA/Telp:* ${data.phone.trim()}` : "",
+      data.weddingDate ? `*Tanggal Nikah:* ${data.weddingDate}` : "",
+      data.serviceType ? `*Layanan:* ${data.serviceType}` : "",
+      data.packageName ? `*Paket:* ${data.packageName}` : "",
+      data.templateName?.trim()
+        ? `*Template:* ${data.templateName.trim()}`
+        : "",
+      ``,
+      `*Pesan:*`,
+      data.message.trim(),
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    const waLink = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(lines)}`;
+
+    return { success: true, waLink };
   } catch (err) {
     console.error("Server action error:", err);
-    return { success: false, error: "An unexpected error occurred. Please try again." };
+    return {
+      success: false,
+      error: "An unexpected error occurred. Please try again.",
+    };
   }
 }

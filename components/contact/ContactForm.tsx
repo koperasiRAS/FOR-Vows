@@ -7,6 +7,7 @@ import { Button } from "@/components/buttons/Button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { WhatsAppButton } from "@/components/buttons/WhatsAppButton";
 import { submitInquiry } from "@/app/actions/submitInquiry";
 import { useLanguage } from "@/lib/i18n/context";
 import type { ContactFormData } from "@/types";
@@ -15,6 +16,7 @@ export function ContactForm() {
   const { t } = useLanguage();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [waLink, setWaLink] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,6 +40,8 @@ export function ContactForm() {
 
     if (result.success) {
       setStatus("success");
+      setWaLink(result.waLink || "");
+      toast.success(t("contact.terimaKasih"));
       e.currentTarget.reset();
     } else {
       const msg = result.error || t("contact.terjadiError");
@@ -49,17 +53,33 @@ export function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="flex flex-col items-center text-center gap-5 py-16 px-8 border border-[#c9a96e]/30 bg-[#0f0f0f]">
-        <CheckCircle size={40} className="text-[#c9a96e]" />
+      <div className="flex flex-col items-center text-center gap-5 py-16 px-8 border border-gold/30 bg-surface-dark">
+        <CheckCircle size={40} className="text-gold" />
         <div className="space-y-2">
           <h3 className="font-serif text-2xl text-[#faf8f5]">{t("contact.terimaKasih")}</h3>
-          <p className="text-sm text-[#8a8a8a] max-w-sm">
+          <p className="text-sm text-text-secondary max-w-sm">
             {t("contact.suksesPertanyaan")}
           </p>
         </div>
+
+        {/* WhatsApp link to directly reach admin */}
+        {waLink && (
+          <WhatsAppButton
+            as="a"
+            href={waLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            label="Kirim juga via WhatsApp"
+            className="py-3 px-6 mt-2"
+          />
+        )}
+
         <Button
           variant="outline"
-          onClick={() => setStatus("idle")}
+          onClick={() => {
+            setStatus("idle");
+            setWaLink("");
+          }}
           className="mt-2"
         >
           {t("contact.kirimPertanyaanLain")}
@@ -77,26 +97,26 @@ export function ContactForm() {
       {/* Row: Names */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <Label htmlFor="fullName" className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
-            {t("contact.namaAnda")} <span className="text-[#c9a96e]">*</span>
+          <Label htmlFor="fullName" className="text-[11px] tracking-widest uppercase text-text-secondary">
+            {t("contact.namaAnda")} <span className="text-gold">*</span>
           </Label>
           <Input
             id="fullName"
             name="fullName"
             placeholder={t("contact.namaPlaceholder")}
             required
-            className="bg-[#0f0f0f] border-white/10 text-[#faf8f5] placeholder:text-[#4a4a4a] text-sm focus:border-[#c9a96e]/50 focus:ring-[#c9a96e]/10"
+            className="bg-surface-dark border-white/10 text-[#faf8f5] placeholder:text-[#4a4a4a] text-sm focus:border-gold/50 focus:ring-gold/10"
           />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="partnerName" className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
+          <Label htmlFor="partnerName" className="text-[11px] tracking-widest uppercase text-text-secondary">
             {t("contact.namaPasangan")}
           </Label>
           <Input
             id="partnerName"
             name="partnerName"
             placeholder={t("contact.pasanganPlaceholder")}
-            className="bg-[#0f0f0f] border-white/10 text-[#faf8f5] placeholder:text-[#4a4a4a] text-sm focus:border-[#c9a96e]/50 focus:ring-[#c9a96e]/10"
+            className="bg-surface-dark border-white/10 text-[#faf8f5] placeholder:text-[#4a4a4a] text-sm focus:border-gold/50 focus:ring-gold/10"
           />
         </div>
       </div>
@@ -104,8 +124,8 @@ export function ContactForm() {
       {/* Row: Email + Phone */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <Label htmlFor="email" className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
-            {t("contact.email")} <span className="text-[#c9a96e]">*</span>
+          <Label htmlFor="email" className="text-[11px] tracking-widest uppercase text-text-secondary">
+            {t("contact.email")} <span className="text-gold">*</span>
           </Label>
           <Input
             id="email"
@@ -113,11 +133,11 @@ export function ContactForm() {
             type="email"
             placeholder={t("contact.emailPlaceholder")}
             required
-            className="bg-[#0f0f0f] border-white/10 text-[#faf8f5] placeholder:text-[#4a4a4a] text-sm focus:border-[#c9a96e]/50"
+            className="bg-surface-dark border-white/10 text-[#faf8f5] placeholder:text-[#4a4a4a] text-sm focus:border-gold/50"
           />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="phone" className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
+          <Label htmlFor="phone" className="text-[11px] tracking-widest uppercase text-text-secondary">
             {t("contact.whatsappTelepon")}
           </Label>
           <Input
@@ -125,33 +145,33 @@ export function ContactForm() {
             name="phone"
             type="tel"
             placeholder={t("contact.waPlaceholder")}
-            className="bg-[#0f0f0f] border-white/10 text-[#faf8f5] placeholder:text-[#4a4a4a] text-sm focus:border-[#c9a96e]/50"
+            className="bg-surface-dark border-white/10 text-[#faf8f5] placeholder:text-[#4a4a4a] text-sm focus:border-gold/50"
           />
         </div>
       </div>
 
       {/* Row: Wedding Date */}
       <div className="space-y-1.5">
-        <Label htmlFor="weddingDate" className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
+        <Label htmlFor="weddingDate" className="text-[11px] tracking-widest uppercase text-text-secondary">
           {t("contact.tanggalPernikahan")}
         </Label>
         <Input
           id="weddingDate"
           name="weddingDate"
           type="date"
-          className="bg-[#0f0f0f] border-white/10 text-[#faf8f5] text-sm focus:border-[#c9a96e]/50 [color-scheme:dark]"
+          className="bg-surface-dark border-white/10 text-[#faf8f5] text-sm focus:border-gold/50 scheme-dark"
         />
       </div>
 
       {/* Row: Service + Package */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <Label className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
+          <Label className="text-[11px] tracking-widest uppercase text-text-secondary">
             {t("contact.layananDibutuhkan")}
           </Label>
           <select
             name="serviceType"
-            className="w-full h-10 px-3 text-sm bg-[#0f0f0f] border border-white/10 text-[#faf8f5] rounded-md focus:border-[#c9a96e]/50 focus:outline-none focus:ring-1 focus:ring-[#c9a96e]/20"
+            className="w-full h-10 px-3 text-sm bg-surface-dark border border-white/10 text-[#faf8f5] rounded-md focus:border-gold/50 focus:outline-none focus:ring-1 focus:ring-gold/20"
             defaultValue=""
           >
             <option value="" disabled className="text-[#4a4a4a]">{t("contact.pilihLayanan")}</option>
@@ -162,12 +182,12 @@ export function ContactForm() {
           </select>
         </div>
         <div className="space-y-1.5">
-          <Label className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
+          <Label className="text-[11px] tracking-widest uppercase text-text-secondary">
             {t("contact.minatPaket")}
           </Label>
           <select
             name="packageName"
-            className="w-full h-10 px-3 text-sm bg-[#0f0f0f] border border-white/10 text-[#faf8f5] rounded-md focus:border-[#c9a96e]/50 focus:outline-none focus:ring-1 focus:ring-[#c9a96e]/20"
+            className="w-full h-10 px-3 text-sm bg-surface-dark border border-white/10 text-[#faf8f5] rounded-md focus:border-gold/50 focus:outline-none focus:ring-1 focus:ring-gold/20"
             defaultValue=""
           >
             <option value="" disabled className="text-[#4a4a4a]">{t("contact.pilihPaket")}</option>
@@ -181,21 +201,21 @@ export function ContactForm() {
 
       {/* Template */}
       <div className="space-y-1.5">
-        <Label htmlFor="templateName" className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
+        <Label htmlFor="templateName" className="text-[11px] tracking-widest uppercase text-text-secondary">
           {t("contact.templateDiminati")}
         </Label>
         <Input
           id="templateName"
           name="templateName"
           placeholder={t("contact.templatePlaceholder")}
-          className="bg-[#0f0f0f] border-white/10 text-[#faf8f5] placeholder:text-[#4a4a4a] text-sm focus:border-[#c9a96e]/50"
+          className="bg-surface-dark border-white/10 text-[#faf8f5] placeholder:text-[#4a4a4a] text-sm focus:border-gold/50"
         />
       </div>
 
       {/* Message */}
       <div className="space-y-1.5">
-        <Label htmlFor="message" className="text-[11px] tracking-[0.1em] uppercase text-[#8a8a8a]">
-          {t("contact.pesan")} <span className="text-[#c9a96e]">*</span>
+        <Label htmlFor="message" className="text-[11px] tracking-widest uppercase text-text-secondary">
+          {t("contact.pesan")} <span className="text-gold">*</span>
         </Label>
         <Textarea
           id="message"
@@ -203,7 +223,7 @@ export function ContactForm() {
           placeholder={t("contact.pesanPlaceholder")}
           required
           rows={5}
-          className="bg-[#0f0f0f] border-white/10 text-[#faf8f5] placeholder:text-[#4a4a4a] text-sm focus:border-[#c9a96e]/50 resize-none"
+          className="bg-surface-dark border-white/10 text-[#faf8f5] placeholder:text-[#4a4a4a] text-sm focus:border-gold/50 resize-none"
         />
       </div>
 
