@@ -93,3 +93,26 @@ export interface InquiryRow {
   message: string | null;
   created_at: string;
 }
+
+export interface OrderRow {
+  id: string;
+  order_code: string;
+  groom_name: string;
+  bride_name: string;
+  template: string | null;
+  package_name: string | null;
+  phone: string;
+  notes: string | null;
+  status: "pending" | "waiting_payment" | "paid" | "in_progress" | "revision" | "completed";
+  created_at: string;
+  // Cart-style fields
+  items: unknown[] | null;
+  total_price: number | null;
+  discount_amount: number | null;
+  discount_note: string | null;
+  final_total: number | null;
+  referral_code: string | null;
+  wedding_date: string | null;
+  payment_status: string | null;
+  paid_at: string | null;
+}

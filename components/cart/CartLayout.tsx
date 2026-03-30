@@ -1,10 +1,12 @@
 "use client";
 
-import { CartProvider, useCart } from "@/lib/cart-context";
+import { useState } from "react";
+import { CartProvider, useCart, generateBookingId } from "@/lib/cart-context";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { BookingModal } from "@/components/cart/BookingModal";
 import { PaymentModal } from "@/components/cart/PaymentModal";
-import { usePartner } from "@/lib/use-partner";
+import { OrderModal } from "@/components/cart/OrderModal";
+import { templates } from "@/lib/templates";
 
 function BookingModalWrapper() {
   const {
@@ -15,39 +17,57 @@ function BookingModalWrapper() {
     totalPrice,
     setPendingCustomer,
     saveBooking,
-    generateBookingId,
     getWhatsAppLink,
     openPayment,
   } = useCart();
 
-  // Seed pendingCustomer referralCode from partner cookie on first mount
-  usePartner();
+  // Generate booking ID once when modal opens, not on every render
+  const [bookingId] = useState(() => generateBookingId());
 
   const handleSubmit = (data: { name: string; whatsapp: string; referralCode: string }) => {
     setPendingCustomer(data);
   };
 
-  // discountAmount and discountNote come from BookingModal after referral validation
   const handleSaveAndSend = (
-    _discountAmount?: number,
-    _discountNote?: string
+    discountAmount: number,
+    discountNote: string | undefined
   ) => {
     if (!pendingCustomer) return;
 
-    const bookingId = generateBookingId();
-
-    saveBooking({
+    const booking = {
       bookingId,
       name: pendingCustomer.name,
       whatsapp: pendingCustomer.whatsapp,
       referralCode: pendingCustomer.referralCode,
       items: [...items],
       totalPrice,
+      discountAmount,
+      discountNote,
+      finalTotal: totalPrice - discountAmount,
       createdAt: new Date().toISOString(),
-      status: "pending",
-    });
+      status: "pending" as const,
+    };
 
-    // Auto-open payment modal after booking is saved
+    // Save to localStorage immediately
+    saveBooking(booking);
+
+    // Also POST to Supabase so admin dashboard can see all orders
+    fetch("/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        orderCode: bookingId,
+        name: pendingCustomer.name,
+        phone: pendingCustomer.whatsapp,
+        referralCode: pendingCustomer.referralCode,
+        items: booking.items,
+        totalPrice: booking.totalPrice,
+        discountAmount: booking.discountAmount,
+        discountNote: booking.discountNote,
+        finalTotal: booking.finalTotal,
+      }),
+    }).catch((err) => console.error("[FORVows] Failed to sync booking to DB:", err));
+
     openPayment();
   };
 
@@ -56,12 +76,26 @@ function BookingModalWrapper() {
       isOpen={isBookingOpen}
       onClose={closeBooking}
       customerData={pendingCustomer ?? { name: "", whatsapp: "", referralCode: "" }}
-      bookingId={generateBookingId()}
+      bookingId={bookingId}
       items={items}
       totalPrice={totalPrice}
       onSubmit={handleSubmit}
       onSaveAndSend={handleSaveAndSend}
       getWhatsAppLink={getWhatsAppLink}
+    />
+  );
+}
+
+function OrderModalWrapper() {
+  const { isOrderOpen, orderTemplate, closeOrder } = useCart();
+  const template = orderTemplate
+    ? templates.find((t) => t.slug === orderTemplate.slug) ?? null
+    : null;
+  return (
+    <OrderModal
+      isOpen={isOrderOpen}
+      onClose={closeOrder}
+      template={template}
     />
   );
 }
@@ -73,6 +107,7 @@ export function CartLayout({ children }: { children: React.ReactNode }) {
       <CartDrawer />
       <BookingModalWrapper />
       <PaymentModal />
+      <OrderModalWrapper />
     </CartProvider>
   );
 }

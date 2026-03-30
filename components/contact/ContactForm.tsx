@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CheckCircle, AlertCircle, Loader } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/buttons/Button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -39,8 +40,10 @@ export function ContactForm() {
       setStatus("success");
       e.currentTarget.reset();
     } else {
+      const msg = result.error || t("contact.terjadiError");
       setStatus("error");
-      setErrorMsg(result.error || t("contact.terjadiError"));
+      setErrorMsg(msg);
+      toast.error(msg);
     }
   };
 

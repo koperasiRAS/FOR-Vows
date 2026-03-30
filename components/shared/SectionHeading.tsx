@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 interface SectionHeadingProps {
   overline?: string;
   title: string;
@@ -6,7 +8,7 @@ interface SectionHeadingProps {
   light?: boolean;
 }
 
-export function SectionHeading({
+export const SectionHeading = memo(function SectionHeading({
   overline,
   title,
   subtitle,
@@ -16,9 +18,7 @@ export function SectionHeading({
   return (
     <div className={`space-y-3 ${align === "center" ? "text-center" : ""}`}>
       {overline && (
-        <p className={`text-xs tracking-[0.3em] uppercase font-medium ${
-          light ? "text-[#c9a96e]" : "text-[#c9a96e]"
-        }`}>
+        <p className="text-xs tracking-[0.3em] uppercase font-medium text-[#c9a96e]">
           {overline}
         </p>
       )}

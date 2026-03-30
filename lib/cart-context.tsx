@@ -1,6 +1,8 @@
 "use client";
 
 import { createContext, useContext, useReducer, useEffect, useMemo, ReactNode } from "react";
+import { WA_NUMBER } from "@/lib/config";
+import { formatIDR } from "@/lib/utils";
 
 export type CartItemType = "template" | "package" | "addon" | "save_the_date" | "website";
 
@@ -20,6 +22,9 @@ export interface BookingData {
   referralCode: string;
   items: CartItem[];
   totalPrice: number;
+  discountAmount: number;
+  discountNote: string | undefined;
+  finalTotal: number;
   createdAt: string;
   status: "pending" | "paid" | "confirmed" | "delivered";
 }
@@ -29,6 +34,8 @@ interface CartState {
   isOpen: boolean;
   isBookingOpen: boolean;
   isPaymentOpen: boolean;
+  isOrderOpen: boolean;
+  orderTemplate: { name: string; slug: string; category: string } | null;
   bookings: BookingData[];
   pendingCustomer: { name: string; whatsapp: string; referralCode: string } | null;
 }
@@ -44,8 +51,11 @@ type CartAction =
   | { type: "SET_PENDING_CUSTOMER"; payload: { name: string; whatsapp: string; referralCode: string } }
   | { type: "SAVE_BOOKING"; payload: BookingData }
   | { type: "LOAD_BOOKINGS"; payload: BookingData[] }
+  | { type: "UPDATE_BOOKING_STATUS"; payload: { bookingId: string; status: BookingData["status"] } }
   | { type: "OPEN_PAYMENT" }
-  | { type: "CLOSE_PAYMENT" };
+  | { type: "CLOSE_PAYMENT" }
+  | { type: "OPEN_ORDER"; payload: { name: string; slug: string; category: string } }
+  | { type: "CLOSE_ORDER" };
 
 function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
@@ -86,10 +96,23 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       };
     case "LOAD_BOOKINGS":
       return { ...state, bookings: action.payload };
+    case "UPDATE_BOOKING_STATUS":
+      return {
+        ...state,
+        bookings: state.bookings.map((b) =>
+          b.bookingId === action.payload.bookingId
+            ? { ...b, status: action.payload.status }
+            : b
+        ),
+      };
     case "OPEN_PAYMENT":
       return { ...state, isPaymentOpen: true };
     case "CLOSE_PAYMENT":
       return { ...state, isPaymentOpen: false };
+    case "OPEN_ORDER":
+      return { ...state, isOrderOpen: true, orderTemplate: action.payload };
+    case "CLOSE_ORDER":
+      return { ...state, isOrderOpen: false, orderTemplate: null };
     default:
       return state;
   }
@@ -100,6 +123,8 @@ interface CartContextType {
   isOpen: boolean;
   isBookingOpen: boolean;
   isPaymentOpen: boolean;
+  isOrderOpen: boolean;
+  orderTemplate: { name: string; slug: string; category: string } | null;
   bookings: BookingData[];
   pendingCustomer: { name: string; whatsapp: string; referralCode: string } | null;
   itemCount: number;
@@ -112,10 +137,13 @@ interface CartContextType {
   closeBooking: () => void;
   setPendingCustomer: (data: { name: string; whatsapp: string; referralCode: string }) => void;
   saveBooking: (booking: BookingData) => void;
+  updateBookingStatus: (bookingId: string, status: BookingData["status"]) => void;
   generateBookingId: () => string;
-  getWhatsAppLink: (customer: { name: string; whatsapp: string; referralCode: string }, bookingId: string, discountAmount?: number, discountNote?: string) => string;
+  getWhatsAppLink: (items: CartItem[], customer: { name: string; whatsapp: string; referralCode: string }, bookingId: string, discountAmount?: number, discountNote?: string) => string;
   openPayment: () => void;
   closePayment: () => void;
+  openOrder: (template: { name: string; slug: string; category: string }) => void;
+  closeOrder: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -123,13 +151,9 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 const CART_KEY = "forvows_cart";
 const BOOKINGS_KEY = "forvows_bookings";
 
-export function generateBookingId() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
-  const rand = Math.floor(1000 + Math.random() * 9000);
-  return `FORV-${year}${month}${day}-${rand}`;
+export function generateBookingId(): string {
+  // Use the browser's native Web Crypto API — universally supported, no polyfill needed
+  return globalThis.crypto.randomUUID();
 }
 
 export function CartProvider({ children }: { children: ReactNode }) {
@@ -138,6 +162,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     isOpen: false,
     isBookingOpen: false,
     isPaymentOpen: false,
+    isOrderOpen: false,
+    orderTemplate: null,
     bookings: [],
     pendingCustomer: null,
   });
@@ -153,21 +179,39 @@ export function CartProvider({ children }: { children: ReactNode }) {
       if (savedBookings) {
         dispatch({ type: "LOAD_BOOKINGS", payload: JSON.parse(savedBookings) });
       }
-    } catch {}
+    } catch {
+      // Corrupted localStorage data — clear and start fresh
+      console.warn("[FORVows] Cart/Bookings data was corrupted. Resetting.");
+      localStorage.removeItem(CART_KEY);
+      localStorage.removeItem(BOOKINGS_KEY);
+    }
   }, []);
 
   // Persist cart
   useEffect(() => {
     try {
       localStorage.setItem(CART_KEY, JSON.stringify(state.items));
-    } catch {}
+    } catch (err) {
+      console.error("[FORVows] Failed to save cart:", err);
+    }
   }, [state.items]);
 
-  // Persist bookings
+  // Persist bookings — with a size guard to avoid QuotaExceededError.
+  // Booking data can grow large (items with full metadata); cap at ~500 KB.
   useEffect(() => {
     try {
-      localStorage.setItem(BOOKINGS_KEY, JSON.stringify(state.bookings));
-    } catch {}
+      const serialized = JSON.stringify(state.bookings);
+      // 500 KB budget for bookings — safe headroom for other localStorage keys
+      if (new Blob([serialized]).size > 500 * 1024) {
+        console.warn("[FORVows] Bookings data exceeds 500 KB — trimming oldest entries.");
+        const trimmed = state.bookings.slice(-50);
+        localStorage.setItem(BOOKINGS_KEY, JSON.stringify(trimmed));
+      } else {
+        localStorage.setItem(BOOKINGS_KEY, serialized);
+      }
+    } catch (err) {
+      console.error("[FORVows] Failed to save bookings:", err);
+    }
   }, [state.bookings]);
 
   const itemCount = state.items.reduce((sum, i) => sum + i.quantity, 0);
@@ -182,26 +226,24 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const setPendingCustomer = (data: { name: string; whatsapp: string; referralCode: string }) =>
     dispatch({ type: "SET_PENDING_CUSTOMER", payload: data });
   const saveBooking = (booking: BookingData) => dispatch({ type: "SAVE_BOOKING", payload: booking });
+  const updateBookingStatus = (bookingId: string, status: BookingData["status"]) =>
+    dispatch({ type: "UPDATE_BOOKING_STATUS", payload: { bookingId, status } });
   const openPayment = () => dispatch({ type: "OPEN_PAYMENT" });
   const closePayment = () => dispatch({ type: "CLOSE_PAYMENT" });
+  const openOrder = (template: { name: string; slug: string; category: string }) =>
+    dispatch({ type: "OPEN_ORDER", payload: template });
+  const closeOrder = () => dispatch({ type: "CLOSE_ORDER" });
 
   const getWhatsAppLink = (
+    items: CartItem[],
     customer: { name: string; whatsapp: string; referralCode: string },
     bookingId: string,
     discountAmount?: number,
     discountNote?: string
   ) => {
-    const waNumber = "6287779560264";
-    const subtotal = totalPrice;
+    const subtotal = items.reduce((sum, i) => sum + i.priceValue * i.quantity, 0);
     const discount = discountAmount ?? 0;
     const finalTotal = subtotal - discount;
-
-    const fmt = (n: number) =>
-      new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 0,
-      }).format(n);
 
     const typeLabel = (type: string) => {
       if (type === "template") return "Template";
@@ -223,16 +265,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
     }
     message += `\nPesanan:\n`;
-    state.items.forEach((item, i) => {
+    items.forEach((item, i) => {
       message += `${i + 1}. ${item.name} (${typeLabel(item.type)}) - ${item.price}\n`;
     });
-    message += `\nSubtotal: ${fmt(subtotal)}\n`;
+    message += `\nSubtotal: ${formatIDR(subtotal)}\n`;
     if (discount > 0) {
-      message += `Diskon: -${fmt(discount)}\n`;
+      message += `Diskon: -${formatIDR(discount)}\n`;
     }
-    message += `Total: ${fmt(finalTotal)}\n`;
+    message += `Total: ${formatIDR(finalTotal)}\n`;
     message += `\nMohon informasi lengkap untuk pembayaran. Terima kasih! 🙏`;
-    return `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
+    return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
   };
 
   const contextValue = useMemo(
@@ -241,6 +283,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       isOpen: state.isOpen,
       isBookingOpen: state.isBookingOpen,
       isPaymentOpen: state.isPaymentOpen,
+      isOrderOpen: state.isOrderOpen,
+      orderTemplate: state.orderTemplate,
       bookings: state.bookings,
       pendingCustomer: state.pendingCustomer,
       itemCount,
@@ -253,10 +297,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
       closeBooking,
       setPendingCustomer,
       saveBooking,
+      updateBookingStatus,
       generateBookingId,
       getWhatsAppLink,
       openPayment,
       closePayment,
+      openOrder,
+      closeOrder,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state]

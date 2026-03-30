@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { Button } from "@/components/buttons/Button";
-import { ChevronDown } from "lucide-react";
 
 export function HeroSection() {
   return (
@@ -69,13 +67,6 @@ export function HeroSection() {
         </p>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
-        <span className="text-[10px] tracking-[0.2em] uppercase text-[#3a3a3a]">
-          Scroll
-        </span>
-        <ChevronDown size={14} className="text-[#3a3a3a]" />
-      </div>
     </section>
   );
 }

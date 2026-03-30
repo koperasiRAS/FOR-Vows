@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { ShoppingBag, Check } from "lucide-react";
-import { useCart } from "@/lib/cart-context";
+import { useCart, type CartItem } from "@/lib/cart-context";
 import { useLanguage } from "@/lib/i18n/context";
-import type { CartItem } from "@/lib/cart-context";
 
 interface AddToCartButtonProps {
   item: Omit<CartItem, "quantity">;

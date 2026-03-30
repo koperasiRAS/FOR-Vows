@@ -2,6 +2,9 @@ import Link from "next/link";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { CTASection } from "@/components/sections/CTASection";
+import { PricingSection } from "@/components/sections/PricingSection";
+import { USPSection } from "@/components/sections/USPSection";
+import { ComingSoonSection } from "@/components/sections/ComingSoonSection";
 import { TemplateCard } from "@/components/templates/TemplateCard";
 import { TestimonialCard } from "@/components/shared/TestimonialCard";
 import { HowItWorksStep } from "@/components/shared/HowItWorksStep";
@@ -90,15 +93,6 @@ export default async function HomePage() {
           <p className="text-xs text-[#4a4a4a] tracking-wider pt-4">
             {t.heroSubBrand}
           </p>
-        </div>
-
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-          <span className="text-[10px] tracking-[0.2em] uppercase text-[#3a3a3a]">
-            {t.scrollLabel}
-          </span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="text-[#3a3a3a]">
-            <path d="M7 1v12M1 7l6 6 6-6" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
         </div>
       </section>
 
@@ -256,6 +250,12 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Pricing */}
+      <PricingSection />
+
+      {/* USP Section */}
+      <USPSection />
+
       {/* How It Works Preview */}
       <section className="bg-[#0f0f0f] py-20 lg:py-28">
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
@@ -311,6 +311,9 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Coming Soon Services */}
+      <ComingSoonSection />
 
       {/* CTA */}
       <CTASection

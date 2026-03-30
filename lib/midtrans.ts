@@ -1,23 +1,20 @@
 // Midtrans Snap utility — loads script and triggers payment popup
 // Ref: https://docs.midtrans.com/reference/snap-js
 
+import { MIDTRANS_SNAP_BASE_URL } from "@/lib/config";
+
 const SNAP_SCRIPT_ID = "midtrans-snap-script";
-const SNAP_BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://app.midtrans.com"
-    : "https://app.sandbox.midtrans.com";
 
-export interface SnapPaymentData {
-  token: string;
-  orderId: string;
-}
 
+
+// [SECURITY] Amount is now recalculated server-side — do not trust client-supplied amount.
+// The `amount` field is kept for backward compatibility but is ignored by the server.
 export async function getSnapToken(data: {
   bookingId: string;
   customerName: string;
   customerEmail?: string;
   customerPhone?: string;
-  amount: number;
+  amount?: number;
   items: Array<{ name: string; price: number; quantity: number }>;
 }): Promise<{ token: string; orderId: string }> {
   const res = await fetch("/api/midtrans/create-snap-token", {
@@ -56,7 +53,7 @@ export function loadSnapScript(): Promise<void> {
 
     const script = document.createElement("script");
     script.id = SNAP_SCRIPT_ID;
-    script.src = `${SNAP_BASE_URL}/snap/v2/transactions/${clientKey}`;
+    script.src = `${MIDTRANS_SNAP_BASE_URL}/snap/v2/transactions/${clientKey}`;
     script.onload = () => resolve();
     script.onerror = () => reject(new Error("Gagal memuat Midtrans Snap"));
     document.head.appendChild(script);

@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { Eye } from "lucide-react";
-import { AddToCartButton } from "@/components/cart/AddToCartButton";
+import { Eye, ShoppingCart } from "lucide-react";
 import { useLanguage } from "@/lib/i18n/context";
+import { useCart } from "@/lib/cart-context";
 import type { WeddingTemplate } from "@/types";
 
 interface TemplateCardProps {
@@ -20,6 +20,7 @@ const categoryKeys: Record<string, "luxury" | "adat" | "modern" | "intimate"> = 
 
 export function TemplateCard({ template, showActions = true }: TemplateCardProps) {
   const { t } = useLanguage();
+  const { openOrder } = useCart();
   const catKey = categoryKeys[template.category] ?? "luxury";
   const categoryLabel = t(`templates.categories.${catKey}` as const);
 
@@ -93,17 +94,15 @@ export function TemplateCard({ template, showActions = true }: TemplateCardProps
               <Eye size={12} />
               {t("ui.preview")}
             </Link>
-            <AddToCartButton
-              item={{
-                id: `template-${template.slug}`,
-                type: "template",
-                name: template.name,
-                price: template.price,
-                priceValue: parseInt(template.price.replace(/[^\d]/g, "")),
-              }}
-              label={t("ui.pilih")}
-              className="flex-1"
-            />
+            <button
+              onClick={() =>
+                openOrder({ name: template.name, slug: template.slug, category: template.category })
+              }
+              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[10px] tracking-[0.12em] uppercase bg-[#c9a96e] text-[#0a0a0a] font-medium hover:bg-[#d4b87a] transition-all duration-300"
+            >
+              <ShoppingCart size={12} />
+              {t("ui.order")}
+            </button>
           </div>
         )}
       </div>

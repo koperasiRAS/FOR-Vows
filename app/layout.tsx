@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter, Cormorant_Garamond } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -62,6 +63,17 @@ export default function RootLayout({
       className={`${playfair.variable} ${inter.variable} ${cormorant.variable} scroll-smooth`}
     >
       <body className="flex flex-col min-h-screen bg-[#0a0a0a] text-[#faf8f5] antialiased">
+        <Toaster
+          position="bottom-center"
+          toastOptions={{
+            style: {
+              background: "#1a1a1a",
+              border: "1px solid rgba(201,169,110,0.2)",
+              color: "#faf8f5",
+              fontSize: "13px",
+            },
+          }}
+        />
         <LanguageProvider>
           <CartLayout>
             <Navbar />

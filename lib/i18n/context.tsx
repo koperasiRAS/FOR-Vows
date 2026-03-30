@@ -59,18 +59,20 @@ function getNestedValue(obj: Record<string, unknown>, path: string): string {
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
+  // Always default to "id" on first render to match SSR — avoids hydration mismatch.
+  // The effect below will correct this to the user's stored preference.
   const [lang, setLangState] = useState<Language>("id");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Prefer localStorage, fall back to cookie
     const stored = localStorage.getItem(STORAGE_KEY) as Language | null;
-    const cookieVal = readCookie(COOKIE_NAME);
+    const cookieVal = readCookie(COOKIE_NAME) as Language | null;
     if (stored === "id" || stored === "en") {
       setLangState(stored);
-      writeCookie(COOKIE_NAME, stored);
     } else if (cookieVal === "id" || cookieVal === "en") {
       setLangState(cookieVal);
+    } else {
+      setLangState("id");
     }
     setMounted(true);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,8 +109,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     [lang]
   );
 
+  // During SSR and first client render (before effect runs), always use "id"
+  // to ensure the server and initial client render match (no hydration mismatch).
+  // Once mounted, the user's preferred language takes over.
+  const activeLang: Language = mounted ? lang : "id";
+
   return (
-    <LanguageContext.Provider value={{ lang, setLang, t }}>
+    <LanguageContext.Provider value={{ lang: activeLang, setLang, t }}>
       {children}
     </LanguageContext.Provider>
   );

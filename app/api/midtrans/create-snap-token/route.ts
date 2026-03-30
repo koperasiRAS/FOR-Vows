@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Midtrans from "midtrans-client";
+import { createServiceClient } from "@/lib/supabase/server";
 
 const SERVER_KEY = process.env.MIDTRANS_SERVER_KEY ?? "";
 const CLIENT_KEY = process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY ?? "";
@@ -7,30 +8,58 @@ const CLIENT_KEY = process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY ?? "";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { bookingId, customerName, customerEmail, customerPhone, amount, items } = body;
+    const { bookingId, customerName, customerEmail, customerPhone, items } = body;
 
-    if (!bookingId || !customerName || !amount) {
+    if (!bookingId || !customerName) {
       return NextResponse.json({ success: false, error: "Missing required fields" }, { status: 400 });
     }
 
+    // [SECURITY] Recalculate amount server-side from DB — do not trust client-supplied amount
+    const supabase = await createServiceClient();
+    const { data: order, error: orderError } = await supabase
+      .from("orders")
+      .select("final_total, total_price, items")
+      .eq("order_code", bookingId)
+      .single();
+
+    if (orderError || !order) {
+      console.error("[FORVows SnapToken] Order not found:", bookingId);
+      return NextResponse.json({ success: false, error: "Order not found" }, { status: 404 });
+    }
+
+    // Use final_total (with discount) if available, fall back to total_price
+    const amount = order.final_total ?? order.total_price;
+    if (!amount) {
+      console.error("[FORVows SnapToken] No amount found for order:", bookingId);
+      return NextResponse.json({ success: false, error: "Invalid order amount" }, { status: 400 });
+    }
+
+    // Determine item details — prefer server-side items from DB, fall back to client-supplied
+    const itemDetails = (order.items?.length ? order.items : items)?.map(
+      (item: { name: string; price: number; priceValue?: number; quantity: number }) => ({
+        id: item.name.split(/\s+/).join("-").toLowerCase(),
+        name: item.name,
+        price: item.price ?? item.priceValue,
+        quantity: item.quantity,
+      })
+    ) ?? [];
+
     // Use Sandbox if not in production
-    const isProduction = process.env.NODE_ENV === "production";
+    const isProduction = process.env.MIDTRANS_IS_PRODUCTION === "true";
     const apiBaseUrl = isProduction
       ? "https://api.midtrans.com"
       : "https://api.sandbox.midtrans.com";
 
-    const midtrans = new Midtrans.CoreApi({
+    const midtrans = new Midtrans.Snap({
       serverKey: SERVER_KEY,
       clientKey: CLIENT_KEY,
       apiBaseUrl,
     });
 
-    const orderId = bookingId;
-
     const parameter = {
       transaction_details: {
-        order_id: orderId,
-        gross_amount: amount,
+        order_id: bookingId,
+        gross_amount: Number(amount),
       },
       credit_card: {
         secure: true,
@@ -41,26 +70,15 @@ export async function POST(request: NextRequest) {
         email: customerEmail || `${bookingId}@forvows.com`,
         phone: customerPhone || "",
       },
-      item_details: items?.map((item: { name: string; price: number; quantity: number }) => ({
-        id: item.name.split(/\s+/).join("-").toLowerCase(),
-        name: item.name,
-        price: item.price,
-        quantity: item.quantity,
-      })) ?? [],
+      item_details: itemDetails,
     };
 
-    const transaction = await midtrans.charge(parameter);
-
-    // For Snap, we need to get the snap token
-    // If token is returned directly, use it. Otherwise get from redirect_url
-    const snapToken = (transaction as Record<string, unknown>).token as string | undefined;
-    const redirectUrl = (transaction as Record<string, unknown>).redirect_url as string | undefined;
+    const snapToken = await midtrans.createTransactionToken(parameter);
 
     return NextResponse.json({
       success: true,
       token: snapToken,
-      redirectUrl,
-      orderId,
+      orderId: bookingId,
     });
   } catch (error) {
     console.error("Midtrans error:", error);
