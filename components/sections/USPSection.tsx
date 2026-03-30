@@ -44,7 +44,7 @@ const USP_ITEMS = [
 
 export function USPSection() {
   const { t } = useLanguage();
-  const home = t as Record<string, Record<string, string>>;
+  const home = t as unknown as Record<string, Record<string, string>>;
 
   return (
     <section className="bg-[#0a0a0a] py-20 lg:py-28">

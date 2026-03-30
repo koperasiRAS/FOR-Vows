@@ -27,7 +27,7 @@ const SERVICES = [
 
 export function ComingSoonSection() {
   const { t, lang } = useLanguage();
-  const home = t as Record<string, Record<string, string>>;
+  const home = t as unknown as Record<string, Record<string, string>>;
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);

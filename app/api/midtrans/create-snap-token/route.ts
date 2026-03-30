@@ -46,14 +46,12 @@ export async function POST(request: NextRequest) {
 
     // Use Sandbox if not in production
     const isProduction = process.env.MIDTRANS_IS_PRODUCTION === "true";
-    const apiBaseUrl = isProduction
-      ? "https://api.midtrans.com"
-      : "https://api.sandbox.midtrans.com";
 
-    const midtrans = new Midtrans.Snap({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const midtrans = new (Midtrans.Snap as any)({
+      isProduction,
       serverKey: SERVER_KEY,
       clientKey: CLIENT_KEY,
-      apiBaseUrl,
     });
 
     const parameter = {
@@ -73,7 +71,8 @@ export async function POST(request: NextRequest) {
       item_details: itemDetails,
     };
 
-    const snapToken = await midtrans.createTransactionToken(parameter);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const snapToken = await (midtrans as any).createTransactionToken(parameter);
 
     return NextResponse.json({
       success: true,

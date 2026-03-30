@@ -52,7 +52,7 @@ const OrderButton = memo(function OrderButton({ tier }: { tier: (typeof PRICING_
 
 export function PricingSection() {
   const { t, lang } = useLanguage();
-  const home = t as Record<string, Record<string, string>>;
+  const home = t as unknown as Record<string, Record<string, string>>;
 
   return (
     <section className="bg-[#0f0f0f] py-20 lg:py-28">
