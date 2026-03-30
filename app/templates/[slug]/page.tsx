@@ -172,7 +172,7 @@ export default async function TemplateDetailPage({ params }: Props) {
                   {lang === "id" ? "Pilih Paket & Pesan" : "Choose Package & Order"}
                   <ArrowRight size={14} />
                 </Link>
-                <PreviewButton templateName={translated?.name ?? template.name} />
+                <PreviewButton template={template} translatedName={translated?.name} />
               </div>
 
               {/* Package quick reference */}

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter, Cormorant_Garamond } from "next/font/google";
+import { Playfair_Display, Inter, Cormorant_Garamond, Noto_Serif } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
@@ -25,6 +25,13 @@ const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
+});
+
+const notoSerif = Noto_Serif({
+  variable: "--font-noto-serif",
+  subsets: ["latin"],
+  weight: ["400", "700"],
   style: ["normal", "italic"],
 });
 
@@ -61,7 +68,7 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${playfair.variable} ${inter.variable} ${cormorant.variable} scroll-smooth`}
+      className={`${playfair.variable} ${inter.variable} ${cormorant.variable} ${notoSerif.variable} scroll-smooth`}
     >
       <body className="flex flex-col min-h-screen bg-[#0a0a0a] text-[#faf8f5] antialiased">
         <Toaster

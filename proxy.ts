@@ -2,6 +2,9 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { getPartnerById, PARTNER_COOKIE } from "@/lib/partners";
 
+// Next.js 16 — proxy.ts replaces middleware.ts, runs on Node.js runtime
+export const runtime = "nodejs";
+
 // ── Partner Proxy ────────────────────────────────────────────────────────────
 
 function extractSubdomain(host: string): string | null {
@@ -53,18 +56,23 @@ async function handleAdminAuth(request: NextRequest) {
   return response;
 }
 
-// ── Main Middleware ──────────────────────────────────────────────────────────
+// ── Main Proxy ────────────────────────────────────────────────────────────────
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
   const host = request.headers.get("host") ?? "";
 
-  // ── 1. Admin auth guard ──────────────────────────────────────────────────
+  // ── 1. /login → /admin/login ─────────────────────────────────────────────
+  if (pathname === "/login") {
+    return NextResponse.redirect(new URL("/admin/login", request.url));
+  }
+
+  // ── 2. Admin auth guard ──────────────────────────────────────────────────
   if (pathname.startsWith("/admin")) {
     return handleAdminAuth(request);
   }
 
-  // ── 2. Partner proxy (existing logic) ───────────────────────────────────
+  // ── 3. Partner proxy ─────────────────────────────────────────────────────
   const response = NextResponse.next({ request });
 
   const subdomain = extractSubdomain(host);
