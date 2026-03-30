@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { Eye, ShoppingCart } from "lucide-react";
 import { useLanguage } from "@/lib/i18n/context";
-import { useCart } from "@/lib/cart-context";
 import type { WeddingTemplate } from "@/types";
 
 interface TemplateCardProps {
@@ -20,7 +19,6 @@ const categoryKeys: Record<string, "luxury" | "adat" | "modern" | "intimate"> = 
 
 export function TemplateCard({ template, showActions = true }: TemplateCardProps) {
   const { t } = useLanguage();
-  const { openOrder } = useCart();
   const catKey = categoryKeys[template.category] ?? "luxury";
   const categoryLabel = t(`templates.categories.${catKey}` as const);
 
@@ -82,7 +80,6 @@ export function TemplateCard({ template, showActions = true }: TemplateCardProps
           <p className="text-xs text-[#6a6a6a] mt-1 leading-relaxed line-clamp-2">
             {template.shortDescription}
           </p>
-          <p className="text-xs text-[#c9a96e] mt-1 font-medium leading-none">{template.price}</p>
         </div>
 
         {showActions && (
@@ -94,15 +91,13 @@ export function TemplateCard({ template, showActions = true }: TemplateCardProps
               <Eye size={12} />
               {t("ui.preview")}
             </Link>
-            <button
-              onClick={() =>
-                openOrder({ name: template.name, slug: template.slug, category: template.category })
-              }
+            <Link
+              href={`/order?template=${template.slug}`}
               className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[10px] tracking-[0.12em] uppercase bg-[#c9a96e] text-[#0a0a0a] font-medium hover:bg-[#d4b87a] transition-all duration-300"
             >
               <ShoppingCart size={12} />
               {t("ui.order")}
-            </button>
+            </Link>
           </div>
         )}
       </div>

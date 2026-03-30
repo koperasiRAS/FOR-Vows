@@ -2,11 +2,10 @@
 
 import Link from "next/link";
 import { X, Trash2, ShoppingBag } from "lucide-react";
-import { useEffect, useMemo, useCallback } from "react";
+import { useEffect, useMemo } from "react";
 import { useCart } from "@/lib/cart-context";
 import { useLanguage } from "@/lib/i18n/context";
 import { useFocusTrap } from "@/lib/hooks/useFocusTrap";
-import { WhatsAppButton } from "@/components/buttons/WhatsAppButton";
 
 // ── Static type map — defined outside component to avoid recreation ────────────
 const TYPE_KEYS = {
@@ -26,7 +25,7 @@ const IDR_FORMATTER = new Intl.NumberFormat("id-ID", {
 
 export function CartDrawer() {
   const { t } = useLanguage();
-  const { items, isOpen, setOpen, removeItem, itemCount, totalPrice, openBooking, clearCart } = useCart();
+  const { items, isOpen, setOpen, removeItem, itemCount, totalPrice, clearCart } = useCart();
   const drawerRef = useFocusTrap(isOpen);
 
   // Close on Escape
@@ -45,20 +44,10 @@ export function CartDrawer() {
   // Memoize formatted total — only recomputes when totalPrice changes
   const formattedTotal = useMemo(() => IDR_FORMATTER.format(totalPrice), [totalPrice]);
 
-  // Stable callback for checkout
-  const handleCheckout = useCallback(() => {
-    setOpen(false);
-    openBooking();
-  }, [setOpen, openBooking]);
-
-  // Stable type label lookup — closure over `t`, recomputes only when `t` changes
-  const getTypeLabel = useCallback(
-    (type: string) => {
-      const key = TYPE_KEYS[type as keyof typeof TYPE_KEYS];
-      return key ? t(key) : type;
-    },
-    [t]
-  );
+  const getTypeLabel = (type: string) => {
+    const key = TYPE_KEYS[type as keyof typeof TYPE_KEYS];
+    return key ? t(key) : type;
+  };
 
   return (
     <>
@@ -155,11 +144,13 @@ export function CartDrawer() {
               <span className="text-sm text-[#8a8a8a]">{t("cart.total")}</span>
               <span className="font-serif text-xl text-[#faf8f5]">{formattedTotal}</span>
             </div>
-            <WhatsAppButton
-              label={t("cart.pesanSekarang")}
-              onClick={handleCheckout}
-              className="py-3.5"
-            />
+            <Link
+              href="/order"
+              onClick={() => setOpen(false)}
+              className="flex items-center justify-center py-3.5 text-[11px] tracking-widest uppercase bg-[#c9a96e] text-[#0a0a0a] font-medium hover:bg-[#d4b87a] transition-colors"
+            >
+              {t("cart.pesanSekarang")}
+            </Link>
             <button
               onClick={clearCart}
               className="w-full text-center text-xs text-[#4a4a4a] hover:text-[#8a8a8a] transition-colors"

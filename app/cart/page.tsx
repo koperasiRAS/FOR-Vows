@@ -6,12 +6,11 @@ import { useCart } from "@/lib/cart-context";
 import { useLanguage } from "@/lib/i18n/context";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
-import { WhatsAppButton } from "@/components/buttons/WhatsAppButton";
 import { formatIDR } from "@/lib/utils";
 
 export default function CartPage() {
   const { t } = useLanguage();
-  const { items, removeItem, clearCart, itemCount, totalPrice, openBooking } = useCart();
+  const { items, removeItem, clearCart, itemCount, totalPrice } = useCart();
 
   const formattedTotal = formatIDR(totalPrice);
 
@@ -121,11 +120,12 @@ export default function CartPage() {
 
             {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-4 pt-2">
-              <WhatsAppButton
-                label={t("cartPage.pesanSekarang")}
-                onClick={openBooking}
-                className="py-4 flex-1"
-              />
+              <Link
+                href="/order"
+                className="flex-1 flex items-center justify-center py-4 text-[11px] tracking-widest uppercase bg-[#c9a96e] text-[#0a0a0a] font-medium hover:bg-[#d4b87a] transition-colors"
+              >
+                {t("cartPage.pesanSekarang")}
+              </Link>
               <button
                 onClick={clearCart}
                 className="px-6 py-4 text-[11px] tracking-widest uppercase border border-white/15 text-[#6a6a6a] hover:text-[#faf8f5] hover:border-white/30 transition-all"

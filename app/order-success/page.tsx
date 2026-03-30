@@ -1,38 +1,23 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Check, ArrowLeft } from "lucide-react";
+import { Check, ArrowLeft, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import { useLanguage } from "@/lib/i18n/context";
-import { WhatsAppButton } from "@/components/buttons/WhatsAppButton";
-import { WA_NUMBER } from "@/lib/config";
+import { StatusBadge, needsPayment } from "@/components/shared/StatusBadge";
 import type { OrderRow } from "@/types";
-
-const STATUS_LABELS_ID: Record<string, string> = {
-  pending: "Menunggu",
-  waiting_payment: "Menunggu Pembayaran",
-  paid: "Sudah Bayar",
-  in_progress: "Sedang Dikerjakan",
-  revision: "Revisi",
-  completed: "Selesai",
-};
-
-const STATUS_LABELS_EN: Record<string, string> = {
-  pending: "Pending",
-  waiting_payment: "Waiting Payment",
-  paid: "Paid",
-  in_progress: "In Progress",
-  revision: "Revision",
-  completed: "Completed",
-};
+import { formatIDR } from "@/lib/utils";
+import { WA_NUMBER } from "@/lib/config";
+import { getSnapToken, openSnapPopup } from "@/lib/midtrans";
 
 export default function OrderSuccessPage() {
   return (
     <Suspense
       fallback={
         <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
-          <div className="w-8 h-8 border-2 border-[#c9a96e]/20 border-t-[#c9a96e] rounded-full animate-spin" />
+          <Loader2 size={24} className="text-[#c9a96e] animate-spin" />
         </div>
       }
     >
@@ -48,12 +33,10 @@ function OrderSuccessContent() {
   const [order, setOrder] = useState<OrderRow | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [paying, setPaying] = useState(false);
 
-  useEffect(() => {
-    if (!orderCode) {
-      setLoading(false);
-      return;
-    }
+  const fetchOrder = useCallback(() => {
+    if (!orderCode) return;
     fetch(`/api/orders?orderCode=${encodeURIComponent(orderCode)}`)
       .then((r) => r.json())
       .then((data) => {
@@ -67,12 +50,43 @@ function OrderSuccessContent() {
       .finally(() => setLoading(false));
   }, [orderCode]);
 
-  const statusLabels = lang === "id" ? STATUS_LABELS_ID : STATUS_LABELS_EN;
+  useEffect(() => {
+    if (!orderCode) {
+      setLoading(false);
+      return;
+    }
+    fetchOrder();
+  }, [orderCode, fetchOrder]);
 
-  const waMessage = orderCode
-    ? `Halo FOR Vows! Saya sudah membuat pesanan dengan kode ${orderCode}. Mohon info lebih lanjut untuk pembayaran. Terima kasih! 🙏`
-    : "";
-  const waHref = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waMessage)}`;
+  const handlePayNow = async () => {
+    if (!order) return;
+    setPaying(true);
+    try {
+      const customerName = `${order.groom_name} & ${order.bride_name}`;
+      const tokenData = await getSnapToken({
+        bookingId: order.order_code,
+        customerName,
+        customerPhone: order.phone,
+        items:
+          (order.items as Array<{ name: string; priceValue?: number; price?: number; quantity: number }> | null)
+            ?.map((item) => ({
+              name: item.name,
+              price: item.priceValue ?? item.price ?? 0,
+              quantity: item.quantity ?? 1,
+            })) ?? [],
+      });
+      await openSnapPopup(tokenData.token);
+      // Midtrans popup closed — refresh order to show updated status
+      void fetchOrder();
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Pembayaran gagal";
+      if (!msg.includes("popup") && !msg.includes("ditutup")) {
+        toast.error(msg);
+      }
+    } finally {
+      setPaying(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-6">
@@ -88,17 +102,17 @@ function OrderSuccessContent() {
 
         {loading && (
           <div className="flex flex-col items-center text-center gap-4 py-20">
-            <div className="w-16 h-16 border-2 border-[#c9a96e]/20 border-t-[#c9a96e] rounded-full animate-spin" />
+            <Loader2 size={24} className="text-[#c9a96e] animate-spin" />
             <p className="text-[#6a6a6a] text-sm">{lang === "id" ? "Memuat..." : "Loading..."}</p>
           </div>
         )}
 
         {!loading && error && (
-          <div className="text-center py-20">
-            <h1 className="font-serif text-3xl text-[#faf8f5] mb-3">
+          <div className="text-center py-20 space-y-4">
+            <h1 className="font-serif text-3xl text-[#faf8f5]">
               {lang === "id" ? "Pesanan Tidak Ditemukan" : "Order Not Found"}
             </h1>
-            <p className="text-[#6a6a6a] text-sm mb-6">
+            <p className="text-[#6a6a6a] text-sm">
               {lang === "id"
                 ? "Kode pesanan tidak valid atau sudah kedaluwarsa."
                 : "Order code is invalid or has expired."}
@@ -113,7 +127,7 @@ function OrderSuccessContent() {
         )}
 
         {!loading && order && (
-          <div className="space-y-6">
+          <div className="space-y-5">
             {/* Success Header */}
             <div className="flex flex-col items-center text-center gap-3">
               <div className="w-16 h-16 rounded-full bg-[#c9a96e]/10 border border-[#c9a96e]/30 flex items-center justify-center">
@@ -137,8 +151,8 @@ function OrderSuccessContent() {
               </p>
             </div>
 
-            {/* Order Details */}
-            <div className="border border-white/[0.06] divide-y divide-white/[0.05]">
+            {/* Order Summary */}
+            <div className="border border-white/6 divide-y divide-white/5">
               <div className="px-5 py-4">
                 <p className="text-[10px] tracking-[0.12em] uppercase text-[#6a6a6a] mb-1">
                   {lang === "id" ? "Mempelai" : "Couple"}
@@ -147,7 +161,14 @@ function OrderSuccessContent() {
                   {order.groom_name} & {order.bride_name}
                 </p>
               </div>
-
+              {order.package_name && (
+                <div className="px-5 py-4">
+                  <p className="text-[10px] tracking-[0.12em] uppercase text-[#6a6a6a] mb-1">
+                    {t("orderSuccess.package")}
+                  </p>
+                  <p className="text-[#c9a96e] capitalize">{order.package_name}</p>
+                </div>
+              )}
               {order.template && (
                 <div className="px-5 py-4">
                   <p className="text-[10px] tracking-[0.12em] uppercase text-[#6a6a6a] mb-1">
@@ -156,46 +177,102 @@ function OrderSuccessContent() {
                   <p className="text-[#faf8f5]">{order.template}</p>
                 </div>
               )}
-
-              {order.package_name && (
-                <div className="px-5 py-4">
-                  <p className="text-[10px] tracking-[0.12em] uppercase text-[#6a6a6a] mb-1">
-                    {t("orderSuccess.package")}
-                  </p>
-                  <p className="text-[#c9a96e] capitalize">
-                    {order.package_name}
-                  </p>
-                </div>
-              )}
-
               <div className="px-5 py-4">
-                <p className="text-[10px] tracking-[0.12em] uppercase text-[#6a6a6a] mb-1">
-                  {lang === "id" ? "Status" : "Status"}
-                </p>
-                <span className="inline-block px-3 py-1 bg-[#c9a96e]/10 border border-[#c9a96e]/30 text-[#c9a96e] text-xs tracking-wider">
-                  {statusLabels[order.status] ?? order.status}
-                </span>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-[10px] tracking-[0.12em] uppercase text-[#6a6a6a] mb-1">
+                      {lang === "id" ? "Status" : "Status"}
+                    </p>
+                    <StatusBadge status={order.status} lang={lang} size="sm" />
+                  </div>
+                  <div className="text-right">
+                    {order.final_total != null && (
+                      <>
+                        <p className="text-[10px] text-[#6a6a6a] mb-0.5">
+                          {lang === "id" ? "Total" : "Total"}
+                        </p>
+                        <p className="font-serif text-lg text-[#faf8f5]">
+                          {formatIDR(order.final_total)}
+                        </p>
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* WhatsApp Validation Note */}
-            <div className="p-4 border border-[#c9a96e]/20 bg-[#c9a96e]/5">
-              <p className="text-xs text-[#8a8a8a] leading-relaxed mb-3">
-                {t("orderSuccess.validationNote")}
-              </p>
-              <WhatsAppButton
-                as="a"
-                href={waHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                label={t("orderSuccess.contactAdmin")}
-                className="py-3.5 w-full"
-              />
-            </div>
+            {/* Payment CTA */}
+            {needsPayment(order.status) && (
+              <div className="p-5 border border-[#c9a96e]/30 bg-[#c9a96e]/5 space-y-3">
+                <p className="text-xs text-[#8a8a8a] text-center">
+                  {lang === "id"
+                    ? "Selesaikan pembayaran untuk memproses pesanan Anda."
+                    : "Complete your payment to process your order."}
+                </p>
+                <button
+                  onClick={handlePayNow}
+                  disabled={paying}
+                  className="w-full py-4 flex items-center justify-center gap-2 bg-[#c9a96e] text-[#0a0a0a] text-[11px] tracking-[0.18em] uppercase font-medium hover:bg-[#d4b87a] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  {paying ? (
+                    <>
+                      <Loader2 size={14} className="animate-spin" />
+                      {lang === "id" ? "Membuka pembayaran..." : "Opening payment..."}
+                    </>
+                  ) : (
+                    <>
+                      {lang === "id" ? "Bayar Sekarang via Midtrans" : "Pay Now via Midtrans"}
+                    </>
+                  )}
+                </button>
+                <p className="text-center text-[10px] text-[#6a6a6a]">
+                  🔒 {lang === "id" ? "Pembayaran aman via Midtrans" : "Secure payment via Midtrans"}
+                </p>
+              </div>
+            )}
+
+            {/* Already paid / in progress */}
+            {!needsPayment(order.status) && order.status !== "completed" && (
+              <div className="p-5 border border-[#c9a96e]/20 bg-[#c9a96e]/5 text-center space-y-2">
+                <p className="text-sm text-[#faf8f5]">
+                  {lang === "id"
+                    ? "Pembayaran sudah diterima. Pesanan Anda sedang diproses!"
+                    : "Payment received. Your order is being processed!"}
+                </p>
+                <p className="text-xs text-[#6a6a6a]">
+                  {lang === "id"
+                    ? "Tim kami akan menghubungi Anda via WhatsApp."
+                    : "Our team will contact you via WhatsApp."}
+                </p>
+              </div>
+            )}
+
+            {/* Completed */}
+            {order.status === "completed" && (
+              <div className="p-5 border border-green-500/20 bg-green-500/5 text-center space-y-2">
+                <p className="text-sm text-[#faf8f5]">
+                  {lang === "id"
+                    ? "Pesanan selesai! Undangan digital Anda siap."
+                    : "Order completed! Your digital invitation is ready."}
+                </p>
+              </div>
+            )}
+
+            {/* WhatsApp Support (Phase 10 will clean this up) */}
+            <a
+              href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
+                `Halo FOR Vows! Saya sudah membuat pesanan ${order.order_code}. Ada yang perlu saya tanyakan. Terima kasih! 🙏`
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full py-3.5 text-center text-[11px] tracking-widest uppercase border border-white/15 text-[#8a8a8a] hover:border-white/30 hover:text-[#faf8f5] transition-all"
+            >
+              {lang === "id" ? "Hubungi Support via WhatsApp" : "Contact Support via WhatsApp"}
+            </a>
 
             {/* Next Steps */}
-            <div className="p-4 border border-white/[0.05] bg-[#0f0f0f]">
-              <p className="text-[10px] tracking-[0.15em] uppercase text-[#8a8a8a] mb-3">
+            <div className="p-4 border border-white/5 bg-[#0f0f0f] space-y-2">
+              <p className="text-[10px] tracking-[0.15em] uppercase text-[#8a8a8a] mb-2">
                 {t("orderSuccess.nextSteps")}
               </p>
               <ol className="space-y-2 text-xs text-[#6a6a6a] list-decimal list-inside">
@@ -207,19 +284,17 @@ function OrderSuccessContent() {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3">
-              <WhatsAppButton
-                as="a"
-                href={waHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                label={t("orderSuccess.contactAdmin")}
-                className="py-3.5 flex-1"
-              />
+              <Link
+                href="/dashboard"
+                className="flex-1 flex items-center justify-center gap-2.5 py-3.5 text-[11px] tracking-widest uppercase border border-white/15 text-[#8a8a8a] hover:border-white/30 hover:text-[#faf8f5] transition-colors"
+              >
+                {lang === "id" ? "Lacak Pesanan" : "Track Order"}
+              </Link>
               <Link
                 href="/templates"
                 className="flex-1 flex items-center justify-center gap-2.5 py-3.5 text-[11px] tracking-widest uppercase border border-white/15 text-[#8a8a8a] hover:border-white/30 hover:text-[#faf8f5] transition-colors"
               >
-                {t("orderSuccess.viewTemplates")}
+                {lang === "id" ? "Lihat Template" : "View Templates"}
               </Link>
             </div>
           </div>

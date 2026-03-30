@@ -6,6 +6,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CartLayout } from "@/components/cart/CartLayout";
 import { LanguageProvider } from "@/lib/i18n/context";
+import { TemplateProvider } from "@/lib/template-context";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -75,11 +76,13 @@ export default function RootLayout({
           }}
         />
         <LanguageProvider>
-          <CartLayout>
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </CartLayout>
+          <TemplateProvider>
+            <CartLayout>
+              <Navbar />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </CartLayout>
+          </TemplateProvider>
         </LanguageProvider>
       </body>
     </html>

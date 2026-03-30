@@ -1,52 +1,19 @@
 "use client";
 
+import Link from "next/link";
 import { useLanguage } from "@/lib/i18n/context";
-import { useCart } from "@/lib/cart-context";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { memo } from "react";
+import { PACKAGES } from "@/lib/packages";
 
-const PRICING_TIERS = [
-  {
-    key: "basic" as const,
-    priceId: "Mulai dari Rp 299.000",
-    priceEn: "Starting from Rp 299.000",
-    gradient: "from-[#1a1206] to-[#2a2010]",
-    accent: "#c9a96e",
-    border: "rgba(201,169,110,0.15)",
-  },
-  {
-    key: "premium" as const,
-    priceId: "Mulai dari Rp 599.000",
-    priceEn: "Starting from Rp 599.000",
-    gradient: "from-[#1a1206] to-[#3d2e0f]",
-    accent: "#c9a96e",
-    border: "rgba(201,169,110,0.35)",
-    featured: true,
-  },
-  {
-    key: "exclusive" as const,
-    priceId: "Custom",
-    priceEn: "Custom",
-    gradient: "from-[#1a0a06] to-[#2a1508]",
-    accent: "#c9a96e",
-    border: "rgba(201,169,110,0.2)",
-  },
-];
-
-const OrderButton = memo(function OrderButton({ tier }: { tier: (typeof PRICING_TIERS)[number] }) {
-  const { openOrder } = useCart();
-
-  const handleOrder = () => {
-    openOrder({ name: tier.key, slug: tier.key, category: "pricing" });
-  };
-
+const OrderButton = memo(function OrderButton({ tier }: { tier: (typeof PACKAGES)[number] }) {
   return (
-    <button
-      onClick={handleOrder}
-      className="w-full py-2.5 text-[10px] tracking-[0.15em] uppercase font-medium bg-[#c9a96e] text-[#0a0a0a] hover:bg-[#d4b87a] transition-colors"
+    <Link
+      href={`/order?package=${tier.key}`}
+      className="block w-full py-2.5 text-[10px] tracking-[0.15em] uppercase font-medium bg-[#c9a96e] text-[#0a0a0a] hover:bg-[#d4b87a] transition-colors text-center"
     >
       Pesan
-    </button>
+    </Link>
   );
 });
 
@@ -72,7 +39,7 @@ export function PricingSection() {
         </ScrollReveal>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
-          {PRICING_TIERS.map((tier, i) => (
+          {PACKAGES.map((tier, i) => (
             <ScrollReveal key={tier.key} delay={i * 100}>
               <div
                 className={`relative flex flex-col border transition-all duration-300 ${

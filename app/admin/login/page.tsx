@@ -38,7 +38,7 @@ function AdminLoginContent() {
       return;
     }
 
-    router.push("/admin/dashboard");
+    router.push("/dashboard");
   };
 
   return (
