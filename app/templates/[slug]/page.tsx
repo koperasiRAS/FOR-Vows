@@ -12,12 +12,14 @@ import { translations, type Language } from "@/lib/i18n/translations";
 import { useLanguage } from "@/lib/i18n/context";
 import { PACKAGES } from "@/lib/packages";
 
+import { use } from "react";
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export default async function TemplateDetailPage({ params }: Props) {
-  const { slug } = await params;
+export default function TemplateDetailPage({ params }: Props) {
+  const { slug } = use(params);
   const { lang } = useLanguage();
   const t = translations[lang as Language].pages.templates;
 
