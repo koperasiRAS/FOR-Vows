@@ -8,23 +8,31 @@ const CLIENT_KEY = process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY ?? "";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { bookingId, customerName, customerEmail, customerPhone, items } = body;
+    const { bookingId, customerName, customerEmail, customerPhone, items, userId } = body;
 
     if (!bookingId || !customerName) {
       return NextResponse.json({ success: false, error: "Missing required fields" }, { status: 400 });
     }
 
     // [SECURITY] Recalculate amount server-side from DB — do not trust client-supplied amount
+    // Also verify ownership: if order has user_id, it must match the requesting user
     const supabase = await createServiceClient();
     const { data: order, error: orderError } = await supabase
       .from("orders")
-      .select("final_total, total_price, items")
+      .select("final_total, total_price, items, user_id")
       .eq("order_code", bookingId)
       .single();
 
     if (orderError || !order) {
       console.error("[FORVows SnapToken] Order not found:", bookingId);
       return NextResponse.json({ success: false, error: "Order not found" }, { status: 404 });
+    }
+
+    // [SECURITY] Ownership check — prevent unauthorized payment initiation
+    // Guest orders (user_id = null) can be paid by anyone who has the order code
+    if (order.user_id && order.user_id !== userId) {
+      console.warn(`[FORVows SnapToken] Unauthorized payment attempt: order ${bookingId}, expected user ${order.user_id}, got ${userId}`);
+      return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 403 });
     }
 
     // Use final_total (with discount) if available, fall back to total_price

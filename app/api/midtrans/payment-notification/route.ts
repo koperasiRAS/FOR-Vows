@@ -94,8 +94,14 @@ export async function POST(request: NextRequest) {
       paymentStatus = "failed";
     } else if (transaction_status === "pending") {
       paymentStatus = "pending";
+    } else if (transaction_status === "challenge") {
+      // 3DS/Secure Card — bank is still verifying asynchronously
+      // Do NOT mark cancelled; keep as pending until bank resolves
+      paymentStatus = "pending";
     } else {
-      paymentStatus = "cancelled"; // cancel, expire
+      // Unknown status — log and default to pending (safer than cancelling)
+      console.warn(`[FORVows Payment] Unknown transaction_status "${transaction_status}" for order ${order_id}`);
+      paymentStatus = "pending";
     }
 
     // Build update payload — only set order status to "paid" when money is confirmed
@@ -105,20 +111,28 @@ export async function POST(request: NextRequest) {
       updatePayload.paid_at = new Date().toISOString();
     }
 
-    const { error: updateError } = await supabase
+    // [ATOMIC IDEMPOTENCY] Only update if still in a transitional state.
+    // If status is already "paid" (double-fire race), the conditional update updates 0 rows.
+    const { error: updateError, count } = await supabase
       .from("orders")
       .update(updatePayload)
-      .eq("order_code", order_id);
+      .eq("order_code", order_id)
+      .neq("payment_status", "paid"); // skip if already settled
 
     if (updateError) {
       console.error("[FORVows Payment] DB update failed:", updateError);
       return NextResponse.json({ success: false, error: "DB update failed" }, { status: 500 });
     }
 
-    console.log(
-      `[FORVows Payment] Order ${order_id} updated: ` +
-      `payment_status=${paymentStatus}${settled ? ", status=paid" : ""}`
-    );
+    if (count === 0) {
+      // No rows updated — already settled or concurrent race
+      console.log(`[FORVows Payment] Order ${order_id} no rows updated (already settled)`);
+    } else {
+      console.log(
+        `[FORVows Payment] Order ${order_id} updated: ` +
+        `payment_status=${paymentStatus}${settled ? ", status=paid" : ""}`
+      );
+    }
     return NextResponse.json({ success: true, message: "Notification processed" });
 
   } catch (error) {

@@ -115,12 +115,15 @@ function OrderCard({ order, lang }: { readonly order: OrderRow; readonly lang: "
         <div className="mt-4 flex gap-3 flex-wrap">
           {isCompleted ? (
             <>
-              <button className="text-[11px] uppercase tracking-widest font-semibold text-stitch-primary underline underline-offset-4 hover:opacity-70 transition-opacity">
+              <Link
+                href={`/orders/${encodeURIComponent(order.order_code)}`}
+                className="text-[11px] uppercase tracking-widest font-semibold text-stitch-primary underline underline-offset-4 hover:opacity-70 transition-opacity"
+              >
                 {lang === "id" ? "Lihat Desain" : "View Design"}
-              </button>
-              <button className="text-[11px] uppercase tracking-widest font-semibold text-stone-400 hover:text-on-surface transition-colors">
+              </Link>
+              <span className="text-[11px] uppercase tracking-widest font-semibold text-stone-400 opacity-50 cursor-not-allowed" title={lang === "id" ? "Tersedia di Phase 2" : "Coming in Phase 2"}>
                 {lang === "id" ? "Download Assets" : "Download Assets"}
-              </button>
+              </span>
             </>
           ) : isInProgress ? (
             <button

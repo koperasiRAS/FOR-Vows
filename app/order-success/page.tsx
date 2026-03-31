@@ -11,6 +11,7 @@ import type { OrderRow } from "@/types";
 import { formatIDR } from "@/lib/utils";
 import { WA_NUMBER } from "@/lib/config";
 import { getSnapToken, openSnapPopup } from "@/lib/midtrans";
+import { createClient } from "@/lib/supabase/client";
 
 export default function OrderSuccessPage() {
   return (
@@ -34,6 +35,7 @@ function OrderSuccessContent() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [paying, setPaying] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
 
   const fetchOrder = useCallback(() => {
     if (!orderCode) return;
@@ -49,6 +51,14 @@ function OrderSuccessContent() {
       .catch(() => setError(true))
       .finally(() => setLoading(false));
   }, [orderCode]);
+
+  useEffect(() => {
+    // Fetch authenticated userId for ownership check
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => {
+      setUserId(data.user?.id ?? null);
+    });
+  }, []);
 
   useEffect(() => {
     if (!orderCode) {
@@ -67,6 +77,7 @@ function OrderSuccessContent() {
         bookingId: order.order_code,
         customerName,
         customerPhone: order.phone,
+        userId: userId ?? undefined,
         items:
           (order.items as Array<{ name: string; priceValue?: number; price?: number; quantity: number }> | null)
             ?.map((item) => ({
@@ -76,8 +87,21 @@ function OrderSuccessContent() {
             })) ?? [],
       });
       await openSnapPopup(tokenData.token);
-      // Midtrans popup closed — refresh order to show updated status
-      void fetchOrder();
+      // Midtrans popup closed — poll for updated status before showing result
+      let settled = false;
+      for (let i = 0; i < 3; i++) {
+        await new Promise((r) => setTimeout(r, 1000));
+        const res = await fetch(`/api/orders?orderCode=${encodeURIComponent(order.order_code)}`);
+        const data = await res.json();
+        if (data.order?.status === "paid") {
+          settled = true;
+          break;
+        }
+      }
+      fetchOrder();
+      if (settled) {
+        toast.success(lang === "id" ? "Pembayaran berhasil!" : "Payment successful!");
+      }
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Pembayaran gagal";
       if (!msg.includes("popup") && !msg.includes("ditutup")) {
@@ -100,14 +124,33 @@ function OrderSuccessContent() {
           {lang === "id" ? "Kembali ke Beranda" : "Back to Home"}
         </Link>
 
-        {loading && (
+        {!orderCode && (
+          <div className="text-center py-20 space-y-4">
+            <h1 className="font-serif text-3xl text-[#faf8f5]">
+              {lang === "id" ? "Order Tidak Ditemukan" : "Order Not Found"}
+            </h1>
+            <p className="text-[#6a6a6a] text-sm">
+              {lang === "id"
+                ? "Parameter kode pesanan tidak ditemukan."
+                : "Order code parameter not found."}
+            </p>
+            <Link
+              href="/"
+              className="inline-block px-8 py-3.5 text-[11px] tracking-widest uppercase bg-[#c9a96e] text-[#0a0a0a] font-medium hover:bg-[#d4b87a] transition-colors"
+            >
+              {lang === "id" ? "Kembali ke Beranda" : "Back to Home"}
+            </Link>
+          </div>
+        )}
+
+        {orderCode && loading && (
           <div className="flex flex-col items-center text-center gap-4 py-20">
             <Loader2 size={24} className="text-[#c9a96e] animate-spin" />
             <p className="text-[#6a6a6a] text-sm">{lang === "id" ? "Memuat..." : "Loading..."}</p>
           </div>
         )}
 
-        {!loading && error && (
+        {orderCode && !loading && error && (
           <div className="text-center py-20 space-y-4">
             <h1 className="font-serif text-3xl text-[#faf8f5]">
               {lang === "id" ? "Pesanan Tidak Ditemukan" : "Order Not Found"}
@@ -126,7 +169,7 @@ function OrderSuccessContent() {
           </div>
         )}
 
-        {!loading && order && (
+        {orderCode && !loading && order && (
           <div className="space-y-5">
             {/* Success Header */}
             <div className="flex flex-col items-center text-center gap-3">

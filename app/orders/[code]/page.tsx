@@ -2,7 +2,7 @@
 
 import { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   ChevronLeft, Check, MessageCircle, Phone, Download,
   ZoomIn, ZoomOut, Share2, FileText, Clock
@@ -12,6 +12,7 @@ import { DashboardSidebar } from "@/components/layout/DashboardSidebar";
 import { formatIDR } from "@/lib/utils";
 import type { OrderRow } from "@/types";
 import { WA_NUMBER } from "@/lib/config";
+import { createClient } from "@/lib/supabase/client";
 
 const STATUS_STEPS_ID = [
   { key: "pending", label: "Pesanan Diterima" },
@@ -102,14 +103,28 @@ function PaymentBanner({ order, locale }: { readonly order: OrderRow; readonly l
 
 function OrderDetailContent() {
   const params = useParams();
+  const router = useRouter();
   const orderCode = decodeURIComponent(String(params.code ?? ""));
   const { lang: locale } = useLanguage();
   const [order, setOrder] = useState<OrderRow | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  // C4: Require login before showing order details
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => {
+      if (!data.user) {
+        router.replace(`/auth/login?redirectTo=/orders/${encodeURIComponent(orderCode)}`);
+      } else {
+        setAuthChecked(true);
+      }
+    });
+  }, [orderCode, router]);
 
   useEffect(() => {
-    if (!orderCode) { setLoading(false); return; }
+    if (!orderCode || !authChecked) { setLoading(false); return; }
     fetch(`/api/orders?orderCode=${encodeURIComponent(orderCode)}`)
       .then((r) => r.json())
       .then((data) => {
@@ -118,7 +133,7 @@ function OrderDetailContent() {
       })
       .catch(() => setError(true))
       .finally(() => setLoading(false));
-  }, [orderCode]);
+  }, [orderCode, authChecked]);
 
   if (loading) return (
     <div className="min-h-screen bg-surface flex items-center justify-center">

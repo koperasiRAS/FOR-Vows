@@ -57,11 +57,10 @@ export default function AdminOrderDetailPage() {
     });
 
     if (!orderId) { setLoading(false); return; }
-    fetch(`/api/orders`)
+    fetch(`/api/orders/${orderId}`)
       .then((r) => r.json())
       .then((data) => {
-        const found = (data.orders ?? []).find((o: OrderRow) => o.id === orderId);
-        if (found) setOrder(found);
+        if (data.success && data.order) setOrder(data.order);
         else setError(true);
       })
       .catch(() => setError(true))

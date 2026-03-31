@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { randomUUID } from "crypto";
 import { createServiceClient, createClient as createServerClient } from "@/lib/supabase/server";
 import { PACKAGES, getPackage } from "@/lib/packages";
 import { calculateDiscount } from "@/lib/referrals";
@@ -8,8 +9,10 @@ function generateOrderCode(): string {
   const yyyy = now.getFullYear();
   const mm = String(now.getMonth() + 1).padStart(2, "0");
   const dd = String(now.getDate()).padStart(2, "0");
+  // L1: UUID fragment — 4 hex chars = 36^4 ≈ 1.6M combos vs 9K for 4-digit random
+  const uuidFragment = randomUUID().replace(/-/g, "").slice(0, 4).toUpperCase();
   const rand = String(Math.floor(1000 + Math.random() * 9000));
-  return `FORV-${yyyy}${mm}${dd}-${rand}`;
+  return `FORV-${yyyy}${mm}${dd}-${uuidFragment}-${rand}`;
 }
 
 export async function POST(request: NextRequest) {

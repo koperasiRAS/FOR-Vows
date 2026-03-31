@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search, Filter, ChevronLeft, ChevronRight, Eye, Edit2, TrendingUp } from "lucide-react";
@@ -58,6 +58,8 @@ export default function AdminOrdersPage() {
   const [userEmail, setUserEmail] = useState("");
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
+  const [statusOpen, setStatusOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(1);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
 
@@ -86,12 +88,23 @@ export default function AdminOrdersPage() {
     fetchData();
   }, [router]);
 
+  // M3: Close dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setStatusOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
   const filtered = orders.filter((o) => {
     const matchStatus = filter === "all" || o.status === filter;
     const matchSearch =
       !search ||
-      o.groom_name.toLowerCase().includes(search.toLowerCase()) ||
-      o.bride_name.toLowerCase().includes(search.toLowerCase()) ||
+      (o.groom_name?.toLowerCase()?.includes(search.toLowerCase()) ?? false) ||
+      (o.bride_name?.toLowerCase()?.includes(search.toLowerCase()) ?? false) ||
       o.order_code.toLowerCase().includes(search.toLowerCase());
     return matchStatus && matchSearch;
   });
@@ -176,26 +189,31 @@ export default function AdminOrdersPage() {
             </div>
 
             {/* Status filter */}
-            <div className="relative">
-              <button className="flex items-center gap-2 bg-surface-container-low px-4 py-3 rounded-xl cursor-pointer hover:bg-surface-container transition-colors border-none">
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setStatusOpen((v) => !v)}
+                className="flex items-center gap-2 bg-surface-container-low px-4 py-3 rounded-xl cursor-pointer hover:bg-surface-container transition-colors border-none"
+              >
                 <Filter size={15} strokeWidth={1.5} className="text-outline" />
                 <span className="text-sm font-medium text-stitch-secondary">
                   Status: {STATUS_OPTIONS.find((s) => s.value === filter)?.label}
                 </span>
               </button>
-              <div className="absolute right-0 top-full mt-2 bg-white rounded-xl shadow-[0_20px_40px_rgba(43,43,43,0.08)] border border-outline-variant/20 overflow-hidden z-50 min-w-[160px]">
-                {STATUS_OPTIONS.map((opt) => (
-                  <button
-                    key={opt.value}
-                    onClick={() => { setFilter(opt.value); setPage(1); }}
-                    className={`w-full text-left px-4 py-2.5 text-sm hover:bg-surface-container-low transition-colors ${
-                      filter === opt.value ? "text-stitch-primary font-semibold" : "text-stitch-secondary"
-                    }`}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
+              {statusOpen && (
+                <div className="absolute right-0 top-full mt-2 bg-white rounded-xl shadow-[0_20px_40px_rgba(43,43,43,0.08)] border border-outline-variant/20 overflow-hidden z-50 min-w-[160px]">
+                  {STATUS_OPTIONS.map((opt) => (
+                    <button
+                      key={opt.value}
+                      onClick={() => { setFilter(opt.value); setPage(1); setStatusOpen(false); }}
+                      className={`w-full text-left px-4 py-2.5 text-sm hover:bg-surface-container-low transition-colors ${
+                        filter === opt.value ? "text-stitch-primary font-semibold" : "text-stitch-secondary"
+                      }`}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Avatar */}

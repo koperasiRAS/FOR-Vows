@@ -20,6 +20,15 @@ async function requireAdminSession(request: NextRequest) {
 // ── POST (public-facing — cart/OrderModal inserts new orders) ────────────────
 // No auth required here; inserts go through service role via RLS.
 export async function POST(request: NextRequest) {
+  let authUserId: string | null = null;
+  try {
+    const authCheck = await createSupabaseClient();
+    const { data: { user } } = await authCheck.auth.getUser();
+    authUserId = user?.id ?? null;
+  } catch {
+    // Not authenticated — guest cart checkout
+  }
+
   try {
     const body = await request.json();
     const {
@@ -100,6 +109,7 @@ export async function POST(request: NextRequest) {
         final_total: finalOrderTotal,
         referral_code: effectiveReferralCode,
         wedding_date: weddingDate ?? null,
+        user_id: authUserId,
       })
       .select()
       .single();

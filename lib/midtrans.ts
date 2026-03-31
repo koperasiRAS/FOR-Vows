@@ -16,6 +16,7 @@ export async function getSnapToken(data: {
   customerPhone?: string;
   amount?: number;
   items: Array<{ name: string; price: number; quantity: number }>;
+  userId?: string; // ownership verification
 }): Promise<{ token: string; orderId: string }> {
   const res = await fetch("/api/midtrans/create-snap-token", {
     method: "POST",

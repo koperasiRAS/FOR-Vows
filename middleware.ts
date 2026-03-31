@@ -57,6 +57,15 @@ async function handleAdminAuth(request: NextRequest) {
     return NextResponse.redirect(new URL("/admin/orders", request.url));
   }
 
+  // Check admin role — users must have "admin" in app_metadata.roles
+  const roles: string[] = user?.app_metadata?.roles as string[] ?? [];
+  const isAdmin = roles.includes("admin");
+
+  if (!isAdmin) {
+    // Authenticated but not admin — redirect to customer dashboard
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
   return response;
 }
 
