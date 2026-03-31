@@ -47,10 +47,13 @@ create index if not exists orders_status_idx on public.orders (status);
 -- Row Level Security — allow anon reads (for order lookup by code)
 alter table public.orders enable row level security;
 
-create policy "Allow anon read"
-  on public.orders
-  for select
-  using (true);
+-- Drop first so re-running the full schema is safe (idempotent)
+drop policy if exists "Allow anon read" on public.orders;
+drop policy if exists "Service role can insert" on public.orders;
+drop policy if exists "Service role can update" on public.orders;
+drop policy if exists "Users can read own orders" on public.orders;
+
+create policy "Allow anon read" on public.orders for select using (true);
 
 -- Only the service role key (used server-side) can insert — anon/key users cannot insert directly
 create policy "Service role can insert"
@@ -84,6 +87,11 @@ create table if not exists public.inquiries (
 
 -- RLS for inquiries
 alter table public.inquiries enable row level security;
+
+-- Drop first (idempotent)
+drop policy if exists "Service role can insert inquiries" on public.inquiries;
+drop policy if exists "Allow read inquiries" on public.inquiries;
+drop policy if exists "Allow update inquiries" on public.inquiries;
 
 -- Service role (server actions) can insert
 create policy "Service role can insert inquiries"
@@ -147,6 +155,10 @@ create trigger on_auth_user_created
 
 -- RLS for profiles
 alter table public.profiles enable row level security;
+
+-- Drop first (idempotent)
+drop policy if exists "Users can view own profile" on public.profiles;
+drop policy if exists "Users can update own profile" on public.profiles;
 
 create policy "Users can view own profile"
   on public.profiles for select
