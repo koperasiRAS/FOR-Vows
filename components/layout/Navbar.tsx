@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { Menu, X, ShoppingBag } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { useLanguage } from "@/lib/i18n/context";
@@ -18,10 +19,13 @@ const navLinks = [
 ];
 
 export function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { itemCount, setOpen } = useCart();
   const { t } = useLanguage();
+
+  const isHiddenPage = pathname?.startsWith('/admin') || pathname?.startsWith('/auth') || pathname?.startsWith('/dashboard');
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -33,6 +37,10 @@ export function Navbar() {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
+
+  if (isHiddenPage) {
+    return null;
+  }
 
   return (
     <header
