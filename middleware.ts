@@ -13,15 +13,10 @@ function extractSubdomain(host: string): string | null {
   return parts[0];
 }
 
-// ── Admin Auth Guard ──────────────────────────────────────────────────────────
+// ── Shared Supabase Auth Helper ───────────────────────────────────────────────
 
-async function handleAdminAuth(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  const isLoginPage = pathname === "/admin/login";
-
-  const response = NextResponse.next({ request });
-
-  const supabase = createServerClient(
+function createSupabaseServerClient(request: NextRequest, response: NextResponse) {
+  return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
@@ -37,6 +32,16 @@ async function handleAdminAuth(request: NextRequest) {
       },
     }
   );
+}
+
+// ── Admin Auth Guard ──────────────────────────────────────────────────────────
+
+async function handleAdminAuth(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const isLoginPage = pathname === "/admin/login";
+
+  const response = NextResponse.next({ request });
+  const supabase = createSupabaseServerClient(request, response);
 
   const {
     data: { user },
@@ -49,6 +54,33 @@ async function handleAdminAuth(request: NextRequest) {
   }
 
   if (user && isLoginPage) {
+    return NextResponse.redirect(new URL("/admin/orders", request.url));
+  }
+
+  return response;
+}
+
+// ── Customer Auth Guard ───────────────────────────────────────────────────────
+
+async function handleCustomerAuth(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const isLoginPage = pathname === "/auth/login";
+  const isRegisterPage = pathname === "/auth/register";
+
+  const response = NextResponse.next({ request });
+  const supabase = createSupabaseServerClient(request, response);
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user && !isLoginPage && !isRegisterPage) {
+    const loginUrl = new URL("/auth/login", request.url);
+    loginUrl.searchParams.set("redirectTo", pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  if (user && (isLoginPage || isRegisterPage)) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
@@ -61,14 +93,19 @@ export async function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
   const host = request.headers.get("host") ?? "";
 
-  // ── 1. /login → /admin/login ─────────────────────────────────────────────
+  // ── 1. /login → /auth/login (customer) ────────────────────────────────────
   if (pathname === "/login") {
-    return NextResponse.redirect(new URL("/admin/login", request.url));
+    return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
   // ── 2. Admin auth guard ──────────────────────────────────────────────────
   if (pathname.startsWith("/admin")) {
     return handleAdminAuth(request);
+  }
+
+  // ── 3. Customer auth guard ────────────────────────────────────────────────
+  if (pathname.startsWith("/dashboard")) {
+    return handleCustomerAuth(request);
   }
 
   // ── 3. Partner proxy ─────────────────────────────────────────────────────

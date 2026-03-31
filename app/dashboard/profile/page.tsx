@@ -1,16 +1,54 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Loader2, User, Mail, Phone, QrCode, Copy, Check } from "lucide-react";
 import { useLanguage } from "@/lib/i18n/context";
 import { DashboardSidebar } from "@/components/layout/DashboardSidebar";
+import { createClient } from "@/lib/supabase/client";
 import { WA_NUMBER } from "@/lib/config";
+
+interface ProfileData {
+  full_name: string | null;
+  email: string | null;
+  phone: string | null;
+  referral_code: string | null;
+}
 
 function ProfileContent() {
   const { lang } = useLanguage();
   const [copied, setCopied] = useState(false);
+  const [profile, setProfile] = useState<ProfileData | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const referralCode = "FORVOWS25";
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { setLoading(false); return; }
+
+      const { data } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+
+      if (data) {
+        setProfile(data as ProfileData);
+      } else {
+        // Fallback: use auth user data
+        setProfile({
+          full_name: user.user_metadata?.full_name ?? null,
+          email: user.email ?? null,
+          phone: user.user_metadata?.phone ?? null,
+          referral_code: null,
+        });
+      }
+      setLoading(false);
+    };
+    fetchProfile();
+  }, []);
+
+  const referralCode = profile?.referral_code ?? "FORVOWS25";
 
   const handleCopy = () => {
     navigator.clipboard.writeText(referralCode).then(() => {
@@ -55,7 +93,7 @@ function ProfileContent() {
                       {t("Nama", "Name")}
                     </p>
                     <p className="text-sm font-semibold text-on-surface">
-                      {t("Pengguna FOR Vows", "FOR Vows User")}
+                      {loading ? "..." : (profile?.full_name || t("Pengguna FOR Vows", "FOR Vows User"))}
                     </p>
                   </div>
                 </div>
@@ -67,7 +105,7 @@ function ProfileContent() {
                   <div className="flex-1 min-w-0">
                     <p className="text-[10px] uppercase tracking-widest text-stone-400 font-label mb-1">Email</p>
                     <p className="text-sm text-on-surface">
-                      {t("Tidak tersedia", "Not available")}
+                      {loading ? "..." : (profile?.email || t("Tidak tersedia", "Not available"))}
                     </p>
                   </div>
                 </div>

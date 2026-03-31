@@ -115,4 +115,6 @@ export interface OrderRow {
   wedding_date: string | null;
   payment_status: string | null;
   paid_at: string | null;
+  // Auth
+  user_id?: string | null;
 }

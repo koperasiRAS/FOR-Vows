@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 import { Loader2, CreditCard, CheckCircle, Clock } from "lucide-react";
 import { useLanguage } from "@/lib/i18n/context";
 import { DashboardSidebar } from "@/components/layout/DashboardSidebar";
+import { createClient } from "@/lib/supabase/client";
 import { formatIDR } from "@/lib/utils";
 import type { OrderRow } from "@/types";
 
@@ -21,34 +22,63 @@ function BillingContent() {
   const [orders, setOrders] = useState<TrackedOrder[]>([]);
 
   useEffect(() => {
-    try {
-      const stored = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) ?? "[]") as string[];
-      if (stored.length === 0) { setOrders([]); return; }
-      setOrders(stored.map((code) => ({ orderCode: code, order: null, loading: true, error: false })));
+    const fetchAllOrders = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      const seenCodes = new Set<string>();
+      const initialOrders: TrackedOrder[] = [];
 
-      stored.forEach((code) => {
-        fetch(`/api/orders?orderCode=${encodeURIComponent(code)}`)
-          .then((r) => r.json())
-          .then((data) => {
-            if (data.success && data.order) {
-              setOrders((prev) =>
-                prev.map((o) => (o.orderCode === code ? { ...o, order: data.order, loading: false } : o))
-              );
-            } else {
-              setOrders((prev) =>
-                prev.map((o) => (o.orderCode === code ? { ...o, loading: false, error: true } : o))
-              );
-            }
-          })
-          .catch(() => {
-            setOrders((prev) =>
-              prev.map((o) => (o.orderCode === code ? { ...o, loading: false, error: true } : o))
-            );
+      if (user) {
+        const { data: userOrders } = await supabase
+          .from("orders")
+          .select("*")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false });
+
+        if (userOrders && userOrders.length > 0) {
+          userOrders.forEach((order: OrderRow) => {
+            seenCodes.add(order.order_code);
+            initialOrders.push({ orderCode: order.order_code, order, loading: false, error: false });
           });
-      });
-    } catch {
-      setOrders([]);
-    }
+        }
+      }
+
+      try {
+        const stored = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) ?? "[]") as string[];
+        const localCodes = stored.filter((code) => !seenCodes.has(code));
+        if (localCodes.length > 0) {
+          setOrders([...initialOrders, ...localCodes.map((code) => ({
+            orderCode: code, order: null, loading: true, error: false,
+          }))]);
+          localCodes.forEach((code) => {
+            fetch(`/api/orders?orderCode=${encodeURIComponent(code)}`)
+              .then((r) => r.json())
+              .then((data) => {
+                if (data.success && data.order) {
+                  setOrders((prev) =>
+                    prev.map((o) => (o.orderCode === code ? { ...o, order: data.order, loading: false } : o))
+                  );
+                } else {
+                  setOrders((prev) =>
+                    prev.map((o) => (o.orderCode === code ? { ...o, loading: false, error: true } : o))
+                  );
+                }
+              })
+              .catch(() => {
+                setOrders((prev) =>
+                  prev.map((o) => (o.orderCode === code ? { ...o, loading: false, error: true } : o))
+                );
+              });
+          });
+        } else {
+          setOrders(initialOrders);
+        }
+      } catch {
+        setOrders(initialOrders);
+      }
+    };
+
+    fetchAllOrders();
   }, []);
 
   const paidOrders = orders.filter(

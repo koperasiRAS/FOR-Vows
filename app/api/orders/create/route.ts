@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServiceClient } from "@/lib/supabase/server";
+import { createServiceClient, createClient as createServerClient } from "@/lib/supabase/server";
 import { PACKAGES, getPackage } from "@/lib/packages";
-import { calculateDiscount, validateReferralCode } from "@/lib/referrals";
+import { calculateDiscount } from "@/lib/referrals";
 
 function generateOrderCode(): string {
   const now = new Date();
@@ -61,6 +61,16 @@ export async function POST(request: NextRequest) {
 
     const finalTotal = totalPrice - discountAmount;
 
+    // Get authenticated user (if any — guest checkout still works)
+    let userId: string | null = null;
+    try {
+      const userSupabase = await createServerClient();
+      const { data: { user } } = await userSupabase.auth.getUser();
+      userId = user?.id ?? null;
+    } catch {
+      // Not authenticated — guest checkout
+    }
+
     const supabase = await createServiceClient();
 
     const { data, error } = await supabase
@@ -91,6 +101,7 @@ export async function POST(request: NextRequest) {
         final_total: finalTotal,
         referral_code: normalizedCode ?? null,
         wedding_date: eventDate ?? null,
+        user_id: userId,
       })
       .select()
       .single();
