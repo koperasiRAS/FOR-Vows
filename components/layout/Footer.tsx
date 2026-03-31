@@ -9,7 +9,7 @@ export function Footer() {
   const { t } = useLanguage();
   const pathname = usePathname();
 
-  const isHiddenPage = pathname?.startsWith('/admin') || pathname?.startsWith('/auth') || pathname?.startsWith('/dashboard');
+  const isHiddenPage = pathname?.startsWith('/admin') || pathname?.startsWith('/auth') || pathname?.startsWith('/dashboard') || pathname?.startsWith('/demo') || pathname?.startsWith('/t');
 
   if (isHiddenPage) {
     return null;

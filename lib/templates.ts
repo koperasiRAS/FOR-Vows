@@ -12,6 +12,29 @@ import type {
 
 export const templates: WeddingTemplate[] = [
   {
+    id: "99",
+    slug: "floral-luxury",
+    name: "Floral Luxury",
+    category: "luxury",
+    description:
+      "A harmonious blend of high-end aesthetics and delicate blooming visuals. Floral Luxury whispers elegance through organic textures, exquisite typography, and refined minimalism for the perfect fine art storytelling.",
+    shortDescription: "Elegant botanical artistry meets modern luxury design.",
+    gradientFrom: "#0d0906",
+    gradientTo: "#2a1b12",
+    accentColor: "#cfa579",
+    suitableFor: ["Creative professionals", "Fine art photographers", "Luxury brands"],
+    features: [
+      "Bespoke floral design language",
+      "Dynamic immersive scroll",
+      "Smooth glassmorphism UI",
+      "Elegant serif typography",
+      "Integrated contact section",
+      "Professional gallery layout"
+    ],
+    featured: true,
+    price: "Rp 599.000",
+  },
+  {
     id: "1",
     slug: "eternal-gold",
     name: "Eternal Gold",
