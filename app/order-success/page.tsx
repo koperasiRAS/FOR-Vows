@@ -175,12 +175,20 @@ function OrderSuccessContent() {
                 ? "Kode pesanan tidak valid atau sudah kedaluwarsa."
                 : "Order code is invalid or has expired."}
             </p>
-            <Link
-              href="/templates"
-              className="inline-block px-8 py-3.5 text-[11px] tracking-widest uppercase bg-[#c9a96e] text-[#0a0a0a] font-medium hover:bg-[#d4b87a] transition-colors"
-            >
-              {lang === "id" ? "Lihat Template" : "View Templates"}
-            </Link>
+            <div className="flex items-center justify-center gap-4">
+              <Link
+                href="/dashboard"
+                className="inline-block px-8 py-3.5 text-[11px] tracking-widest uppercase bg-[#c9a96e] text-[#0a0a0a] font-medium hover:bg-[#d4b87a] transition-colors"
+              >
+                {lang === "id" ? "Kembali ke Dashboard" : "Back to Dashboard"}
+              </Link>
+              <Link
+                href="/templates"
+                className="inline-block px-8 py-3.5 text-[11px] tracking-widest uppercase border border-[#c9a96e] text-[#c9a96e] font-medium hover:bg-[#c9a96e]/10 transition-colors"
+              >
+                {lang === "id" ? "Lihat Template" : "View Templates"}
+              </Link>
+            </div>
           </div>
         )}
 

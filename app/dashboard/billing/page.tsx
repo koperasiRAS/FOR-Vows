@@ -82,7 +82,7 @@ function BillingContent() {
   }, []);
 
   const paidOrders = orders.filter(
-    (o) => o.order && ["paid", "in_progress", "revision", "completed"].includes(o.order!.status)
+    (o) => o.order && ["paid", "processing", "completed"].includes(o.order!.status)
   );
 
   const totalSpent = paidOrders.reduce(
@@ -156,7 +156,7 @@ function BillingContent() {
                 }
                 if (!order) return null;
 
-                const isPaid = ["paid", "in_progress", "revision", "completed"].includes(order.status);
+                const isPaid = ["paid", "processing", "completed"].includes(order.status);
                 const createdDate = new Date(order.created_at).toLocaleDateString(
                   lang === "id" ? "id-ID" : "en-GB",
                   { day: "numeric", month: "long", year: "numeric" }

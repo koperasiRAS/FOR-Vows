@@ -20,7 +20,14 @@ function CustomerLoginContent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim() || !password.trim()) return;
+    if (!email.trim() || !password.trim()) {
+      setError(
+        lang === "id"
+          ? "Email dan password wajib diisi."
+          : "Email and password are required."
+      );
+      return;
+    }
 
     setLoading(true);
     setError("");

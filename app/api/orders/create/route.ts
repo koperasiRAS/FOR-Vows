@@ -37,9 +37,38 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate phone format server-side (defense-in-depth; client Zod validates too)
+    const phoneRegex = /^[+]?[\d\s\-()]{8,20}$/;
+    if (!phoneRegex.test(phone.trim())) {
+      return NextResponse.json(
+        { success: false, error: "Invalid phone number format" },
+        { status: 400 }
+      );
+    }
+
+    // String length limits
+    if (groomName.trim().length > 100 || brideName.trim().length > 100) {
+      return NextResponse.json(
+        { success: false, error: "Name exceeds maximum length" },
+        { status: 400 }
+      );
+    }
+    if (phone.trim().length > 20) {
+      return NextResponse.json(
+        { success: false, error: "Phone number exceeds maximum length" },
+        { status: 400 }
+      );
+    }
+    if (story && story.trim().length > 2000) {
+      return NextResponse.json(
+        { success: false, error: "Notes exceed maximum length" },
+        { status: 400 }
+      );
+    }
+
     // Validate package
     const pkg = getPackage(packageKey);
-    if (!PACKAGES.find((p) => p.key === packageKey)) {
+    if (!pkg || !PACKAGES.some((p) => p.key === packageKey)) {
       return NextResponse.json(
         { success: false, error: "Invalid package" },
         { status: 400 }

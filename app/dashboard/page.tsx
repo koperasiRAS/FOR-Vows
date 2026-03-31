@@ -226,7 +226,7 @@ function DashboardContent() {
   };
 
   const totalOrders = orders.filter((o) => o.order).length;
-  const activeOrders = orders.filter((o) => o.order && ["in_progress", "revision", "paid"].includes(o.order!.status)).length;
+  const activeOrders = orders.filter((o) => o.order && ["processing", "paid"].includes(o.order!.status)).length;
   const completedOrders = orders.filter((o) => o.order && o.order.status === "completed").length;
 
   return (

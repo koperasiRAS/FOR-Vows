@@ -27,7 +27,10 @@ function CustomerRegisterContent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.fullName.trim() || !form.email.trim() || !form.phone.trim() || !form.password.trim()) return;
+    if (!form.fullName.trim() || !form.email.trim() || !form.phone.trim() || !form.password.trim()) {
+      setError(lang === "id" ? "Semua kolom wajib diisi." : "All fields are required.");
+      return;
+    }
     if (form.password !== form.confirmPassword) {
       setError(lang === "id" ? "Password tidak cocok." : "Passwords do not match.");
       return;
@@ -59,7 +62,9 @@ function CustomerRegisterContent() {
           ? lang === "id"
             ? "Email sudah terdaftar."
             : "Email is already registered."
-          : signUpError.message
+          : lang === "id"
+            ? "Terjadi kesalahan saat mendaftar. Silakan coba lagi."
+            : "An error occurred during registration. Please try again."
       );
       setLoading(false);
       return;

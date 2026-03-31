@@ -195,6 +195,11 @@ export default function OrderPage() {
   const selectedPkg = PACKAGES.find((p) => p.key === watchedData.packageKey);
 
   const onSubmit = async (data: OrderFormData) => {
+    // Guard: prevent submission from step 1 or without a package selected
+    if (step !== 2 || !data.packageKey) {
+      toast.error("Pilih paket terlebih dahulu.");
+      return;
+    }
     try {
       const res = await fetch("/api/orders/create", {
         method: "POST",
