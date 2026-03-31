@@ -30,7 +30,10 @@ create table if not exists public.orders (
   -- Payment fields
   payment_status    text,
   paid_at           timestamptz,
-  midtrans_order_id text
+  midtrans_order_id text unique,
+  -- Payment hardening
+  snap_token                 text,
+  payment_token_created_at   timestamptz
 );
 
 -- Auto-generate order_code if not provided
@@ -43,6 +46,20 @@ create index if not exists orders_order_code_idx on public.orders (order_code);
 
 -- Index for status filtering
 create index if not exists orders_status_idx on public.orders (status);
+
+-- Security Hardening: Ensure existing orders table gets ALL payment columns if already deployed
+alter table public.orders 
+  add column if not exists payment_status text,
+  add column if not exists paid_at timestamptz,
+  add column if not exists midtrans_order_id text,
+  add column if not exists snap_token text,
+  add column if not exists payment_token_created_at timestamptz;
+
+alter table public.orders 
+  drop constraint if exists orders_midtrans_order_id_key;
+
+alter table public.orders 
+  add constraint orders_midtrans_order_id_key unique (midtrans_order_id);
 
 -- Row Level Security — allow anon reads (for order lookup by code)
 alter table public.orders enable row level security;

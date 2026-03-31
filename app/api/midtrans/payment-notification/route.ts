@@ -77,12 +77,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // [IDEMPOTENCY] Skip update if already settled or cancelled
+    // [IDEMPOTENCY] Task 4: Explicit early return if already settled, completed, or explicitly cancelled
     if (
-      (existingOrder.status === "paid" || existingOrder.status === "cancelled") &&
-      existingOrder.payment_status === "paid"
+      existingOrder.status === "paid" ||
+      existingOrder.status === "completed" ||
+      existingOrder.status === "cancelled"
     ) {
-      console.log(`[FORVows Payment] Order ${order_id} already processed (${existingOrder.status}) — skipping update`);
+      console.log(`[FORVows Sec] Order ${order_id} already in terminal state (${existingOrder.status}) — explicit early return`);
       return NextResponse.json({ success: true, message: "Already processed" });
     }
 

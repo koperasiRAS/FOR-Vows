@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     const supabase = await createServiceClient();
     const { data: order, error: orderError } = await supabase
       .from("orders")
-      .select("final_total, total_price, items, user_id")
+      .select("final_total, total_price, items, user_id, status, payment_status, snap_token, payment_token_created_at")
       .eq("order_code", bookingId)
       .single();
 
@@ -40,6 +40,28 @@ export async function POST(request: NextRequest) {
     if (!amount) {
       console.error("[FORVows SnapToken] No amount found for order:", bookingId);
       return NextResponse.json({ success: false, error: "Invalid order amount" }, { status: 400 });
+    }
+
+    // [SECURITY] Task 1 & 6: Check if status is valid for payment
+    // We reject if it's already paid, processing, or completed.
+    if (!["pending", "cancelled", "expired"].includes(order.status) && order.payment_status !== "expired") {
+      return NextResponse.json({ success: false, error: "Order is no longer eligible for payment." }, { status: 400 });
+    }
+
+    // [SECURITY] Task 1 & 7: Check if we can reuse an existing token
+    const now = new Date();
+    const tokenAgeMinutes = order.payment_token_created_at
+      ? (now.getTime() - new Date(order.payment_token_created_at).getTime()) / 60000
+      : Infinity;
+
+    // Do NOT reuse old token if the order was somehow cancelled/expired
+    if (order.snap_token && tokenAgeMinutes < 15 && order.status === "pending") {
+      console.log(`[FORVows Sec] Reusing Snap token for ${bookingId} (Age: ${Math.round(tokenAgeMinutes)}m)`);
+      return NextResponse.json({
+        success: true,
+        token: order.snap_token,
+        orderId: bookingId,
+      });
     }
 
     // Determine item details — prefer server-side items from DB, fall back to client-supplied
@@ -81,6 +103,12 @@ export async function POST(request: NextRequest) {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const snapToken = await (midtrans as any).createTransactionToken(parameter);
+
+    // [SECURITY] Task 7: Lock the token by saving it and the creation timestamp
+    await supabase.from("orders").update({
+      snap_token: snapToken,
+      payment_token_created_at: now.toISOString(),
+    }).eq("order_code", bookingId);
 
     return NextResponse.json({
       success: true,

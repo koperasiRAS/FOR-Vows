@@ -132,52 +132,54 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// ── GET: list all orders (admin only) ───────────────────────────────────────
+// ── GET: list all orders (guest/user/admin) ───────────────────────────────────
 export async function GET(request: NextRequest) {
-  const authUser = await requireAdminSession(request);
-  if (authUser instanceof NextResponse) return authUser;
-
   try {
     const orderCode = request.nextUrl.searchParams.get("orderCode");
     const supabase = await createSupabaseClient();
+    const { data: { user } } = await supabase.auth.getUser();
 
     if (orderCode) {
-      // Single order lookup
-      const { data, error } = await supabase
+      // Single order lookup (used by order-success page)
+      const serviceClient = await createServiceClient();
+      const { data, error } = await serviceClient
         .from("orders")
         .select("*")
         .eq("order_code", orderCode)
         .single();
 
       if (error || !data) {
-        return NextResponse.json(
-          { success: false, error: "Order not found" },
-          { status: 404 }
-        );
+        return NextResponse.json({ success: false, error: "Order not found" }, { status: 404 });
       }
+
+      // [SECURITY] Phase 3: Ownership validation
+      // If the order belongs to a user, the current session user MUST match it.
+      if (data.user_id && data.user_id !== user?.id) {
+        console.warn(`[FORVows Sec] Unauthorized GET: order ${orderCode} restricted to ${data.user_id}, but user is ${user?.id}`);
+        return NextResponse.json({ success: false, error: "Forbidden: Not your order" }, { status: 403 });
+      }
+
       return NextResponse.json({ success: true, order: data });
     }
 
-    // Return all orders for admin dashboard
+    // List all orders (requires admin session)
+    if (!user) {
+      return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+    }
+
     const { data, error } = await supabase
       .from("orders")
       .select("*")
       .order("created_at", { ascending: false });
 
     if (error) {
-      return NextResponse.json(
-        { success: false, error: "Failed to fetch orders" },
-        { status: 500 }
-      );
+      return NextResponse.json({ success: false, error: "Failed to fetch orders" }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, orders: data ?? [] });
   } catch (err) {
     console.error("Order fetch error:", err);
-    return NextResponse.json(
-      { success: false, error: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: "Internal server error" }, { status: 500 });
   }
 }
 

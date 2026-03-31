@@ -6,7 +6,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Check, ArrowLeft, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useLanguage } from "@/lib/i18n/context";
-import { StatusBadge, needsPayment } from "@/components/shared/StatusBadge";
+import { StatusBadge } from "@/components/shared/StatusBadge";
 import type { OrderRow } from "@/types";
 import { formatIDR } from "@/lib/utils";
 import { WA_NUMBER } from "@/lib/config";
@@ -267,8 +267,8 @@ function OrderSuccessContent() {
               </div>
             </div>
 
-            {/* Payment CTA */}
-            {needsPayment(order.status) && (
+            {/* Payment CTA (Task 5 & 6) */}
+            {order.status === "pending" && (
               <div className="p-5 border border-[#c9a96e]/30 bg-[#c9a96e]/5 space-y-3">
                 <p className="text-xs text-[#8a8a8a] text-center">
                   {lang === "id"
@@ -297,9 +297,35 @@ function OrderSuccessContent() {
               </div>
             )}
 
-            {/* Already paid / in progress */}
-            {!needsPayment(order.status) && order.status !== "completed" && (
-              <div className="p-5 border border-[#c9a96e]/20 bg-[#c9a96e]/5 text-center space-y-2">
+            {/* Task 6: Payment Expire Guard (Generate new payment) */}
+            {(order.status === "cancelled" || order.payment_status === "expired") && (
+              <div className="p-5 border border-red-500/30 bg-red-500/5 space-y-3 text-center">
+                <p className="text-sm text-red-400">
+                  {lang === "id"
+                    ? "Waktu pembayaran sebelumnya telah habis atau gagal."
+                    : "Previous payment window expired or failed."}
+                </p>
+                <button
+                  onClick={handlePayNow}
+                  disabled={paying}
+                  className="w-full py-4 flex items-center justify-center gap-2 border border-red-500/30 text-red-200 text-[11px] tracking-[0.18em] uppercase font-medium hover:bg-red-500/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  {paying ? (
+                    <Loader2 size={14} className="animate-spin" />
+                  ) : (
+                    <>{lang === "id" ? "Generate New Payment" : "Generate New Payment"}</>
+                  )}
+                </button>
+              </div>
+            )}
+
+            {/* Task 5: Disable Payment After Paid */}
+            {(order.status === "paid" || order.status === "processing") && (
+              <div className="p-5 border border-green-500/20 bg-green-500/5 text-center space-y-2">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-500/20 text-green-400 text-[10px] tracking-widest uppercase mb-2">
+                  <Check size={12} />
+                  Already Paid
+                </div>
                 <p className="text-sm text-[#faf8f5]">
                   {lang === "id"
                     ? "Pembayaran sudah diterima. Pesanan Anda sedang diproses!"
@@ -316,6 +342,10 @@ function OrderSuccessContent() {
             {/* Completed */}
             {order.status === "completed" && (
               <div className="p-5 border border-green-500/20 bg-green-500/5 text-center space-y-2">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-500/20 text-green-400 text-[10px] tracking-widest uppercase mb-2">
+                  <Check size={12} />
+                  Completed
+                </div>
                 <p className="text-sm text-[#faf8f5]">
                   {lang === "id"
                     ? "Pesanan selesai! Undangan digital Anda siap."
