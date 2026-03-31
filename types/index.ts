@@ -103,7 +103,7 @@ export interface OrderRow {
   package_name: string | null;
   phone: string;
   notes: string | null;
-  status: "pending" | "waiting_payment" | "paid" | "in_progress" | "revision" | "completed";
+  status: "pending" | "paid" | "processing" | "completed" | "cancelled";
   created_at: string;
   // Cart-style fields
   items: unknown[] | null;
@@ -115,6 +115,7 @@ export interface OrderRow {
   wedding_date: string | null;
   payment_status: string | null;
   paid_at: string | null;
+  midtrans_order_id: string | null;
   // Auth
   user_id?: string | null;
 }

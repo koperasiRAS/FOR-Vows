@@ -13,11 +13,10 @@ create table if not exists public.orders (
   status          text        not null default 'pending'
                   check (status in (
                     'pending',
-                    'waiting_payment',
                     'paid',
-                    'in_progress',
-                    'revision',
-                    'completed'
+                    'processing',
+                    'completed',
+                    'cancelled'
                   )),
   created_at      timestamptz not null default now(),
   -- Cart-style fields
@@ -29,8 +28,9 @@ create table if not exists public.orders (
   referral_code   text,
   wedding_date    text,
   -- Payment fields
-  payment_status  text,
-  paid_at         timestamptz
+  payment_status    text,
+  paid_at           timestamptz,
+  midtrans_order_id text
 );
 
 -- Auto-generate order_code if not provided

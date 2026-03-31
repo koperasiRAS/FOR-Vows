@@ -16,19 +16,17 @@ import { createClient } from "@/lib/supabase/client";
 
 const STATUS_STEPS_ID = [
   { key: "pending", label: "Pesanan Diterima" },
-  { key: "waiting_payment", label: "Menunggu Pembayaran" },
   { key: "paid", label: "Pembayaran Diterima" },
-  { key: "in_progress", label: "Sedang Dikerjakan" },
-  { key: "revision", label: "Revisi" },
+  { key: "processing", label: "Sedang Diproses" },
   { key: "completed", label: "Selesai" },
+  { key: "cancelled", label: "Dibatalkan" },
 ];
 const STATUS_STEPS_EN = [
   { key: "pending", label: "Order Received" },
-  { key: "waiting_payment", label: "Awaiting Payment" },
   { key: "paid", label: "Payment Received" },
-  { key: "in_progress", label: "In Progress" },
-  { key: "revision", label: "Revision" },
+  { key: "processing", label: "Processing" },
   { key: "completed", label: "Completed" },
+  { key: "cancelled", label: "Cancelled" },
 ];
 
 function OrderTimeline({ status, locale }: { readonly status: string; readonly locale: "id" | "en" }) {
@@ -71,7 +69,7 @@ function OrderTimeline({ status, locale }: { readonly status: string; readonly l
 }
 
 function PaymentBanner({ order, locale }: { readonly order: OrderRow; readonly locale: "id" | "en" }) {
-  if (order.status !== "pending" && order.status !== "waiting_payment") return null;
+  if (order.status !== "pending") return null;
   if (order.final_total == null) return null;
 
   return (
@@ -167,24 +165,26 @@ function OrderDetailContent() {
 
   const statusBadgeStyle = () => {
     if (order.status === "completed") return "bg-stitch-primary-container/15 text-stitch-primary border border-stitch-primary-container/20";
-    if (order.status === "in_progress" || order.status === "revision") return "bg-stitch-primary/10 text-stitch-primary border border-stitch-primary/20";
+    if (order.status === "processing") return "bg-stitch-primary/10 text-stitch-primary border border-stitch-primary/20";
     if (order.status === "paid") return "bg-stone-100 text-stone-500 border border-stone-200";
+    if (order.status === "cancelled") return "bg-red-100 text-red-700 border border-red-200";
     return "bg-stitch-error/10 text-stitch-error border border-stitch-error/20";
   };
 
   const statusBadgeLabel = () => {
     if (locale === "id") {
-      if (order.status === "in_progress") return "Sedang Dikerjakan";
-      if (order.status === "completed") return "Selesai";
+      if (order.status === "pending") return "Menunggu Pembayaran";
       if (order.status === "paid") return "Sudah Bayar";
-      if (order.status === "pending") return "Pending";
-      if (order.status === "waiting_payment") return "Menunggu Bayar";
-      if (order.status === "revision") return "Revisi";
+      if (order.status === "processing") return "Sedang Diproses";
+      if (order.status === "completed") return "Selesai";
+      if (order.status === "cancelled") return "Dibatalkan";
       return order.status;
     } else {
-      if (order.status === "in_progress") return "In Progress";
-      if (order.status === "completed") return "Completed";
+      if (order.status === "pending") return "Awaiting Payment";
       if (order.status === "paid") return "Paid";
+      if (order.status === "processing") return "Processing";
+      if (order.status === "completed") return "Completed";
+      if (order.status === "cancelled") return "Cancelled";
       return order.status;
     }
   };

@@ -12,21 +12,19 @@ import type { OrderRow } from "@/types";
 
 const STATUS_OPTIONS = [
   { value: "all", label: "All" },
-  { value: "pending", label: "Pending" },
-  { value: "waiting_payment", label: "Waiting Payment" },
-  { value: "paid", label: "Paid" },
-  { value: "in_progress", label: "In Progress" },
-  { value: "revision", label: "Revision" },
-  { value: "completed", label: "Completed" },
+  { value: "pending", label: "Menunggu Pembayaran" },
+  { value: "paid", label: "Sudah Bayar" },
+  { value: "processing", label: "Sedang Diproses" },
+  { value: "completed", label: "Selesai" },
+  { value: "cancelled", label: "Dibatalkan" },
 ];
 
 const STATUS_STYLE: Record<string, { bg: string; text: string; border: string }> = {
   pending: { bg: "bg-stitch-error/10", text: "text-stitch-error", border: "border-stitch-error/20" },
-  waiting_payment: { bg: "bg-amber-100", text: "text-amber-700", border: "border-amber-200" },
   paid: { bg: "bg-stone-100", text: "text-stone-500", border: "border-stone-200" },
-  in_progress: { bg: "bg-stitch-primary-container/15", text: "text-stitch-primary", border: "border-stitch-primary-container/20" },
-  revision: { bg: "bg-purple-100", text: "text-purple-700", border: "border-purple-200" },
+  processing: { bg: "bg-stitch-primary-container/15", text: "text-stitch-primary", border: "border-stitch-primary-container/20" },
   completed: { bg: "bg-stitch-primary-container/15", text: "text-stitch-primary", border: "border-stitch-primary-container/20" },
+  cancelled: { bg: "bg-red-100", text: "text-red-700", border: "border-red-200" },
 };
 
 function getInitials(name: string) {
@@ -147,9 +145,9 @@ export default function AdminOrdersPage() {
     STATUS_OPTIONS.find((s) => s.value === status)?.label ?? status;
 
   const totalRevenue = orders
-    .filter((o) => ["paid", "in_progress", "revision", "completed"].includes(o.status))
+    .filter((o) => ["paid", "processing", "completed"].includes(o.status))
     .reduce((sum, o) => sum + (o.final_total ?? 0), 0);
-  const activeCount = orders.filter((o) => ["in_progress", "revision"].includes(o.status)).length;
+  const activeCount = orders.filter((o) => o.status === "processing").length;
   const pendingCount = orders.filter((o) => o.status === "pending").length;
 
   const handleLogout = async () => {

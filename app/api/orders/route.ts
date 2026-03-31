@@ -199,11 +199,10 @@ export async function PATCH(request: NextRequest) {
 
     const validStatuses = [
       "pending",
-      "waiting_payment",
       "paid",
-      "in_progress",
-      "revision",
+      "processing",
       "completed",
+      "cancelled",
     ];
     if (!validStatuses.includes(status)) {
       return NextResponse.json(

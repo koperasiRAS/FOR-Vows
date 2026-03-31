@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Check, ArrowLeft, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useLanguage } from "@/lib/i18n/context";
@@ -29,6 +29,7 @@ export default function OrderSuccessPage() {
 
 function OrderSuccessContent() {
   const { t, lang } = useLanguage();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const orderCode = searchParams.get("code");
   const [order, setOrder] = useState<OrderRow | null>(null);
@@ -98,9 +99,23 @@ function OrderSuccessContent() {
           break;
         }
       }
-      fetchOrder();
       if (settled) {
-        toast.success(lang === "id" ? "Pembayaran berhasil!" : "Payment successful!");
+        toast.success(
+          lang === "id"
+            ? "Pembayaran berhasil! Mengalihkan ke dashboard..."
+            : "Payment successful! Redirecting to dashboard..."
+        );
+        // Small delay so user sees the toast before redirect
+        await new Promise((r) => setTimeout(r, 1500));
+        router.push("/dashboard?payment=success");
+      } else {
+        // Payment still not confirmed — could be a bank delay
+        toast.warning(
+          lang === "id"
+            ? "Pembayaran belum dikonfirmasi. Cek status di dashboard."
+            : "Payment not yet confirmed. Check your dashboard for updates."
+        );
+        fetchOrder();
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Pembayaran gagal";

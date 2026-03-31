@@ -113,7 +113,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // ── 3. Customer auth guard ────────────────────────────────────────────────
-  if (pathname.startsWith("/dashboard")) {
+  if (pathname.startsWith("/dashboard") || pathname.startsWith("/orders")) {
     return handleCustomerAuth(request);
   }
 

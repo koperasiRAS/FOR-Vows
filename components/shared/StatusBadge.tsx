@@ -4,11 +4,10 @@ import { cn } from "@/lib/utils";
 
 type OrderStatus =
   | "pending"
-  | "waiting_payment"
   | "paid"
-  | "in_progress"
-  | "revision"
-  | "completed";
+  | "processing"
+  | "completed"
+  | "cancelled";
 
 interface StatusBadgeProps {
   status: OrderStatus | string;
@@ -27,18 +26,11 @@ const STATUS_CONFIG: Record<
   }
 > = {
   pending: {
-    labelId: "Menunggu",
-    labelEn: "Pending",
+    labelId: "Menunggu Pembayaran",
+    labelEn: "Awaiting Payment",
     bg: "bg-yellow-500/10",
     border: "border-yellow-500/30",
     text: "text-yellow-400",
-  },
-  waiting_payment: {
-    labelId: "Menunggu Pembayaran",
-    labelEn: "Awaiting Payment",
-    bg: "bg-orange-500/10",
-    border: "border-orange-500/30",
-    text: "text-orange-400",
   },
   paid: {
     labelId: "Sudah Bayar",
@@ -47,19 +39,12 @@ const STATUS_CONFIG: Record<
     border: "border-blue-500/30",
     text: "text-blue-400",
   },
-  in_progress: {
-    labelId: "Sedang Dikerjakan",
-    labelEn: "In Progress",
+  processing: {
+    labelId: "Sedang Diproses",
+    labelEn: "Processing",
     bg: "bg-purple-500/10",
     border: "border-purple-500/30",
     text: "text-purple-400",
-  },
-  revision: {
-    labelId: "Revisi",
-    labelEn: "Revision",
-    bg: "bg-amber-500/10",
-    border: "border-amber-500/30",
-    text: "text-amber-400",
   },
   completed: {
     labelId: "Selesai",
@@ -67,6 +52,13 @@ const STATUS_CONFIG: Record<
     bg: "bg-green-500/10",
     border: "border-green-500/30",
     text: "text-green-400",
+  },
+  cancelled: {
+    labelId: "Dibatalkan",
+    labelEn: "Cancelled",
+    bg: "bg-red-500/10",
+    border: "border-red-500/30",
+    text: "text-red-400",
   },
 };
 
@@ -96,7 +88,7 @@ export function StatusBadge({ status, lang = "id", size = "md" }: StatusBadgePro
 
 /** Returns whether an order needs payment action */
 export function needsPayment(status: string): boolean {
-  return status === "pending" || status === "waiting_payment";
+  return status === "pending";
 }
 
 /** Returns whether an order is in a terminal/completed state */

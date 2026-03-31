@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Loader2, Plus } from "lucide-react";
+import { Loader2, Plus, Check } from "lucide-react";
 import { useLanguage } from "@/lib/i18n/context";
 import { DashboardSidebar } from "@/components/layout/DashboardSidebar";
 import { createClient } from "@/lib/supabase/client";
@@ -57,14 +58,15 @@ function OrderCard({ order, lang }: { readonly order: OrderRow; readonly lang: "
     year: "numeric",
   });
   const isCompleted = order.status === "completed";
-  const isInProgress = order.status === "in_progress" || order.status === "revision";
+  const isInProgress = order.status === "processing";
   const isPaid = order.status === "paid";
 
   const statusLabel = () => {
     if (isCompleted) return lang === "id" ? "Selesai" : "Completed";
-    if (isInProgress) return lang === "id" ? "Sedang Dikerjakan" : "In Progress";
+    if (isInProgress) return lang === "id" ? "Sedang Diproses" : "Processing";
     if (isPaid) return lang === "id" ? "Sudah Bayar" : "Paid";
-    return lang === "id" ? "Menunggu" : "Pending";
+    if (order.status === "cancelled") return lang === "id" ? "Dibatalkan" : "Cancelled";
+    return lang === "id" ? "Menunggu Pembayaran" : "Awaiting Payment";
   };
 
   const statusStyle = () => {
@@ -148,6 +150,8 @@ function OrderCard({ order, lang }: { readonly order: OrderRow; readonly lang: "
 
 function DashboardContent() {
   const { lang } = useLanguage();
+  const searchParams = useSearchParams();
+  const isPaymentSuccess = searchParams.get("payment") === "success";
   const [orders, setOrders] = useState<TrackedOrder[]>([]);
 
   useEffect(() => {
@@ -230,6 +234,19 @@ function DashboardContent() {
       <DashboardSidebar variant="customer" />
 
       <main className="ml-64 min-h-screen bg-white">
+        {/* Payment success banner */}
+        {isPaymentSuccess && (
+          <div className="mx-8 mt-8 p-4 rounded-xl bg-green-500/10 border border-green-500/30 flex items-center gap-3">
+            <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center shrink-0">
+              <Check size={14} className="text-green-400" />
+            </div>
+            <p className="text-sm text-green-400 font-medium">
+              {lang === "id"
+                ? "Pembayaran berhasil! Pesanan Anda sedang diproses."
+                : "Payment successful! Your order is being processed."}
+            </p>
+          </div>
+        )}
         {/* Top Sticky Header */}
         <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md px-12 py-8 flex justify-between items-end border-b border-outline-variant/10">
           <div>

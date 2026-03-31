@@ -12,29 +12,26 @@ import type { OrderRow } from "@/types";
 import { WA_NUMBER } from "@/lib/config";
 
 const STATUS_OPTIONS = [
-  { value: "pending", label: "Pending" },
-  { value: "waiting_payment", label: "Waiting Payment" },
-  { value: "paid", label: "Paid" },
-  { value: "in_progress", label: "In Progress" },
-  { value: "revision", label: "Revision" },
-  { value: "completed", label: "Completed" },
+  { value: "pending", label: "Menunggu Pembayaran" },
+  { value: "paid", label: "Sudah Bayar" },
+  { value: "processing", label: "Sedang Diproses" },
+  { value: "completed", label: "Selesai" },
+  { value: "cancelled", label: "Dibatalkan" },
 ];
 
 const STATUS_STEPS_ID = [
   { key: "pending", label: "Pesanan Diterima" },
-  { key: "waiting_payment", label: "Menunggu Pembayaran" },
   { key: "paid", label: "Pembayaran Diterima" },
-  { key: "in_progress", label: "Sedang Dikerjakan" },
-  { key: "revision", label: "Revisi" },
+  { key: "processing", label: "Sedang Diproses" },
   { key: "completed", label: "Selesai" },
+  { key: "cancelled", label: "Dibatalkan" },
 ];
 const STATUS_STEPS_EN = [
   { key: "pending", label: "Order Received" },
-  { key: "waiting_payment", label: "Awaiting Payment" },
   { key: "paid", label: "Payment Received" },
-  { key: "in_progress", label: "In Progress" },
-  { key: "revision", label: "Revision" },
+  { key: "processing", label: "Processing" },
   { key: "completed", label: "Completed" },
+  { key: "cancelled", label: "Cancelled" },
 ];
 
 export default function AdminOrderDetailPage() {

@@ -29,6 +29,7 @@ export async function POST(request: NextRequest) {
     const notification = JSON.parse(body);
     const {
       order_id,
+      transaction_id,
       transaction_status,
       payment_type,
       gross_amount,
@@ -76,9 +77,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // [IDEMPOTENCY] Skip update if already settled
-    if (existingOrder.status === "paid" && existingOrder.payment_status === "paid") {
-      console.log(`[FORVows Payment] Order ${order_id} already paid — skipping update`);
+    // [IDEMPOTENCY] Skip update if already settled or cancelled
+    if (
+      (existingOrder.status === "paid" || existingOrder.status === "cancelled") &&
+      existingOrder.payment_status === "paid"
+    ) {
+      console.log(`[FORVows Payment] Order ${order_id} already processed (${existingOrder.status}) — skipping update`);
       return NextResponse.json({ success: true, message: "Already processed" });
     }
 
@@ -90,7 +94,11 @@ export async function POST(request: NextRequest) {
     if (transaction_status === "capture" || transaction_status === "settlement") {
       paymentStatus = "paid";
       settled = true;
+    } else if (transaction_status === "expire") {
+      // Payment window closed without payment
+      paymentStatus = "expired";
     } else if (transaction_status === "deny") {
+      // Card issuer or provider rejected the payment
       paymentStatus = "failed";
     } else if (transaction_status === "pending") {
       paymentStatus = "pending";
@@ -109,6 +117,13 @@ export async function POST(request: NextRequest) {
     if (settled) {
       updatePayload.status = "paid";
       updatePayload.paid_at = new Date().toISOString();
+    } else if (transaction_status === "expire" || transaction_status === "deny") {
+      // Terminal failure — move to cancelled
+      updatePayload.status = "cancelled";
+    }
+    // Store Midtrans transaction_id for reconciliation
+    if (transaction_id) {
+      updatePayload.midtrans_order_id = transaction_id;
     }
 
     // [ATOMIC IDEMPOTENCY] Only update if still in a transitional state.
