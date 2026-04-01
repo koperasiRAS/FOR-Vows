@@ -17,6 +17,33 @@ export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [waLink, setWaLink] = useState("");
+  const [selectedService, setSelectedService] = useState("");
+
+  const getPackageOptions = () => {
+    switch (selectedService) {
+      case "save_the_date":
+        return [
+          { value: "essentials", label: "Essentials Rp 99.000" },
+          { value: "premium", label: "Premium Rp 199.000" },
+          { value: "exclusive", label: "Exclusive Rp 349.000" },
+        ];
+      case "wedding_website":
+        return [
+          { value: "basic", label: "Basic Rp 499.000" },
+          { value: "premium", label: "Premium Rp 999.000" },
+          { value: "exclusive", label: "Exclusive Rp 1.999.000" },
+        ];
+      case "custom_design":
+      case "other":
+      case "digital_invitation":
+      default:
+        return [
+          { value: "basic", label: "Basic Rp 299.000" },
+          { value: "premium", label: "Premium Rp 599.000" },
+          { value: "exclusive", label: "Exclusive Rp 999.000" },
+        ];
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -171,11 +198,13 @@ export function ContactForm() {
           </Label>
           <select
             name="serviceType"
+            value={selectedService}
+            onChange={(e) => setSelectedService(e.target.value)}
             className="w-full h-10 px-3 text-sm bg-surface-dark border border-white/10 text-[#faf8f5] rounded-md focus:border-gold/50 focus:outline-none focus:ring-1 focus:ring-gold/20"
-            defaultValue=""
           >
             <option value="" disabled className="text-[#4a4a4a]">{t("contact.pilihLayanan")}</option>
             <option value="digital_invitation">{t("contact.undanganDigital")}</option>
+            <option value="save_the_date">Save the Date</option>
             <option value="wedding_website">{t("contact.websitePernikahan")}</option>
             <option value="custom_design">{t("contact.desainCustom")}</option>
             <option value="other">{t("contact.lainnya")}</option>
@@ -191,9 +220,11 @@ export function ContactForm() {
             defaultValue=""
           >
             <option value="" disabled className="text-[#4a4a4a]">{t("contact.pilihPaket")}</option>
-            <option value="basic">{t("contact.basic")}</option>
-            <option value="premium">{t("contact.premium")}</option>
-            <option value="exclusive">{t("contact.exclusive")}</option>
+            {getPackageOptions().map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
             <option value="undecided">{t("contact.belumMemutuskan")}</option>
           </select>
         </div>

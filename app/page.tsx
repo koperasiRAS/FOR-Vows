@@ -94,6 +94,9 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Pricing - Moved below Hero */}
+      <PricingSection />
+
       {/* Featured Templates */}
       <section className="bg-[#0f0f0f] py-20 lg:py-28">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -130,65 +133,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="bg-[#0a0a0a] py-20 lg:py-28">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <ScrollReveal>
-            <SectionHeading
-              overline={t.categoriesOverline}
-              title={t.categoriesTitle}
-              subtitle={t.categoriesSubtitle}
-            />
-          </ScrollReveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12 lg:mt-16">
-            {(["luxury", "adat", "modern", "intimate"] as const).map((cat, i) => (
-              <ScrollReveal key={cat} delay={i * 80}>
-                <Link
-                  href={`/templates?category=${cat}`}
-                  className="group block p-6 border border-white/[0.07] bg-[#0f0f0f] hover:border-white/[0.12] transition-all duration-400 space-y-3"
-                >
-                  <div
-                    className={`w-10 h-10 rounded-full bg-gradient-to-br ${
-                      cat === "luxury"
-                        ? "from-[#1a1206] to-[#3d2e0f]"
-                        : cat === "adat"
-                        ? "from-[#2d1810] to-[#5c2e1a]"
-                        : cat === "modern"
-                        ? "from-[#1a2e1a] to-[#2d4a28]"
-                        : "from-[#1e0a12] to-[#3a1422]"
-                    } flex items-center justify-center`}
-                  >
-                    <span
-                      className="text-xs font-medium"
-                      style={{
-                        color:
-                          cat === "luxury"
-                            ? "#c9a96e"
-                            : cat === "adat"
-                            ? "#d4a96e"
-                            : cat === "modern"
-                            ? "#8fbc8f"
-                            : "#c97878",
-                      }}
-                    >
-                      {cat[0].toUpperCase()}
-                    </span>
-                  </div>
-                  <div>
-                    <h3 className="font-serif text-base text-[#faf8f5] group-hover:text-[#c9a96e] transition-colors capitalize">
-                      {cat}
-                    </h3>
-                    <p className="text-xs text-[#6a6a6a] mt-1 leading-relaxed">
-                      {t[categoryMap[cat].descKey]}
-                    </p>
-                  </div>
-                </Link>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Why FOR Vows */}
       <section className="bg-[#141414] py-20 lg:py-28">
@@ -248,8 +193,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Pricing */}
-      <PricingSection />
+
 
       {/* How It Works Preview */}
       <section className="bg-[#0f0f0f] py-20 lg:py-28">
@@ -286,8 +230,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="bg-[#0a0a0a] py-20 lg:py-28">
+      {/* Testimonials Carousel */}
+      <section className="bg-[#0a0a0a] py-20 lg:py-28 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <ScrollReveal>
             <SectionHeading
@@ -297,13 +241,25 @@ export default async function HomePage() {
             />
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 lg:mt-16">
-            {translatedTestimonials.map((t, i) => (
-              <ScrollReveal key={t.name} delay={i * 100}>
-                <TestimonialCard testimonial={t} />
-              </ScrollReveal>
-            ))}
+          <div className="mt-12 lg:mt-16 -mx-6 px-6 lg:mx-0 lg:px-0">
+             <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 hide-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              {translatedTestimonials.map((t, i) => (
+                <div key={t.name} className="snap-center shrink-0 w-[85vw] md:w-[400px] lg:w-[420px]">
+                  <ScrollReveal delay={i * 100}>
+                    <TestimonialCard testimonial={t} />
+                  </ScrollReveal>
+                </div>
+              ))}
+              {/* Optional Empty space to allow last item to center nicely on mobile */}
+              <div className="shrink-0 w-6 lg:hidden" />
+            </div>
           </div>
+          
+          <style dangerouslySetInnerHTML={{__html: `
+            .hide-scrollbar::-webkit-scrollbar {
+              display: none;
+            }
+          `}} />
         </div>
       </section>
 

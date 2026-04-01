@@ -82,7 +82,7 @@ export default function DemoSandboxPage({ params }: Props) {
             <div className="hidden sm:block absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1a1a1a] rounded-b-xl z-20" />
           )}
           <iframe
-            src={`/t/${slug}`}
+            src={slug === "floral-luxury" ? `/live-demos/floral-luxury/index.html` : `/t/${slug}`}
             className="w-full h-full border-0 bg-transparent"
             title={`Preview of ${slug}`}
           />

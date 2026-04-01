@@ -15,7 +15,7 @@ export function PricingCard({ tier }: PricingCardProps) {
 
   return (
     <div
-      className={`relative flex flex-col p-8 border transition-all duration-300 ${
+      className={`relative flex flex-col p-8 border h-full transition-all duration-300 ${
         tier.highlighted
           ? "bg-[#141414] border-[#c9a96e]/60 shadow-[0_0_40px_rgba(201,169,110,0.08)]"
           : "bg-[#0f0f0f] border-white/[0.07] hover:border-white/[0.12]"

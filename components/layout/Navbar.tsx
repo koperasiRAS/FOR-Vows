@@ -25,7 +25,7 @@ export function Navbar() {
   const { itemCount, setOpen } = useCart();
   const { t } = useLanguage();
 
-  const isHiddenPage = pathname?.startsWith('/admin') || pathname?.startsWith('/auth') || pathname?.startsWith('/dashboard') || pathname?.startsWith('/demo') || pathname?.startsWith('/t');
+  const isHiddenPage = pathname?.startsWith("/admin") || pathname?.startsWith("/auth") || pathname?.startsWith("/dashboard") || pathname?.startsWith("/demo") || pathname?.startsWith("/t/") || pathname === "/t";
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
