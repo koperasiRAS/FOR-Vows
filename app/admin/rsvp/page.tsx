@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CalendarCheck, Download, Users, CheckCircle, XCircle, Clock } from "lucide-react";
 import { DashboardSidebar } from "@/components/layout/DashboardSidebar";
+import { createClient } from "@/lib/supabase/client";
 
 export default function AdminRSVPPage() {
   const router = useRouter();
@@ -21,7 +22,6 @@ export default function AdminRSVPPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const { createClient } = require("@/lib/supabase/client");
     const supabase = createClient();
     supabase.auth.getUser().then(({ data }: { data: { user: { email?: string } | null } }) => {
       if (!data.user) router.push("/admin/login");

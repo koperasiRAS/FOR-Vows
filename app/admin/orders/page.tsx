@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Search, Filter, ChevronLeft, ChevronRight, Eye, Edit2, TrendingUp, Download } from "lucide-react";
+import { Search, Filter, ChevronLeft, ChevronRight, Eye, TrendingUp, Download } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useLanguage } from "@/lib/i18n/context";
 import { DashboardSidebar } from "@/components/layout/DashboardSidebar";
@@ -166,9 +166,6 @@ export default function AdminOrdersPage() {
       return dateStr;
     }
   };
-
-  const statusLabel = (status: string) =>
-    STATUS_OPTIONS.find((s) => s.value === status)?.label ?? status;
 
   const totalRevenue = orders
     .filter((o) => ["paid", "processing", "completed"].includes(o.status))

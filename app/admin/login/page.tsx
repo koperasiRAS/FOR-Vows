@@ -39,7 +39,27 @@ function AdminLoginContent() {
     const result = await res.json();
 
     if (!result.success) {
-      setError(result.error ?? (lang === "id" ? "Email atau password salah." : "Invalid email or password."));
+      const msg = result.error ?? "";
+      if (
+        msg.toLowerCase().includes("invalid") ||
+        msg.toLowerCase().includes("credentials") ||
+        msg.toLowerCase().includes("email") ||
+        msg.toLowerCase().includes("password")
+      ) {
+        setError(lang === "id" ? "Email atau password salah." : "Invalid email or password.");
+      } else if (msg.toLowerCase().includes("rate limit") || msg.toLowerCase().includes("terlalu banyak")) {
+        setError(
+          lang === "id"
+            ? "Terlalu banyak percobaan. Tunggu beberapa menit."
+            : "Too many attempts. Please wait a few minutes."
+        );
+      } else {
+        setError(
+          lang === "id"
+            ? "Login gagal. Coba lagi."
+            : "Login failed. Please try again."
+        );
+      }
       setLoading(false);
       return;
     }
@@ -48,6 +68,8 @@ function AdminLoginContent() {
     router.push("/admin/orders");
     router.refresh();
   };
+
+  const urlError = searchParams.get("error");
 
   return (
     <div className="min-h-screen bg-[#fcf9f8] flex items-center justify-center px-6">
@@ -93,6 +115,21 @@ function AdminLoginContent() {
                     strokeWidth={2}
                   />
                   <span>{error}</span>
+                </div>
+              )}
+
+              {urlError === "unauthorized" && !error && (
+                <div className="flex items-start gap-2.5 bg-red-50 border border-red-200 text-red-700 text-xs px-4 py-3 rounded-xl">
+                  <AlertCircle
+                    size={14}
+                    className="mt-0.5 shrink-0 text-red-500"
+                    strokeWidth={2}
+                  />
+                  <span>
+                    {lang === "id"
+                      ? "Akun ini tidak memiliki hak akses admin."
+                      : "This account does not have admin access."}
+                  </span>
                 </div>
               )}
 

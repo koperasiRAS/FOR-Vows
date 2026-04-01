@@ -1,3 +1,0 @@
-﻿mcp-server.ts(8,8): error TS1192: Module '"C:/Users/ACER/Downloads/FOR Vows.co/node_modules/dotenv/lib/main"' has no default export.
-mcp-server.ts(9,8): error TS1259: Module '"path"' can only be default-imported using the 'esModuleInterop' flag
-mcp-server.ts(13,34): error TS1343: The 'import.meta' meta-property is only allowed when the '--module' option is 'es2020', 'es2022', 'esnext', 'system', 'node16', 'node18', 'node20', or 'nodenext'.

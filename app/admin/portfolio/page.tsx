@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Search, Image, Plus, Eye, EyeOff, ChevronUp, ChevronDown, Trash2 } from "lucide-react";
+import { Search, Image, Plus, Eye, ChevronUp, ChevronDown } from "lucide-react";
 import { DashboardSidebar } from "@/components/layout/DashboardSidebar";
+import { createClient } from "@/lib/supabase/client";
 import { portfolioItems } from "@/lib/templates";
 
 const CATEGORIES = ["all", "luxury", "adat", "modern", "intimate"];
@@ -20,7 +21,6 @@ export default function AdminPortfolioPage() {
   const [items, setItems] = useState(portfolioItems);
 
   useEffect(() => {
-    const { createClient } = require("@/lib/supabase/client");
     const supabase = createClient();
     supabase.auth.getUser().then(({ data }: { data: { user: { email?: string } | null } }) => {
       if (!data.user) router.push("/admin/login");

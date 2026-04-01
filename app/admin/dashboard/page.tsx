@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ShoppingBag, TrendingUp, Clock, CheckCircle, Users, Eye } from "lucide-react";
+import { ShoppingBag, TrendingUp, Clock, CheckCircle, Eye } from "lucide-react";
 import { DashboardSidebar } from "@/components/layout/DashboardSidebar";
+import { createClient } from "@/lib/supabase/client";
 
 interface OrderRow {
   id: string;
@@ -25,7 +26,6 @@ export default function AdminDashboardPage() {
   const [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
-    const { createClient } = require("@/lib/supabase/client");
     const supabase = createClient();
     supabase.auth.getUser().then(({ data }: { data: { user: { email?: string } | null } }) => {
       if (!data.user) { router.push("/admin/login"); return; }

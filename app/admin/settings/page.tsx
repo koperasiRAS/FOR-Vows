@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Settings, Save, Phone, Mail, Instagram, Eye, EyeOff, RefreshCw } from "lucide-react";
+import { Save, Phone, Mail, Instagram, Eye, EyeOff, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { DashboardSidebar } from "@/components/layout/DashboardSidebar";
+import { createClient } from "@/lib/supabase/client";
 import { PACKAGES } from "@/lib/packages";
 
 export default function AdminSettingsPage() {
@@ -24,7 +25,6 @@ export default function AdminSettingsPage() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    const { createClient } = require("@/lib/supabase/client");
     const supabase = createClient();
     supabase.auth.getUser().then(({ data }: { data: { user: { email?: string } | null } }) => {
       if (!data.user) router.push("/admin/login");
@@ -183,7 +183,7 @@ export default function AdminSettingsPage() {
               <div>
                 <p className="text-sm text-on-surface font-medium">Aktifkan Maintenance Mode</p>
                 <p className="text-xs text-stone-400 mt-1">
-                  Saat aktif, pengunjung akan melihat halaman "Sedang dalam perawatan" dan tidak bisa membuat pesanan.
+                  Saat aktif, pengunjung akan melihat halaman &quot;Sedang dalam perawatan&quot; dan tidak bisa membuat pesanan.
                 </p>
               </div>
               <button

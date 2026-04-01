@@ -47,3 +47,10 @@ errors.txt
 errors2.txt
 *.log
 setup-mcp.ps1
+
+# Vercel
+.vercel
+
+# Claude Code memory / plans
+.claude
+*.md

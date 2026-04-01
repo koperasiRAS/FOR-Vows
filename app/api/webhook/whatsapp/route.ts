@@ -84,8 +84,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true, detail: 'WhatsApp Sent!' });
 
-  } catch (error: any) {
-    console.error("Webhook processing error:", error.message);
+  } catch (error: unknown) {
+    console.error("Webhook processing error:", error instanceof Error ? error.message : error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

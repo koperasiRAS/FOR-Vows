@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, Palette, Eye, Pencil, Star } from "lucide-react";
 import { DashboardSidebar } from "@/components/layout/DashboardSidebar";
+import { createClient } from "@/lib/supabase/client";
 import { templates } from "@/lib/templates";
 
 const CATEGORIES = ["all", "luxury", "adat", "modern", "intimate"];
@@ -19,7 +20,6 @@ export default function AdminTemplatesPage() {
   const [editTemplate, setEditTemplate] = useState<string | null>(null);
 
   useEffect(() => {
-    const { createClient } = require("@/lib/supabase/client");
     const supabase = createClient();
     supabase.auth.getUser().then(({ data }: { data: { user: { email?: string } | null } }) => {
       if (!data.user) router.push("/admin/login");
@@ -177,7 +177,7 @@ export default function AdminTemplatesPage() {
               <div className="bg-surface-container-lowest rounded-2xl p-8 w-full max-w-lg shadow-2xl">
                 <h3 className="font-headline text-xl text-stitch-primary mb-6">Edit Template</h3>
                 <p className="text-sm text-stone-500">
-                  Template "{editTemplate}" — edit form will connect to Supabase template management table.
+                  Template &quot;{editTemplate}&quot; — edit form will connect to Supabase template management table.
                 </p>
                 <p className="text-xs text-stone-400 mt-2">
                   TODO: Add editable fields for name, description, price, category, featured status.
