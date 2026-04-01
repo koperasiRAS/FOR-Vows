@@ -1,9 +1,23 @@
+import type { Metadata } from "next";
 import * as LucideIcons from "lucide-react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { WA_NUMBER } from "@/lib/config";
+
+export const metadata = {
+  title: "Hubungi Kami | FOR Vows",
+  description: "Hubungi FOR Vows untuk konsultasi undangan pernikahan digital premium. WhatsApp, email, atau isi formulir — tim kami siap membantu.",
+  openGraph: {
+    title: "Hubungi Kami | FOR Vows",
+    description: "Konsultasi gratis undangan pernikahan digital premium via WhatsApp.",
+    url: "https://for-vows.vercel.app/contact",
+    siteName: "FOR Vows",
+    locale: "id_ID",
+    type: "website",
+  },
+};
 
 export default function ContactPage() {
   return (

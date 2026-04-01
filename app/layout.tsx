@@ -84,6 +84,28 @@ export default function RootLayout({
             {children}
           </TemplateProvider>
         </LanguageProvider>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              name: "FOR Vows",
+              url: "https://for-vows.vercel.app",
+              description:
+                "Premium digital wedding invitations crafted with elegance. A luxury sub-brand of Frame Of Rangga from Jakarta, Indonesia.",
+              telephone: "+6287779560264",
+              email: "frameofrangga@gmail.com",
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Jakarta",
+                addressCountry: "ID",
+              },
+              sameAs: ["https://instagram.com/frameofrangga"],
+              priceRange: "Rp 299.000 - Rp 999.000",
+            }),
+          }}
+        />
       </body>
     </html>
   );

@@ -14,6 +14,25 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/templates/nusantera-heritage",
+        destination: "/templates/nusantara-heritage",
+        permanent: true,
+      },
+      {
+        source: "/demo/nusantera-heritage",
+        destination: "/demo/nusantara-heritage",
+        permanent: true,
+      },
+      {
+        source: "/t/nusantera-heritage",
+        destination: "/t/nusantara-heritage",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

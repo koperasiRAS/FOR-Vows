@@ -33,6 +33,7 @@ export const templates: WeddingTemplate[] = [
     ],
     featured: true,
     price: "Rp 599.000",
+    thumbnailUrl: "/images/templates/floral-luxury/thumbnail.jpg", // TODO: Add image at public/images/templates/floral-luxury/thumbnail.jpg
   },
   {
     id: "1",
@@ -59,6 +60,7 @@ export const templates: WeddingTemplate[] = [
     ],
     featured: true,
     price: "Rp 599.000",
+    thumbnailUrl: "/images/templates/eternal-gold/thumbnail.jpg", // TODO: Add image at public/images/templates/eternal-gold/thumbnail.jpg
   },
   {
     id: "2",
@@ -83,10 +85,11 @@ export const templates: WeddingTemplate[] = [
     ],
     featured: true,
     price: "Rp 599.000",
+    thumbnailUrl: "/images/templates/ivory-elegance/thumbnail.jpg", // TODO: Add image at public/images/templates/ivory-elegance/thumbnail.jpg
   },
   {
     id: "3",
-    slug: "nusantera-heritage",
+    slug: "nusantara-heritage",
     name: "Nusantara Heritage",
     category: "adat",
     description:
@@ -107,6 +110,7 @@ export const templates: WeddingTemplate[] = [
     ],
     featured: true,
     price: "Rp 299.000",
+    thumbnailUrl: "/images/templates/nusantara-heritage/thumbnail.jpg", // TODO: Add image at public/images/templates/nusantara-heritage/thumbnail.jpg
   },
   {
     id: "4",
@@ -133,6 +137,7 @@ export const templates: WeddingTemplate[] = [
     ],
     featured: false,
     price: "Rp 599.000",
+    thumbnailUrl: "/images/templates/javanese-symphony/thumbnail.jpg", // TODO: Add image at public/images/templates/javanese-symphony/thumbnail.jpg
   },
   {
     id: "5",
@@ -156,6 +161,7 @@ export const templates: WeddingTemplate[] = [
     ],
     featured: false,
     price: "Rp 299.000",
+    thumbnailUrl: "/images/templates/garden-terrace/thumbnail.jpg", // TODO: Add image at public/images/templates/garden-terrace/thumbnail.jpg
   },
   {
     id: "6",
@@ -178,6 +184,7 @@ export const templates: WeddingTemplate[] = [
     ],
     featured: false,
     price: "Rp 299.000",
+    thumbnailUrl: "/images/templates/minimalist-romance/thumbnail.jpg", // TODO: Add image at public/images/templates/minimalist-romance/thumbnail.jpg
   },
   {
     id: "7",
@@ -203,6 +210,7 @@ export const templates: WeddingTemplate[] = [
     ],
     featured: true,
     price: "Rp 599.000",
+    thumbnailUrl: "/images/templates/secret-garden/thumbnail.jpg", // TODO: Add image at public/images/templates/secret-garden/thumbnail.jpg
   },
   {
     id: "8",
@@ -226,6 +234,7 @@ export const templates: WeddingTemplate[] = [
     ],
     featured: false,
     price: "Rp 299.000",
+    thumbnailUrl: "/images/templates/cozy-celebration/thumbnail.jpg", // TODO: Add image at public/images/templates/cozy-celebration/thumbnail.jpg
   },
 ];
 
@@ -585,7 +594,7 @@ export const howItWorksSteps: HowItWorksStep[] = [
 
 export const portfolioItems: PortfolioItem[] = [
   { id: "1", slug: "eternal-gold", title: "Eternal Gold", category: "luxury", gradientFrom: "#1a1206", gradientTo: "#3d2e0f", description: "Pesta ballroom, Jakarta" },
-  { id: "2", slug: "nusantera-heritage", title: "Nusantara Heritage", category: "adat", gradientFrom: "#2d1810", gradientTo: "#5c2e1a", description: "Upacara tradisional, Yogyakarta" },
+  { id: "2", slug: "nusantara-heritage", title: "Nusantara Heritage", category: "adat", gradientFrom: "#2d1810", gradientTo: "#5c2e1a", description: "Upacara tradisional, Yogyakarta" },
   { id: "3", slug: "secret-garden", title: "Secret Garden", category: "intimate", gradientFrom: "#1e0a12", gradientTo: "#3a1422", description: "Estate privat, Bali" },
   { id: "4", slug: "garden-terrace", title: "Garden Terrace", category: "modern", gradientFrom: "#1a2e1a", gradientTo: "#2d4a28", description: "Taman botanikal, Bandung" },
   { id: "5", slug: "ivory-elegance", title: "Ivory Elegance", category: "luxury", gradientFrom: "#f5f0e8", gradientTo: "#e8e0d0", description: "Resor tepi pantai, Lombok" },
@@ -599,7 +608,7 @@ export const portfolioItems: PortfolioItem[] = [
 const templateKeyMap: Record<string, keyof typeof translations.id.templates> = {
   "eternal-gold": "eternalGold",
   "ivory-elegance": "ivoryElegance",
-  "nusantera-heritage": "nusanteraHeritage",
+  "nusantara-heritage": "nusanteraHeritage",
   "javanese-symphony": "javaneseSymphony",
   "garden-terrace": "gardenTerrace",
   "minimalist-romance": "minimalistRomance",

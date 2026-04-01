@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Eye, ShoppingCart } from "lucide-react";
 import { useLanguage } from "@/lib/i18n/context";
 import type { WeddingTemplate } from "@/types";
@@ -29,19 +30,34 @@ export function TemplateCard({ template, showActions = true }: TemplateCardProps
         href={`/templates/${template.slug}`}
         className="block relative aspect-[4/3] overflow-hidden shrink-0"
       >
-        <div
-          className="absolute inset-0 transition-transform duration-700 group-hover:scale-105"
-          style={{
-            background: `linear-gradient(135deg, ${template.gradientFrom} 0%, ${template.gradientTo} 100%)`,
-          }}
-        />
-        {/* Center ornament */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div
-            className="w-16 h-16 border opacity-20 rotate-45"
-            style={{ borderColor: template.accentColor }}
+        {/* Image when available, gradient fallback */}
+        {template.thumbnailUrl ? (
+          <Image
+            src={template.thumbnailUrl}
+            alt={`Preview ${template.name}`}
+            fill
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-        </div>
+        ) : (
+          <div
+            className="absolute inset-0 transition-transform duration-700 group-hover:scale-105"
+            style={{
+              background: `linear-gradient(135deg, ${template.gradientFrom} 0%, ${template.gradientTo} 100%)`,
+            }}
+          />
+        )}
+
+        {/* Center ornament (only shown when no image) */}
+        {!template.thumbnailUrl && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div
+              className="w-16 h-16 border opacity-20 rotate-45"
+              style={{ borderColor: template.accentColor }}
+            />
+          </div>
+        )}
+
         {/* Category badge */}
         <div className="absolute top-3 left-3">
           <span
@@ -55,6 +71,7 @@ export function TemplateCard({ template, showActions = true }: TemplateCardProps
             {categoryLabel}
           </span>
         </div>
+
         {/* Featured badge */}
         {template.featured && (
           <div className="absolute top-3 right-3">
@@ -63,9 +80,10 @@ export function TemplateCard({ template, showActions = true }: TemplateCardProps
             </span>
           </div>
         )}
-        {/* Hover overlay */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-          <span className="text-[11px] tracking-[0.15em] uppercase text-white border border-white/40 px-4 py-2 backdrop-blur-sm">
+
+        {/* Hover overlay — Preview CTA */}
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
+          <span className="text-[11px] tracking-[0.15em] uppercase text-white border border-white/40 px-4 py-2 backdrop-blur-sm translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
             {t("ui.preview")}
           </span>
         </div>

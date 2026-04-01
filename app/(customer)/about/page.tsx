@@ -1,8 +1,22 @@
+import type { Metadata } from "next";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { CTASection } from "@/components/sections/CTASection";
 import { getServerLanguage } from "@/lib/i18n/server";
 import { translations } from "@/lib/i18n/translations";
+
+export const metadata = {
+  title: "Tentang FOR Vows | FOR Vows",
+  description: "FOR Vows adalah studio undangan pernikahan digital premium dari Jakarta. Membantu pasangan menciptakan undangan yang sakral, elegan, dan tak terlupakan.",
+  openGraph: {
+    title: "Tentang FOR Vows | FOR Vows",
+    description: "Studio undangan pernikahan digital premium dari Jakarta. Crafting Your Sacred Moments.",
+    url: "https://for-vows.vercel.app/about",
+    siteName: "FOR Vows",
+    locale: "id_ID",
+    type: "website",
+  },
+};
 
 export default async function AboutPage() {
   const lang = await getServerLanguage();

@@ -2,14 +2,28 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { BookOpen, User, CreditCard, Headphones, Settings, LogOut, Plus } from "lucide-react";
+import {
+  BookOpen,
+  User,
+  CreditCard,
+  Headphones,
+  Settings,
+  LogOut,
+  Plus,
+  LayoutDashboard,
+  ShoppingBag,
+  Users,
+  Palette,
+  Image,
+  CalendarCheck,
+} from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 interface DashboardSidebarProps {
   variant?: "customer" | "admin";
 }
 
-export function DashboardSidebar({ variant = "customer" }: DashboardSidebarProps) {
+export function DashboardSidebar({ variant = "customer" }: Readonly<DashboardSidebarProps>) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -31,45 +45,20 @@ export function DashboardSidebar({ variant = "customer" }: DashboardSidebarProps
   };
 
   const customerNav = [
-    {
-      tab: "orders",
-      label: "My Orders",
-      href: "/dashboard",
-      icon: BookOpen,
-    },
-    {
-      tab: "profile",
-      label: "Profile",
-      href: "/dashboard/profile",
-      icon: User,
-    },
-    {
-      tab: "billing",
-      label: "Billing",
-      href: "/dashboard/billing",
-      icon: CreditCard,
-    },
-    {
-      tab: "support",
-      label: "Support",
-      href: "/dashboard/support",
-      icon: Headphones,
-    },
+    { tab: "orders",   label: "My Orders",  href: "/dashboard",         icon: BookOpen },
+    { tab: "profile",  label: "Profile",    href: "/dashboard/profile", icon: User },
+    { tab: "billing",  label: "Billing",    href: "/dashboard/billing",  icon: CreditCard },
+    { tab: "support",  label: "Support",    href: "/dashboard/support",  icon: Headphones },
   ];
 
   const adminNav = [
-    {
-      tab: "orders",
-      label: "All Orders",
-      href: "/admin/orders",
-      icon: BookOpen,
-    },
-    {
-      tab: "dashboard",
-      label: "Dashboard",
-      href: "/admin/dashboard",
-      icon: Settings,
-    },
+    { tab: "dashboard", label: "Dashboard",  href: "/admin/dashboard", icon: LayoutDashboard },
+    { tab: "orders",    label: "Pesanan",    href: "/admin/orders",    icon: ShoppingBag },
+    { tab: "customers", label: "Customers",  href: "/admin/customers", icon: Users },
+    { tab: "templates", label: "Templates",  href: "/admin/templates", icon: Palette },
+    { tab: "portfolio", label: "Portfolio",  href: "/admin/portfolio", icon: Image },
+    { tab: "rsvp",      label: "RSVP",       href: "/admin/rsvp",      icon: CalendarCheck },
+    { tab: "settings",  label: "Settings",  href: "/admin/settings",  icon: Settings },
   ];
 
   const navItems = variant === "admin" ? adminNav : customerNav;
@@ -117,7 +106,6 @@ export function DashboardSidebar({ variant = "customer" }: DashboardSidebarProps
 
       {/* Footer actions */}
       <div className="pr-6 space-y-3">
-        {/* New Invitation button — only for customers */}
         {variant === "customer" && (
           <Link
             href="/templates"
@@ -131,7 +119,6 @@ export function DashboardSidebar({ variant = "customer" }: DashboardSidebarProps
           </Link>
         )}
 
-        {/* Logout — calls signOut() properly before redirecting */}
         <button
           onClick={handleLogout}
           className="flex items-center gap-4 py-3.5 px-5 text-stone-400 hover:text-red-500 transition-colors w-full"

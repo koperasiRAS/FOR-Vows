@@ -19,6 +19,8 @@ export interface WeddingTemplate {
   features: string[];
   featured: boolean;
   price: string;
+  /** Path to thumbnail image (e.g. /images/templates/floral-luxury/thumbnail.jpg). Falls back to gradient placeholder. */
+  thumbnailUrl?: string;
 }
 
 export interface PricingTier {
@@ -66,6 +68,12 @@ export interface PortfolioItem {
   gradientFrom: string;
   gradientTo: string;
   description: string;
+  /** Path to thumbnail image. Falls back to /images/templates/[slug]/thumbnail.jpg */
+  thumbnailUrl?: string;
+  coupleName?: string;
+  location?: string;
+  date?: string;
+  testimonial?: string;
 }
 
 export interface ContactFormData {

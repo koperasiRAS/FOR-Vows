@@ -3,7 +3,7 @@
 import { use, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Monitor, Smartphone, ExternalLink, ShoppingBag } from "lucide-react";
-import { useLanguage } from "@/lib/i18n/context";
+import { TemplatePreview } from "@/components/templates/TemplatePreview";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -12,7 +12,6 @@ interface Props {
 export default function DemoSandboxPage({ params }: Props) {
   const { slug } = use(params);
   const [device, setDevice] = useState<"desktop" | "mobile">("desktop");
-  const { lang } = useLanguage();
 
   return (
     <div className="flex flex-col h-screen bg-[#050505] overflow-hidden text-[#faf8f5] font-sans">
@@ -68,7 +67,7 @@ export default function DemoSandboxPage({ params }: Props) {
         </div>
       </header>
 
-      {/* Iframe Container */}
+      {/* Preview Container */}
       <main className="flex-1 bg-[#050505] relative flex items-center justify-center p-0 sm:p-4 lg:p-8 overflow-hidden">
         <div
           className={`relative bg-[#0a0a0a] transition-all duration-500 ease-in-out border border-white/10 shadow-2xl overflow-hidden
@@ -81,11 +80,16 @@ export default function DemoSandboxPage({ params }: Props) {
           {device === "mobile" && (
             <div className="hidden sm:block absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1a1a1a] rounded-b-xl z-20" />
           )}
-          <iframe
-            src={slug === "floral-luxury" ? `/live-demos/floral-luxury/index.html` : `/t/${slug}`}
-            className="w-full h-full border-0 bg-transparent"
-            title={`Preview of ${slug}`}
-          />
+          {/* Live HTML demo for floral-luxury, rendered preview for others */}
+          {slug === "floral-luxury" ? (
+            <iframe
+              src={`/live-demos/floral-luxury/index.html`}
+              className="w-full h-full border-0 bg-transparent"
+              title={`Preview of ${slug}`}
+            />
+          ) : (
+            <TemplatePreview slug={slug} />
+          )}
         </div>
       </main>
     </div>

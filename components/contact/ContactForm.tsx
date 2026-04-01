@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { WhatsAppButton } from "@/components/buttons/WhatsAppButton";
-import { submitInquiry } from "@/app/actions/submitInquiry";
 import { useLanguage } from "@/lib/i18n/context";
 import type { ContactFormData } from "@/types";
 
@@ -45,7 +44,7 @@ export function ContactForm() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
     setErrorMsg("");
@@ -63,7 +62,11 @@ export function ContactForm() {
       message: formData.get("message") as string,
     };
 
-    const result = await submitInquiry(data);
+    const result = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).then((r) => r.json());
 
     if (result.success) {
       setStatus("success");

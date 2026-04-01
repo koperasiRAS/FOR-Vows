@@ -717,7 +717,7 @@ export const translations = {
       },
       portfolio: {
         eternalGold: "Pesta ballroom, Jakarta",
-        nusanteraHeritage: "Upacara tradisional, Yogyakarta",
+        nusantaraHeritage: "Upacara tradisional, Yogyakarta",
         secretGarden: "Estate privat, Bali",
         gardenTerrace: "Taman botanikal, Bandung",
         ivoryElegance: "Resor tepi pantai, Lombok",
@@ -1622,7 +1622,7 @@ export const translations = {
       },
       portfolio: {
         eternalGold: "Ballroom party, Jakarta",
-        nusanteraHeritage: "Traditional ceremony, Yogyakarta",
+        nusantaraHeritage: "Traditional ceremony, Yogyakarta",
         secretGarden: "Private estate, Bali",
         gardenTerrace: "Botanical garden, Bandung",
         ivoryElegance: "Beachfront resort, Lombok",

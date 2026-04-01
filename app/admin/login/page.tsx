@@ -4,35 +4,7 @@ import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff, Loader2, Lock, AlertCircle } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
 import { useLanguage } from "@/lib/i18n/context";
-
-const ERROR_MESSAGES: Record<string, { id: string; en: string }> = {
-  unauthorized: {
-    id: "Akun ini tidak memiliki hak akses admin.",
-    en: "This account does not have admin access.",
-  },
-  invalid_credentials: {
-    id: "Email atau password salah.",
-    en: "Invalid email or password.",
-  },
-  rate_limit: {
-    id: "Terlalu banyak percobaan login. Coba lagi beberapa menit.",
-    en: "Too many login attempts. Please try again in a few minutes.",
-  },
-  generic: {
-    id: "Terjadi kesalahan. Silakan coba lagi.",
-    en: "An error occurred. Please try again.",
-  },
-};
-
-type ErrorKey = keyof typeof ERROR_MESSAGES;
-
-function getErrorMessage(key: string | null, lang: string): string | null {
-  if (!key) return null;
-  const entry = ERROR_MESSAGES[key as ErrorKey];
-  return entry ? (lang === "id" ? entry.id : entry.en) : null;
-}
 
 function AdminLoginContent() {
   const { lang } = useLanguage();
@@ -42,55 +14,32 @@ function AdminLoginContent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(
-    getErrorMessage(searchParams.get("error"), lang)
+    searchParams.get("error") === "unauthorized"
+      ? lang === "id"
+        ? "Akun ini tidak memiliki hak akses admin."
+        : "This account does not have admin access."
+      : null
   );
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email.trim() || !password.trim()) return;
 
     setLoading(true);
     setError(null);
 
-    const supabase = createClient();
-
-    // Clear any existing session first (e.g. a Google OAuth customer session)
-    await supabase.auth.signOut();
-
-    const { error: authError } = await supabase.auth.signInWithPassword({
-      email: email.trim(),
-      password,
+    const res = await fetch("/api/admin-login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email.trim(), password }),
     });
 
-    if (authError) {
-      // Map Supabase error codes to user-friendly messages
-      if (
-        authError.message.includes("Invalid login credentials") ||
-        authError.message.includes("Invalid credentials")
-      ) {
-        setError(
-          lang === "id"
-            ? "Email atau password salah."
-            : "Invalid email or password."
-        );
-      } else if (
-        authError.message.includes("rate_limit") ||
-        authError.message.includes("Too many requests")
-      ) {
-        setError(
-          lang === "id"
-            ? "Terlalu banyak percobaan login. Coba lagi beberapa menit."
-            : "Too many login attempts. Please try again in a few minutes."
-        );
-      } else {
-        setError(
-          lang === "id"
-            ? "Email atau password salah."
-            : "Invalid email or password."
-        );
-      }
+    const result = await res.json();
+
+    if (!result.success) {
+      setError(result.error ?? (lang === "id" ? "Email atau password salah." : "Invalid email or password."));
       setLoading(false);
       return;
     }

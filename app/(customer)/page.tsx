@@ -14,6 +14,20 @@ import {
 import { getServerLanguage } from "@/lib/i18n/server";
 import { translations } from "@/lib/i18n/translations";
 
+export const metadata = {
+  title: "Undangan Pernikahan Digital Premium | FOR Vows",
+  description:
+    "Undangan pernikahan digital premium dengan desain elegan dan sakral. FOR Vows membantu pasangan menciptakan momen yang tak terlupakan — dari Jakarta untuk Indonesia.",
+  openGraph: {
+    title: "Undangan Pernikahan Digital Premium | FOR Vows",
+    description: "Premium digital wedding invitations crafted with elegance.",
+    url: "https://for-vows.vercel.app",
+    siteName: "FOR Vows",
+    locale: "id_ID",
+    type: "website",
+  },
+};
+
 export default async function HomePage() {
   const lang = await getServerLanguage();
   const t = translations[lang].home;

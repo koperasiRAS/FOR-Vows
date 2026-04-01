@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { HowItWorksStep } from "@/components/shared/HowItWorksStep";
@@ -5,6 +6,19 @@ import { CTASection } from "@/components/sections/CTASection";
 import { getTranslatedHowItWorksSteps } from "@/lib/templates";
 import { getServerLanguage } from "@/lib/i18n/server";
 import { translations } from "@/lib/i18n/translations";
+
+export const metadata = {
+  title: "Cara Pesan Undangan | FOR Vows",
+  description: "5 langkah mudah pesan undangan pernikahan digital di FOR Vows. Pilih template, kirim detail, review & setuju, lakukan pembayaran, dan publikasi.",
+  openGraph: {
+    title: "Cara Pesan Undangan | FOR Vows",
+    description: "5 langkah mudah pesan undangan pernikahan digital premium.",
+    url: "https://for-vows.vercel.app/how-it-works",
+    siteName: "FOR Vows",
+    locale: "id_ID",
+    type: "website",
+  },
+};
 
 export default async function HowItWorksPage() {
   const lang = await getServerLanguage();

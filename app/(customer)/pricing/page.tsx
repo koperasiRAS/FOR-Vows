@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { PricingCard } from "@/components/pricing/PricingCard";
@@ -49,6 +50,19 @@ function PricingSection({
     </div>
   );
 }
+
+export const metadata = {
+  title: "Harga & Paket Undangan Digital | FOR Vows",
+  description: "Pilihan paket undangan pernikahan digital premium: Basic Rp 299.000, Premium Rp 599.000, Exclusive Rp 999.000. Harga transparan, tanpa biaya tersembunyi. FOR Vows.",
+  openGraph: {
+    title: "Harga & Paket Undangan Digital | FOR Vows",
+    description: "Basic Rp 299.000 · Premium Rp 599.000 · Exclusive Rp 999.000",
+    url: "https://for-vows.vercel.app/pricing",
+    siteName: "FOR Vows",
+    locale: "id_ID",
+    type: "website",
+  },
+};
 
 export default async function PricingPage() {
   const lang = await getServerLanguage();

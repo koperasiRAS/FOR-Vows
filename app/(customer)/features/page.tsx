@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { FeatureCard } from "@/components/features/FeatureCard";
@@ -5,6 +6,19 @@ import { CTASection } from "@/components/sections/CTASection";
 import { getTranslatedFeatures } from "@/lib/templates";
 import { getServerLanguage } from "@/lib/i18n/server";
 import { translations } from "@/lib/i18n/translations";
+
+export const metadata = {
+  title: "Fitur Undangan Digital | FOR Vows",
+  description: "Fitur lengkap undangan pernikahan digital FOR Vows: RSVP, nama tamu personal, galeri foto, hitung mundur, musik latar, integrasi Google Maps, dan lainnya.",
+  openGraph: {
+    title: "Fitur Undangan Digital | FOR Vows",
+    description: "RSVP, nama tamu personal, galeri foto, musik latar, dan lainnya.",
+    url: "https://for-vows.vercel.app/features",
+    siteName: "FOR Vows",
+    locale: "id_ID",
+    type: "website",
+  },
+};
 
 export default async function FeaturesPage() {
   const lang = await getServerLanguage();
