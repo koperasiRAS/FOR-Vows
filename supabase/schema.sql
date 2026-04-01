@@ -33,7 +33,9 @@ create table if not exists public.orders (
   midtrans_order_id text unique,
   -- Payment hardening
   snap_token                 text,
-  payment_token_created_at   timestamptz
+  payment_token_created_at   timestamptz,
+  -- Soft Delete
+  deleted_at                 timestamptz
 );
 
 -- Auto-generate order_code if not provided
@@ -53,7 +55,8 @@ alter table public.orders
   add column if not exists paid_at timestamptz,
   add column if not exists midtrans_order_id text,
   add column if not exists snap_token text,
-  add column if not exists payment_token_created_at timestamptz;
+  add column if not exists payment_token_created_at timestamptz,
+  add column if not exists deleted_at timestamptz;
 
 alter table public.orders 
   drop constraint if exists orders_midtrans_order_id_key;
@@ -116,18 +119,18 @@ create policy "Service role can insert inquiries"
   for insert
   with check (true);
 
--- Allow reads for admin dashboard
+-- Allow reads for admin dashboard (must be authenticated)
 create policy "Allow read inquiries"
   on public.inquiries
   for select
-  using (true);
+  using (auth.role() = 'authenticated');
 
--- Allow updates for admin (mark as read/replied)
+-- Allow updates for admin (must be authenticated)
 create policy "Allow update inquiries"
   on public.inquiries
   for update
-  using (true)
-  with check (true);
+  using (auth.role() = 'authenticated')
+  with check (auth.role() = 'authenticated');
 
 -- ─── Customer Auth: user_id on orders ─────────────────────────────────────────
 
