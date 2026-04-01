@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Search, Filter, ChevronLeft, ChevronRight, Eye, Edit2, TrendingUp } from "lucide-react";
+import { Search, Filter, ChevronLeft, ChevronRight, Eye, Edit2, TrendingUp, Download } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useLanguage } from "@/lib/i18n/context";
 import { DashboardSidebar } from "@/components/layout/DashboardSidebar";
@@ -129,6 +129,32 @@ export default function AdminOrdersPage() {
     }
   };
 
+  const exportToCSV = () => {
+    if (orders.length === 0) return;
+    const headers = ["Order ID", "Order Code", "Groom Name", "Bride Name", "Phone", "Package", "Template", "Status", "Date", "Final Total (IDR)"];
+    const rows = orders.map(o => [
+      o.id,
+      o.order_code,
+      o.groom_name,
+      o.bride_name,
+      o.phone,
+      o.package_name ?? "",
+      o.template ?? "",
+      o.status,
+      new Date(o.created_at).toISOString().split("T")[0],
+      o.final_total ?? 0,
+    ]);
+    const csvContent = [headers.join(","), ...rows.map(r => r.map(v => `"${v}"`).join(","))].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `FOR_Vows_Orders_${new Date().toISOString().split("T")[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const formatDate = (dateStr: string) => {
     try {
       return new Intl.DateTimeFormat("en-GB", {
@@ -213,6 +239,17 @@ export default function AdminOrdersPage() {
                 </div>
               )}
             </div>
+
+            {/* Export CSV */}
+            <button
+              onClick={exportToCSV}
+              className="flex items-center gap-2 bg-stitch-primary text-white px-4 py-3 rounded-xl hover:opacity-90 transition-opacity border-none shadow-sm cursor-pointer"
+            >
+              <Download size={15} strokeWidth={2} />
+              <span className="text-sm font-semibold tracking-wide">
+                Export
+              </span>
+            </button>
 
             {/* Avatar */}
             <div className="flex items-center gap-3">

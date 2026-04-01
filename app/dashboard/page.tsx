@@ -354,7 +354,7 @@ function DashboardContent() {
                   {lang === "id" ? "Jelajahi" : "Explore"}
                 </button>
               </div>
-              <div className="md:w-1/2 min-h-[280px] bg-gradient-to-br from-[#735c00]/10 to-[#d4af37]/20 flex items-center justify-center">
+              <div className="md:w-1/2 min-h-[280px] bg-linear-to-br from-[#735c00]/10 to-[#d4af37]/20 flex items-center justify-center">
                 <div className="flex flex-col items-center gap-3 opacity-50">
                   <div className="w-16 h-20 border-2 border-stitch-primary/30 rotate-12" />
                   <span className="font-label text-[10px] uppercase tracking-widest text-stone-400">Preview</span>

@@ -47,9 +47,9 @@ export default async function HomePage() {
           }}
         />
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-transparent via-[#c9a96e]/20 to-transparent" />
-          <div className="absolute top-0 left-1/4 w-px h-16 bg-gradient-to-b from-transparent to-white/[0.03]" />
-          <div className="absolute top-0 right-1/4 w-px h-16 bg-gradient-to-b from-transparent to-white/[0.03]" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-linear-to-b from-transparent via-[#c9a96e]/20 to-transparent" />
+          <div className="absolute top-0 left-1/4 w-px h-16 bg-linear-to-b from-transparent to-white/[0.03]" />
+          <div className="absolute top-0 right-1/4 w-px h-16 bg-linear-to-b from-transparent to-white/[0.03]" />
         </div>
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center space-y-8 pt-20">
@@ -175,7 +175,7 @@ export default async function HomePage() {
 
             <ScrollReveal delay={200}>
               <div className="relative aspect-[4/5] overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#1a1206] via-[#2d1f0a] to-[#1a1206]" />
+                <div className="absolute inset-0 bg-linear-to-br from-[#1a1206] via-[#2d1f0a] to-[#1a1206]" />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center space-y-4">
                     <p className="font-serif italic text-5xl text-[#c9a96e]/80">FOR</p>

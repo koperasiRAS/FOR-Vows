@@ -45,7 +45,7 @@ function CustomerRegisterContent() {
 
     const supabase = createClient();
 
-    const { error: signUpError } = await supabase.auth.signUp({
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email: form.email.trim(),
       password: form.password,
       options: {
@@ -65,6 +65,16 @@ function CustomerRegisterContent() {
           : lang === "id"
             ? "Terjadi kesalahan saat mendaftar. Silakan coba lagi."
             : "An error occurred during registration. Please try again."
+      );
+      setLoading(false);
+      return;
+    }
+
+    if (signUpData.user && !signUpData.session) {
+      setError(
+        lang === "id"
+          ? "✅ Pendaftaran berhasil! Silakan cek kotak masuk Email Anda untuk verifikasi akun."
+          : "✅ Registration successful! Please check your email inbox to verify your account."
       );
       setLoading(false);
       return;

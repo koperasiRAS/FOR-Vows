@@ -267,7 +267,7 @@ export default function AdminOrderDetailPage() {
                     {lang === "id" ? "Preview Undangan" : "Invitation Preview"}
                   </h3>
                 </div>
-                <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-[#735c00]/10 to-[#d4af37]/20 flex items-center justify-center">
+                <div className="relative aspect-[4/3] overflow-hidden bg-linear-to-br from-[#735c00]/10 to-[#d4af37]/20 flex items-center justify-center">
                   <div className="w-20 h-20 border-2 border-stitch-primary/20 rotate-45" />
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
                     <p className="font-serif italic text-xl text-stitch-primary/60">{order.template ?? "Custom Template"}</p>

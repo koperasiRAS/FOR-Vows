@@ -49,7 +49,7 @@ export default async function AboutPage() {
 
           <ScrollReveal delay={150}>
             <div className="relative aspect-square overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#1a1206] via-[#2d1f0a] to-[#1a1206]" />
+              <div className="absolute inset-0 bg-linear-to-br from-[#1a1206] via-[#2d1f0a] to-[#1a1206]" />
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center p-10">
                 <div className="space-y-2">
                   <span className="text-xs tracking-[0.3em] uppercase text-[#c9a96e]/50">
