@@ -7,10 +7,10 @@ import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { TemplateCard } from "@/components/templates/TemplateCard";
 import { PreviewButton } from "@/components/templates/PreviewButton";
+import { TemplatePackageSelector } from "@/components/templates/TemplatePackageSelector";
 import { getTemplateBySlug, getTranslatedTemplate } from "@/lib/templates";
 import { translations, type Language } from "@/lib/i18n/translations";
 import { useLanguage } from "@/lib/i18n/context";
-import { PACKAGES } from "@/lib/packages";
 import type { WeddingTemplate } from "@/types";
 
 interface Props {
@@ -221,34 +221,9 @@ export function TemplateDetailClient({ slug, template, related }: Props) {
 
               <div className="h-px bg-white/6" />
 
-              <div className="space-y-3">
-                <Link
-                  href={`/order?template=${template.slug}`}
-                  className="flex items-center justify-center gap-2 w-full py-3.5 text-[11px] tracking-[0.18em] uppercase bg-[#c9a96e] text-[#0a0a0a] font-medium hover:bg-[#d4b87a] transition-all duration-300"
-                >
-                  {lang === "id" ? "Pilih Paket & Pesan" : "Choose Package & Order"}
-                  <ArrowRight size={14} />
-                </Link>
-                <PreviewButton template={template} translatedName={translated?.name} />
-              </div>
+              <TemplatePackageSelector templateSlug={template.slug} />
 
-              <div className="p-4 border border-white/6 space-y-2">
-                <p className="text-[10px] tracking-[0.15em] uppercase text-[#6a6a6a] mb-3">
-                  {lang === "id" ? "Pilihan Paket" : "Package Options"}
-                </p>
-                {PACKAGES.map((pkg) => (
-                  <div key={pkg.key} className="flex items-center justify-between">
-                    <span className="text-xs text-[#8a8a8a]">{pkg.label}</span>
-                    <span className="text-xs text-[#c9a96e]">{pkg.priceLabel}</span>
-                  </div>
-                ))}
-                <Link
-                  href="/pricing"
-                  className="block text-center text-[10px] text-[#6a6a6a] hover:text-[#c9a96e] transition-colors mt-1 tracking-wide"
-                >
-                  {lang === "id" ? "Lihat detail semua paket →" : "View all packages →"}
-                </Link>
-              </div>
+              <PreviewButton template={template} translatedName={translated?.name} />
             </div>
           </ScrollReveal>
         </div>

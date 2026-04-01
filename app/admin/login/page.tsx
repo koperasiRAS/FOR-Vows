@@ -46,6 +46,7 @@ function AdminLoginContent() {
 
     // Auth succeeded — middleware will validate admin role and redirect
     router.push("/admin/orders");
+    router.refresh();
   };
 
   return (
