@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { BookOpen, User, CreditCard, Headphones, Settings, LogOut, Plus } from "lucide-react";
-import { WA_NUMBER } from "@/lib/config";
+import { createClient } from "@/lib/supabase/client";
 
 interface DashboardSidebarProps {
   variant?: "customer" | "admin";
@@ -11,12 +11,23 @@ interface DashboardSidebarProps {
 
 export function DashboardSidebar({ variant = "customer" }: DashboardSidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
 
   const isActive = (path: string) => {
     if (path === "/dashboard" || path === "/admin/dashboard") {
       return pathname === path;
     }
     return pathname.startsWith(path);
+  };
+
+  const handleLogout = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    if (variant === "admin") {
+      router.push("/admin/login");
+    } else {
+      router.push("/auth/login");
+    }
   };
 
   const customerNav = [
@@ -49,31 +60,13 @@ export function DashboardSidebar({ variant = "customer" }: DashboardSidebarProps
   const adminNav = [
     {
       tab: "orders",
-      label: "My Orders",
-      href: "/dashboard",
+      label: "All Orders",
+      href: "/admin/orders",
       icon: BookOpen,
     },
     {
-      tab: "profile",
-      label: "Profile",
-      href: "/dashboard/profile",
-      icon: User,
-    },
-    {
-      tab: "billing",
-      label: "Billing",
-      href: "/dashboard/billing",
-      icon: CreditCard,
-    },
-    {
-      tab: "support",
-      label: "Support",
-      href: "/dashboard/support",
-      icon: Headphones,
-    },
-    {
-      tab: "admin",
-      label: "Admin Panel",
+      tab: "dashboard",
+      label: "Dashboard",
       href: "/admin/dashboard",
       icon: Settings,
     },
@@ -90,7 +83,7 @@ export function DashboardSidebar({ variant = "customer" }: DashboardSidebarProps
             FOR Vows
           </h1>
           <p className="text-[11px] uppercase tracking-widest text-stone-400 font-label">
-            The Digital Curator
+            {variant === "admin" ? "Admin Portal" : "The Digital Curator"}
           </p>
         </Link>
       </div>
@@ -124,28 +117,30 @@ export function DashboardSidebar({ variant = "customer" }: DashboardSidebarProps
 
       {/* Footer actions */}
       <div className="pr-6 space-y-3">
-        {/* New Invitation button */}
-        <Link
-          href="/templates"
-          className="flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-xl text-white text-xs font-medium shadow-[0_20px_40px_rgba(43,43,43,0.06)] hover:opacity-90 transition-all active:scale-[0.98]"
-          style={{
-            background: "linear-gradient(135deg, #735c00 0%, #d4af37 100%)",
-          }}
-        >
-          <Plus size={14} strokeWidth={2.5} />
-          New Invitation
-        </Link>
+        {/* New Invitation button — only for customers */}
+        {variant === "customer" && (
+          <Link
+            href="/templates"
+            className="flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-xl text-white text-xs font-medium shadow-[0_20px_40px_rgba(43,43,43,0.06)] hover:opacity-90 transition-all active:scale-[0.98]"
+            style={{
+              background: "linear-gradient(135deg, #735c00 0%, #d4af37 100%)",
+            }}
+          >
+            <Plus size={14} strokeWidth={2.5} />
+            New Invitation
+          </Link>
+        )}
 
-        {/* Logout */}
-        <Link
-          href="/admin/login"
-          className="flex items-center gap-4 py-3.5 px-5 text-stone-400 hover:text-red-500 transition-colors"
+        {/* Logout — calls signOut() properly before redirecting */}
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-4 py-3.5 px-5 text-stone-400 hover:text-red-500 transition-colors w-full"
         >
           <LogOut size={16} strokeWidth={1.5} />
           <span className="text-[11px] uppercase tracking-widest font-label">
             Log Out
           </span>
-        </Link>
+        </button>
       </div>
     </aside>
   );
