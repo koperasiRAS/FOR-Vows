@@ -289,11 +289,21 @@ function CustomerRegisterContent() {
             <button
               onClick={async () => {
                 const supabase = createClient();
+                let redirectTo = `${window.location.origin}/auth/callback`;
+                // Append pending guest order codes so the callback can link them
+                if (typeof window !== "undefined") {
+                  try {
+                    const stored = JSON.parse(
+                      localStorage.getItem("forvows_recent_orders") ?? "[]"
+                    ) as string[];
+                    if (stored.length > 0) {
+                      redirectTo += `?orders=${encodeURIComponent(JSON.stringify(stored))}`;
+                    }
+                  } catch { /* ignore */ }
+                }
                 await supabase.auth.signInWithOAuth({
                   provider: "google",
-                  options: {
-                    redirectTo: `${window.location.origin}/auth/callback`,
-                  },
+                  options: { redirectTo },
                 });
               }}
               className="w-full py-3.5 mb-6 text-xs tracking-[0.15em] uppercase font-semibold text-stone-600 bg-white border border-outline-variant/30 rounded-xl hover:bg-stone-50 transition-colors flex items-center justify-center gap-3 shadow-sm"

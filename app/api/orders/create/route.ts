@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
+import { z } from "zod";
 import { createServiceClient, createClient as createServerClient } from "@/lib/supabase/server";
 import { PACKAGES, getPackage } from "@/lib/packages";
 import { calculateDiscount } from "@/lib/referrals";
+import { checkRateLimit } from "@/lib/rate-limit";
+
+// ── Rate limiting: 5 orders per IP per 10 minutes ───────────────────────────
+const ORDER_RATE_LIMIT = 5;
+const ORDER_RATE_WINDOW = 10 * 60 * 1000; // 10 minutes
 
 function generateOrderCode(): string {
   const now = new Date();
@@ -15,56 +21,49 @@ function generateOrderCode(): string {
   return `FORV-${yyyy}${mm}${dd}-${uuidFragment}-${rand}`;
 }
 
+// ── Zod schema ───────────────────────────────────────────────────────────────
+const OrderCreateSchema = z.object({
+  templateSlug: z.string().optional(),
+  packageKey: z.enum(["basic", "premium", "exclusive"]),
+  groomName: z.string().min(1, "Nama pengantin pria wajib diisi").max(100).trim(),
+  brideName: z.string().min(1, "Nama pengantin wanita wajib diisi").max(100).trim(),
+  eventDate: z.string().optional(),
+  phone: z
+    .string()
+    .min(8, "Nomor WhatsApp minimal 8 digit")
+    .max(20, "Nomor WhatsApp maksimal 20 karakter")
+    .regex(/^[+\d\s\-()]+$/, "Format nomor WhatsApp tidak valid")
+    .trim(),
+  story: z.string().max(2000, "Catatan maksimal 2000 karakter").trim().optional(),
+  referralCode: z.string().max(50).trim().optional(),
+});
+
 export async function POST(request: NextRequest) {
   try {
+    // ── Rate limiting ────────────────────────────────────────────────────────
+    const ip =
+      request.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
+      request.headers.get("x-real-ip") ??
+      "unknown";
+    if (!checkRateLimit(ip, ORDER_RATE_LIMIT, ORDER_RATE_WINDOW)) {
+      return NextResponse.json(
+        { success: false, error: "Terlalu banyak percobaan. Coba lagi dalam 10 menit." },
+        { status: 429 }
+      );
+    }
+
+    // ── Parse & validate body ──────────────────────────────────────────────
     const body = await request.json();
-    const {
-      templateSlug,
-      packageKey,
-      groomName,
-      brideName,
-      eventDate,
-      phone,
-      story,
-      referralCode,
-    } = body;
-
-    // Validate required fields
-    if (!groomName?.trim() || !brideName?.trim() || !phone?.trim() || !packageKey) {
+    const parsed = OrderCreateSchema.safeParse(body);
+    if (!parsed.success) {
       return NextResponse.json(
-        { success: false, error: "Missing required fields" },
+        { success: false, error: "Data tidak valid", details: parsed.error.issues },
         { status: 400 }
       );
     }
 
-    // Validate phone format server-side (defense-in-depth; client Zod validates too)
-    const phoneRegex = /^[+]?[\d\s\-()]{8,20}$/;
-    if (!phoneRegex.test(phone.trim())) {
-      return NextResponse.json(
-        { success: false, error: "Invalid phone number format" },
-        { status: 400 }
-      );
-    }
-
-    // String length limits
-    if (groomName.trim().length > 100 || brideName.trim().length > 100) {
-      return NextResponse.json(
-        { success: false, error: "Name exceeds maximum length" },
-        { status: 400 }
-      );
-    }
-    if (phone.trim().length > 20) {
-      return NextResponse.json(
-        { success: false, error: "Phone number exceeds maximum length" },
-        { status: 400 }
-      );
-    }
-    if (story && story.trim().length > 2000) {
-      return NextResponse.json(
-        { success: false, error: "Notes exceed maximum length" },
-        { status: 400 }
-      );
-    }
+    const { templateSlug, packageKey, groomName, brideName, eventDate, phone, story, referralCode } =
+      parsed.data;
 
     // Validate package
     const pkg = getPackage(packageKey);
@@ -81,13 +80,12 @@ export async function POST(request: NextRequest) {
     // Calculate referral discount server-side
     let discountAmount = 0;
     let discountNote: string | null = null;
-    const normalizedCode = referralCode?.trim();
 
-    if (normalizedCode) {
-      const discountResult = calculateDiscount(totalPrice, normalizedCode);
+    if (referralCode) {
+      const discountResult = calculateDiscount(totalPrice, referralCode);
       if (discountResult) {
         discountAmount = discountResult.amount;
-        discountNote = `${normalizedCode} — Diskon ${discountResult.referral.discountValue}%`;
+        discountNote = `${referralCode} — Diskon ${discountResult.referral.discountValue}%`;
       }
     }
 
@@ -109,12 +107,12 @@ export async function POST(request: NextRequest) {
       .from("orders")
       .insert({
         order_code: orderCode,
-        groom_name: groomName.trim(),
-        bride_name: brideName.trim(),
+        groom_name: groomName,
+        bride_name: brideName,
         template: templateSlug ?? null,
         package_name: pkg.label,
-        phone: phone.trim(),
-        notes: story?.trim() ?? null,
+        phone: phone,
+        notes: story ?? null,
         status: "pending",
         created_at: new Date().toISOString(),
         items: [
@@ -131,7 +129,7 @@ export async function POST(request: NextRequest) {
         discount_amount: discountAmount > 0 ? discountAmount : null,
         discount_note: discountNote,
         final_total: finalTotal,
-        referral_code: normalizedCode ?? null,
+        referral_code: referralCode ?? null,
         wedding_date: eventDate ?? null,
         user_id: userId,
       })

@@ -1,5 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 import { createClient as createSupabaseClient, createServiceClient } from "@/lib/supabase/server";
+import { checkRateLimit } from "@/lib/rate-limit";
+
+// ── Rate limiting: 10 cart checkouts per IP per 10 minutes ───────────────────
+const CART_RATE_LIMIT = 10;
+const CART_RATE_WINDOW = 10 * 60 * 1000;
+
+// ── Zod schemas ───────────────────────────────────────────────────────────────
+const CartOrderSchema = z.object({
+  orderCode: z.string().min(1).max(50).trim(),
+  groomName: z.string().min(1).max(100).trim().optional(),
+  brideName: z.string().min(1).max(100).trim().optional(),
+  name: z.string().min(1).max(100).trim().optional(),
+  template: z.string().max(100).trim().optional(),
+  package: z.string().max(50).trim().optional(),
+  phone: z
+    .string()
+    .min(8, "Nomor WhatsApp minimal 8 digit")
+    .max(20)
+    .regex(/^[+\d\s\-()]+$/, "Format nomor tidak valid")
+    .trim(),
+  notes: z.string().max(2000).trim().optional(),
+  items: z.array(z.unknown()).optional(),
+  totalPrice: z.number().min(0).optional(),
+  referralCode: z.string().max(50).trim().optional(),
+  weddingDate: z.string().max(30).trim().optional(),
+});
+
+const OrderStatusSchema = z.object({
+  id: z.string().uuid("Invalid order ID"),
+  status: z.enum(["pending", "paid", "processing", "completed", "cancelled"]),
+});
 
 // ── Auth guard: requires a valid Supabase session cookie ─────────────────────
 async function requireAdminSession(request: NextRequest) {
@@ -20,6 +52,18 @@ async function requireAdminSession(request: NextRequest) {
 // ── POST (public-facing — cart/OrderModal inserts new orders) ────────────────
 // No auth required here; inserts go through service role via RLS.
 export async function POST(request: NextRequest) {
+  // ── Rate limiting ─────────────────────────────────────────────────────────
+  const ip =
+    request.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
+    request.headers.get("x-real-ip") ??
+    "unknown";
+  if (!checkRateLimit(ip, CART_RATE_LIMIT, CART_RATE_WINDOW)) {
+    return NextResponse.json(
+      { success: false, error: "Terlalu banyak percobaan. Coba lagi dalam 10 menit." },
+      { status: 429 }
+    );
+  }
+
   let authUserId: string | null = null;
   try {
     const authCheck = await createSupabaseClient();
@@ -31,6 +75,14 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
+    const parsed = CartOrderSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { success: false, error: "Data tidak valid", details: parsed.error.issues },
+        { status: 400 }
+      );
+    }
+
     const {
       orderCode,
       groomName,
@@ -42,44 +94,37 @@ export async function POST(request: NextRequest) {
       notes,
       items,
       totalPrice,
-      // discountAmount, discountNote, finalTotal — ignored; always recalculated server-side
       referralCode,
       weddingDate,
-    } = body;
+    } = parsed.data;
 
     // Accept either groomName+brideName (OrderModal) or name (cart flow)
-    const effectiveGroomName = groomName?.trim() ?? name?.trim() ?? null;
-    const effectiveBrideName = brideName?.trim() ?? name?.trim() ?? null;
+    const effectiveGroomName = groomName ?? name ?? null;
+    const effectiveBrideName = brideName ?? name ?? null;
 
-    if (!orderCode || !phone?.trim() || (!effectiveGroomName && !effectiveBrideName)) {
+    if (!effectiveGroomName && !effectiveBrideName) {
       return NextResponse.json(
-        { success: false, error: "Missing required fields" },
+        { success: false, error: "Nama pengantin wajib diisi." },
         { status: 400 }
       );
     }
 
     // ── Server-side discount recalculation ───────────────────────────────────
     // Never trust the client's discountAmount — recalculate from referral code.
-    // This prevents a malicious client from inflating the discount to $0.
-    const effectiveReferralCode = referralCode?.trim() ?? null;
     let serverDiscountAmount: number | null = null;
     let serverDiscountNote: string | null = null;
 
-    if (effectiveReferralCode) {
-      // Import referral logic dynamically to avoid circular issues
+    if (referralCode) {
       const { calculateDiscount, validateReferralCode, formatDiscount } = await import("@/lib/referrals");
-      const validation = validateReferralCode(effectiveReferralCode);
+      const validation = validateReferralCode(referralCode);
       if (validation.valid && validation.referral) {
         const total = totalPrice ?? 0;
-        const discountResult = calculateDiscount(total, effectiveReferralCode);
+        const discountResult = calculateDiscount(total, referralCode);
         if (discountResult) {
           serverDiscountAmount = discountResult.amount;
-          // Store note with discount detail for admin reference
           serverDiscountNote = `${validation.code} — ${formatDiscount(validation.referral, "id")}`;
         }
       }
-      // If code is invalid, silently ignore it (no discount applied) rather than
-      // rejecting the order — the client will have shown an error already.
     }
 
     // Use server-calculated values, not client-supplied ones
@@ -97,8 +142,8 @@ export async function POST(request: NextRequest) {
         bride_name: effectiveBrideName ?? "—",
         template: template ?? null,
         package_name: pkg ?? null,
-        phone: phone.trim(),
-        notes: notes?.trim() ?? null,
+        phone: phone,
+        notes: notes ?? null,
         status: "pending",
         created_at: new Date().toISOString(),
         // Cart-style fields — always use server-calculated discount
@@ -107,7 +152,7 @@ export async function POST(request: NextRequest) {
         discount_amount: finalDiscountAmount > 0 ? finalDiscountAmount : null,
         discount_note: finalDiscountNote,
         final_total: finalOrderTotal,
-        referral_code: effectiveReferralCode,
+        referral_code: referralCode ?? null,
         wedding_date: weddingDate ?? null,
         user_id: authUserId,
       })
@@ -190,26 +235,21 @@ export async function PATCH(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { id, status } = body;
-
-    if (!id || !status) {
+    const parsed = OrderStatusSchema.safeParse(body);
+    if (!parsed.success) {
       return NextResponse.json(
-        { success: false, error: "Missing id or status" },
+        { success: false, error: "Data tidak valid", details: parsed.error.issues },
         { status: 400 }
       );
     }
 
-    const validStatuses = [
-      "pending",
-      "paid",
-      "processing",
-      "completed",
-      "cancelled",
-    ];
-    if (!validStatuses.includes(status)) {
+    const { id, status } = parsed.data;
+
+    // [SECURITY] Admin cannot manually set 'paid' — only Midtrans webhook can confirm payment
+    if (status === "paid") {
       return NextResponse.json(
-        { success: false, error: "Invalid status value" },
-        { status: 400 }
+        { success: false, error: "Cannot manually set paid status. Only Midtrans payment confirmation can do this." },
+        { status: 403 }
       );
     }
 

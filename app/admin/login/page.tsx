@@ -2,31 +2,61 @@
 
 import { useState, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Eye, EyeOff, Loader2, Lock } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Eye, EyeOff, Loader2, Lock, AlertCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useLanguage } from "@/lib/i18n/context";
+
+const ERROR_MESSAGES: Record<string, { id: string; en: string }> = {
+  unauthorized: {
+    id: "Akun ini tidak memiliki hak akses admin.",
+    en: "This account does not have admin access.",
+  },
+  invalid_credentials: {
+    id: "Email atau password salah.",
+    en: "Invalid email or password.",
+  },
+  rate_limit: {
+    id: "Terlalu banyak percobaan login. Coba lagi beberapa menit.",
+    en: "Too many login attempts. Please try again in a few minutes.",
+  },
+  generic: {
+    id: "Terjadi kesalahan. Silakan coba lagi.",
+    en: "An error occurred. Please try again.",
+  },
+};
+
+type ErrorKey = keyof typeof ERROR_MESSAGES;
+
+function getErrorMessage(key: string | null, lang: string): string | null {
+  if (!key) return null;
+  const entry = ERROR_MESSAGES[key as ErrorKey];
+  return entry ? (lang === "id" ? entry.id : entry.en) : null;
+}
 
 function AdminLoginContent() {
   const { lang } = useLanguage();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(
+    getErrorMessage(searchParams.get("error"), lang)
+  );
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email.trim() || !password.trim()) return;
 
     setLoading(true);
-    setError("");
+    setError(null);
 
     const supabase = createClient();
 
-    // Sign out any existing session first (e.g. a Google OAuth customer session)
-    // to ensure we get a fresh admin session below
+    // Clear any existing session first (e.g. a Google OAuth customer session)
     await supabase.auth.signOut();
 
     const { error: authError } = await supabase.auth.signInWithPassword({
@@ -35,24 +65,42 @@ function AdminLoginContent() {
     });
 
     if (authError) {
-      setError(
-        lang === "id"
-          ? "Email atau password salah."
-          : "Invalid email or password."
-      );
+      // Map Supabase error codes to user-friendly messages
+      if (
+        authError.message.includes("Invalid login credentials") ||
+        authError.message.includes("Invalid credentials")
+      ) {
+        setError(
+          lang === "id"
+            ? "Email atau password salah."
+            : "Invalid email or password."
+        );
+      } else if (
+        authError.message.includes("rate_limit") ||
+        authError.message.includes("Too many requests")
+      ) {
+        setError(
+          lang === "id"
+            ? "Terlalu banyak percobaan login. Coba lagi beberapa menit."
+            : "Too many login attempts. Please try again in a few minutes."
+        );
+      } else {
+        setError(
+          lang === "id"
+            ? "Email atau password salah."
+            : "Invalid email or password."
+        );
+      }
       setLoading(false);
       return;
     }
 
+    // Auth succeeded — middleware will validate admin role and redirect
     router.push("/admin/orders");
   };
 
-
   return (
     <div className="min-h-screen bg-[#fcf9f8] flex items-center justify-center px-6">
-      {/* Background surface */}
-      <div className="absolute inset-0 bg-surface" />
-
       <div className="relative w-full max-w-sm">
         {/* Logo / Brand */}
         <div className="text-center mb-10">
@@ -86,6 +134,18 @@ function AdminLoginContent() {
           {/* Form */}
           <div className="px-8 pb-8 pt-6">
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Error alert */}
+              {error && (
+                <div className="flex items-start gap-2.5 bg-red-50 border border-red-200 text-red-700 text-xs px-4 py-3 rounded-xl">
+                  <AlertCircle
+                    size={14}
+                    className="mt-0.5 shrink-0 text-red-500"
+                    strokeWidth={2}
+                  />
+                  <span>{error}</span>
+                </div>
+              )}
+
               {/* Email */}
               <div className="space-y-1.5">
                 <label
@@ -102,7 +162,8 @@ function AdminLoginContent() {
                   placeholder="admin@forvows.com"
                   required
                   autoComplete="email"
-                  className="w-full px-4 py-3 bg-surface-container-low border border-outline-variant text-on-surface text-sm placeholder:text-stone-400 focus:outline-none focus:border-stitch-primary focus:ring-1 focus:ring-stitch-primary/20 transition-colors rounded-lg font-label"
+                  disabled={loading}
+                  className="w-full px-4 py-3 bg-surface-container-low border border-outline-variant text-on-surface text-sm placeholder:text-stone-400 focus:outline-none focus:border-stitch-primary focus:ring-1 focus:ring-stitch-primary/20 transition-colors rounded-lg font-label disabled:opacity-50"
                 />
               </div>
 
@@ -123,13 +184,15 @@ function AdminLoginContent() {
                     placeholder="••••••••"
                     required
                     autoComplete="current-password"
-                    className="w-full px-4 py-3 pr-11 bg-surface-container-low border border-outline-variant text-on-surface text-sm placeholder:text-stone-400 focus:outline-none focus:border-stitch-primary focus:ring-1 focus:ring-stitch-primary/20 transition-colors rounded-lg font-label"
+                    disabled={loading}
+                    className="w-full px-4 py-3 pr-11 bg-surface-container-low border border-outline-variant text-on-surface text-sm placeholder:text-stone-400 focus:outline-none focus:border-stitch-primary focus:ring-1 focus:ring-stitch-primary/20 transition-colors rounded-lg font-label disabled:opacity-50"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 transition-colors"
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 transition-colors disabled:opacity-50"
                     tabIndex={-1}
+                    disabled={loading}
                   >
                     {showPassword ? (
                       <EyeOff size={16} strokeWidth={1.5} />
@@ -139,13 +202,6 @@ function AdminLoginContent() {
                   </button>
                 </div>
               </div>
-
-              {/* Error */}
-              {error && (
-                <div className="bg-stitch-error-container border border-stitch-error/20 text-stitch-on-error-container text-xs px-4 py-2.5 rounded-lg">
-                  {error}
-                </div>
-              )}
 
               {/* Submit */}
               <button

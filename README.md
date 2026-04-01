@@ -29,6 +29,38 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+## Setup Admin Account
+
+Admin accounts must be created manually for security. No self-registration.
+
+### Prerequisites
+- An existing user account in Supabase Auth (created via `/auth/register` or any auth method)
+- Access to your Supabase project dashboard
+
+### Steps
+
+1. **Create (or identify) the admin user**
+   - If the user doesn't exist yet, have them sign up at `/auth/register`
+   - Note their email address
+
+2. **Assign admin role via SQL**
+   - Go to [Supabase Dashboard](https://supabase.com/dashboard) → your project → **SQL Editor**
+   - Copy the content from `supabase/scripts/assign-admin-role.sql`
+   - Replace `GANTI_DENGAN_EMAIL_ADMIN@example.com` with the actual admin email
+   - Run the query
+
+3. **Verify**
+   - The `SELECT` query at the bottom of the script should return `roles = ["admin"]`
+
+4. **Login**
+   - The admin can now sign in at `/admin/login` using their email and password
+
+### Revoke Admin Access
+
+Run the commented `REVOKE` query at the bottom of `supabase/scripts/assign-admin-role.sql` with the target email.
+
+---
+
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.

@@ -4,12 +4,12 @@ import { TemplateProvider } from "@/lib/template-context";
 
 export const metadata: Metadata = {
   title: {
-    default: "Admin Portal | FOR Vows",
-    template: "%s | FOR Vows Admin",
+    default: "Account | FOR Vows",
+    template: "%s | FOR Vows",
   },
 };
 
-export default function AdminLayout({
+export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

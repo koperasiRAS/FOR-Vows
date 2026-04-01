@@ -1,16 +1,43 @@
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
+import { checkRateLimit } from '@/lib/rate-limit';
 
-interface WebhookPayload {
-  type: 'INSERT' | 'UPDATE' | 'DELETE';
-  table: string;
-  record: any;
-  schema: string;
-  old_record: any;
-}
+const WHATSAPP_RATE_LIMIT = 20;
+const WHATSAPP_RATE_WINDOW = 60 * 1000; // 1 minute
+
+// ── Zod schema ───────────────────────────────────────────────────────────────
+const WebhookPayloadSchema = z.object({
+  type: z.enum(['INSERT', 'UPDATE', 'DELETE']),
+  table: z.string(),
+  record: z.object({
+    order_code: z.string().optional(),
+    groom_name: z.string().optional(),
+    bride_name: z.string().optional(),
+    package_name: z.string().optional(),
+    final_total: z.number().optional(),
+    phone: z.string().optional(),
+  }),
+  schema: z.string(),
+});
 
 export async function POST(req: Request) {
+  // ── Rate limiting (by Supabase webhook source IP) ──────────────────────────
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
+    req.headers.get("x-real-ip") ??
+    "unknown";
+  if (!checkRateLimit(ip, WHATSAPP_RATE_LIMIT, WHATSAPP_RATE_WINDOW)) {
+    return NextResponse.json({ error: "Rate limit exceeded" }, { status: 429 });
+  }
+
   try {
-    const payload: WebhookPayload = await req.json();
+    const rawPayload = await req.json();
+    const parsed = WebhookPayloadSchema.safeParse(rawPayload);
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'Invalid webhook payload' }, { status: 400 });
+    }
+
+    const payload = parsed.data;
 
     if (payload.table !== 'orders' || payload.type !== 'INSERT') {
       return NextResponse.json({ message: 'Ignored: Not a new order' });

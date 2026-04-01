@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import { Playfair_Display, Inter, Cormorant_Garamond, Noto_Serif } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { CartLayout } from "@/components/cart/CartLayout";
 import { LanguageProvider } from "@/lib/i18n/context";
 import { TemplateProvider } from "@/lib/template-context";
 
@@ -84,11 +81,7 @@ export default function RootLayout({
         />
         <LanguageProvider>
           <TemplateProvider>
-            <CartLayout>
-              <Navbar />
-              <main className="flex-1">{children}</main>
-              <Footer />
-            </CartLayout>
+            {children}
           </TemplateProvider>
         </LanguageProvider>
       </body>

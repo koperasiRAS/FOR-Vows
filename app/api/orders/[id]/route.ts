@@ -15,8 +15,14 @@ async function requireAdminSession(request: NextRequest) {
     );
   }
 
-  // C1: Admin role check
-  const roles: string[] = (user.app_metadata?.roles as string[] | undefined) ?? [];
+  // C1: Admin role check (type-safe)
+  const rawRoles = user.app_metadata?.roles;
+  let roles: string[] = [];
+  if (Array.isArray(rawRoles)) {
+    roles = rawRoles.filter((r): r is string => typeof r === "string");
+  } else if (typeof rawRoles === "string") {
+    roles = [rawRoles];
+  }
   if (!roles.includes("admin")) {
     return NextResponse.json(
       { success: false, error: "Forbidden" },

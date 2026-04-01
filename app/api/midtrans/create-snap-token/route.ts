@@ -1,18 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
 import Midtrans from "midtrans-client";
+import { z } from "zod";
 import { createServiceClient } from "@/lib/supabase/server";
 
 const SERVER_KEY = process.env.MIDTRANS_SERVER_KEY ?? "";
 const CLIENT_KEY = process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY ?? "";
 
+// ── Zod schema ───────────────────────────────────────────────────────────────
+const SnapTokenSchema = z.object({
+  bookingId: z.string().min(1),
+  customerName: z.string().min(1).max(200).trim(),
+  customerEmail: z.string().email().trim().optional(),
+  customerPhone: z.string().max(20).trim().optional(),
+  items: z.array(z.unknown()).optional(),
+  userId: z.string().uuid().optional(),
+});
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { bookingId, customerName, customerEmail, customerPhone, items, userId } = body;
-
-    if (!bookingId || !customerName) {
-      return NextResponse.json({ success: false, error: "Missing required fields" }, { status: 400 });
+    const parsed = SnapTokenSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { success: false, error: "Data tidak valid", details: parsed.error.issues },
+        { status: 400 }
+      );
     }
+
+    const { bookingId, customerName, customerEmail, customerPhone, items, userId } = parsed.data;
 
     // [SECURITY] Recalculate amount server-side from DB — do not trust client-supplied amount
     // Also verify ownership: if order has user_id, it must match the requesting user

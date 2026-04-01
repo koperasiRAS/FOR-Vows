@@ -55,7 +55,13 @@ async function handleAdminAuth(request: NextRequest) {
   }
 
   // User is logged in — check if they have admin role
-  const roles: string[] = user?.app_metadata?.roles as string[] ?? [];
+  const rawRoles = user?.app_metadata?.roles;
+  let roles: string[] = [];
+  if (Array.isArray(rawRoles)) {
+    roles = rawRoles.filter((r): r is string => typeof r === "string");
+  } else if (typeof rawRoles === "string") {
+    roles = [rawRoles];
+  }
   const isAdmin = roles.includes("admin");
 
   // If user is on the login page:
@@ -129,17 +135,23 @@ export async function middleware(request: NextRequest) {
     return handleCustomerAuth(request);
   }
 
-  // ── 4. API Routes Guard (Task 8) ───────────────────────────────────────────
+  // ── 4. API Routes Guard ──────────────────────────────────────────────────────
   if (pathname.startsWith("/api/")) {
-    // Public paths that do NOT require session
-    const isPublicApi = 
+    const isPublicApi =
       pathname.startsWith("/api/midtrans/payment-notification") ||
-      pathname.startsWith("/api/orders/create");
-    
-    // For other API paths, we let them pass here if we want to rely on the endpoint's strict ownership validation.
-    // However, the task asked to ensure "protected API routes require auth".
-    // We will let the individual API endpoints handle fine-grained user_id ownership 
-    // to maintain backward compatibility for Guest orders in some GET requests.
+      pathname.startsWith("/api/orders/create") ||
+      pathname.startsWith("/api/webhook/whatsapp");
+
+    if (!isPublicApi) {
+      const response = NextResponse.next({ request });
+      const supabase = createSupabaseServerClient(request, response);
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
+      return response;
+    }
+    return NextResponse.next({ request });
   }
 
   // ── 5. Partner proxy ─────────────────────────────────────────────────────
