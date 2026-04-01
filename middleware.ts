@@ -47,27 +47,39 @@ async function handleAdminAuth(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // No user — must login first
   if (!user && !isLoginPage) {
     const loginUrl = new URL("/admin/login", request.url);
     loginUrl.searchParams.set("redirectTo", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  if (user && isLoginPage) {
-    return NextResponse.redirect(new URL("/admin/orders", request.url));
-  }
-
-  // Check admin role — users must have "admin" in app_metadata.roles
+  // User is logged in — check if they have admin role
   const roles: string[] = user?.app_metadata?.roles as string[] ?? [];
   const isAdmin = roles.includes("admin");
 
+  // If user is on the login page:
+  // - If already admin → skip login, go to orders
+  // - If NOT admin → let them stay on the login page to enter admin credentials
+  if (isLoginPage) {
+    if (user && isAdmin) {
+      return NextResponse.redirect(new URL("/admin/orders", request.url));
+    }
+    // Not admin or not logged in → allow access to login page
+    return response;
+  }
+
+  // For all other /admin/* pages: must be admin
   if (!isAdmin) {
-    // Authenticated but not admin — redirect to customer dashboard
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    // Authenticated but not admin — redirect back to admin login with error
+    const loginUrl = new URL("/admin/login", request.url);
+    loginUrl.searchParams.set("error", "unauthorized");
+    return NextResponse.redirect(loginUrl);
   }
 
   return response;
 }
+
 
 // ── Customer Auth Guard ───────────────────────────────────────────────────────
 

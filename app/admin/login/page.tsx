@@ -25,6 +25,10 @@ function AdminLoginContent() {
 
     const supabase = createClient();
 
+    // Sign out any existing session first (e.g. a Google OAuth customer session)
+    // to ensure we get a fresh admin session below
+    await supabase.auth.signOut();
+
     const { error: authError } = await supabase.auth.signInWithPassword({
       email: email.trim(),
       password,
@@ -42,6 +46,7 @@ function AdminLoginContent() {
 
     router.push("/admin/orders");
   };
+
 
   return (
     <div className="min-h-screen bg-[#fcf9f8] flex items-center justify-center px-6">
