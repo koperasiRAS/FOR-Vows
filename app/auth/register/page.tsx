@@ -84,7 +84,7 @@ function CustomerRegisterContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fcf9f8] flex items-center justify-center px-6 py-12">
+    <div className="min-h-screen bg-[#fcf9f8] flex items-center justify-center px-4 sm:px-6 py-8 sm:py-12">
       {/* Background */}
       <div className="absolute inset-0 bg-surface" />
 
@@ -104,7 +104,7 @@ function CustomerRegisterContent() {
         {/* Card */}
         <div className="bg-white rounded-2xl shadow-[0_20px_60px_rgba(43,43,43,0.08)] border border-outline-variant/20 overflow-hidden">
           {/* Card header */}
-          <div className="bg-surface-container-low px-8 pt-8 pb-6 text-center">
+          <div className="bg-surface-container-low px-6 sm:px-8 pt-6 sm:pt-8 pb-5 sm:pb-6 text-center">
             <div className="w-12 h-12 rounded-full bg-[#735c00] flex items-center justify-center mx-auto mb-4">
               <Lock size={18} className="text-white" strokeWidth={2} />
             </div>
@@ -119,7 +119,7 @@ function CustomerRegisterContent() {
           </div>
 
           {/* Form */}
-          <div className="px-8 pb-8 pt-6">
+          <div className="px-6 sm:px-8 pb-6 sm:pb-8 pt-5 sm:pt-6">
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Full Name */}
               <div className="space-y-1.5">

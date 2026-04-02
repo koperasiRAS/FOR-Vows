@@ -16,8 +16,11 @@ import {
   Palette,
   Image,
   CalendarCheck,
+  Menu,
+  X,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { useState } from "react";
 
 interface DashboardSidebarProps {
   variant?: "customer" | "admin";
@@ -26,6 +29,7 @@ interface DashboardSidebarProps {
 export function DashboardSidebar({ variant = "customer" }: Readonly<DashboardSidebarProps>) {
   const pathname = usePathname();
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
 
   const isActive = (path: string) => {
     if (path === "/dashboard" || path === "/admin/dashboard") {
@@ -64,18 +68,52 @@ export function DashboardSidebar({ variant = "customer" }: Readonly<DashboardSid
   const navItems = variant === "admin" ? adminNav : customerNav;
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-[#f6f3f2] flex flex-col z-40 py-8 pl-6">
-      {/* Logo */}
-      <div className="mb-12 pr-6">
-        <Link href="/" className="block">
-          <h1 className="font-serif italic text-xl text-[#735c00] mb-1 leading-none">
-            FOR Vows
-          </h1>
-          <p className="text-[11px] uppercase tracking-widest text-stone-400 font-label">
-            {variant === "admin" ? "Admin Portal" : "The Digital Curator"}
-          </p>
-        </Link>
-      </div>
+    <>
+      {/* Mobile Toggle FAB */}
+      <button
+        onClick={() => setIsOpen(true)}
+        className="md:hidden fixed bottom-6 right-6 z-40 p-4 rounded-full text-white shadow-[0_8px_24px_rgba(115,92,0,0.3)] hover:opacity-90 active:scale-95 transition-all"
+        style={{
+          background: "linear-gradient(135deg, #735c00 0%, #d4af37 100%)",
+        }}
+        aria-label="Toggle Menu"
+      >
+        <Menu size={24} />
+      </button>
+
+      {/* Overlay for mobile */}
+      {isOpen && (
+        <div
+          className="md:hidden fixed inset-0 bg-black/40 backdrop-blur-[2px] z-40"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`fixed left-0 top-0 h-screen w-64 bg-[#f6f3f2] flex flex-col z-50 py-8 pl-6 transition-transform duration-300 ease-in-out ${
+          isOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full"
+        } md:translate-x-0 md:shadow-none`}
+      >
+        {/* Mobile Close Button */}
+        <button
+          onClick={() => setIsOpen(false)}
+          className="md:hidden absolute top-7 right-6 p-2 text-stone-400 hover:text-stone-700 bg-white/50 rounded-full"
+        >
+          <X size={18} strokeWidth={2} />
+        </button>
+
+        {/* Logo */}
+        <div className="mb-12 pr-6">
+          <Link href="/" className="block" onClick={() => setIsOpen(false)}>
+            <h1 className="font-serif italic text-xl text-[#735c00] mb-1 leading-none">
+              FOR Vows
+            </h1>
+            <p className="text-[11px] uppercase tracking-widest text-stone-400 font-label">
+              {variant === "admin" ? "Admin Portal" : "The Digital Curator"}
+            </p>
+          </Link>
+        </div>
 
       {/* Navigation */}
       <nav className="flex-1 space-y-1">
@@ -129,6 +167,7 @@ export function DashboardSidebar({ variant = "customer" }: Readonly<DashboardSid
           </span>
         </button>
       </div>
-    </aside>
+      </aside>
+    </>
   );
 }
