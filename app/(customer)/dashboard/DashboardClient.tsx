@@ -225,7 +225,7 @@ export function DashboardClient() {
  <div className="min-h-screen bg-surface">
  <DashboardSidebar variant="customer"/>
 
- <main className="md:ml-64 min-h-screen bg-white">
+ <main className="ml-16 md:ml-64 min-h-screen bg-white">
  {isPaymentSuccess && (
  <div className="mx-8 mt-8 p-4 rounded-xl bg-green-500/10 border border-green-500/30 flex items-center gap-3">
  <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center shrink-0">
@@ -239,7 +239,7 @@ export function DashboardClient() {
  </div>
  )}
 
- <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md px-12 py-8 flex justify-between items-end border-b border-outline-variant/10">
+ <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md px-4 md:px-12 py-5 md:py-8 flex justify-between items-end border-b border-outline-variant/10">
  <div>
  <h2 className="font-headline text-4xl italic text-on-surface tracking-tight">
  {lang ==="id"?"Undangan Saya":"My Invitations"}
@@ -257,7 +257,7 @@ export function DashboardClient() {
  </div>
  </header>
 
- <section className="px-12 pb-20">
+ <section className="px-4 md:px-12 pb-20">
  {orders.length > 0 && (
  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 mt-8">
  <div className="bg-surface-container-low p-8 rounded-xl flex flex-col justify-between h-40">
@@ -316,7 +316,7 @@ export function DashboardClient() {
  </section>
 
  {orders.length > 0 && (
- <section className="mt-10 px-12 pb-16 border-t border-stone-100 pt-12">
+ <section className="mt-10 px-4 md:px-12 pb-16 border-t border-stone-100 pt-12">
  <h4 className="font-headline italic text-2xl text-on-surface mb-8">
  {lang ==="id"?"Saran dari Kurator":"Curator's Suggestions"}
  </h4>

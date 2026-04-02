@@ -119,9 +119,9 @@ export default function AdminOrderDetailPage() {
  <div className="min-h-screen bg-surface">
  <DashboardSidebar variant="admin"/>
 
- <main className="md:ml-64 min-h-screen">
+ <main className="ml-16 md:ml-64 min-h-screen">
  {/* Top Header */}
- <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-12 py-8 border-b border-outline-variant/10">
+ <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-4 md:px-12 py-5 md:py-8 border-b border-outline-variant/10">
  <div className="flex items-center gap-3 text-sm text-stone-400 mb-2">
  <Link href="/admin/orders"className="hover:text-stitch-primary transition-colors flex items-center gap-1">
  <ChevronLeft size={14} strokeWidth={1.5} />
@@ -145,7 +145,7 @@ export default function AdminOrderDetailPage() {
  </div>
  </header>
 
- <section className="px-12 pb-24">
+ <section className="px-4 md:px-12 pb-24">
  <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10 mt-8">
  {/* Left Column */}
  <div className="space-y-8">

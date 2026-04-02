@@ -195,8 +195,8 @@ export function OrderDetailClient() {
  <div className="min-h-screen bg-surface">
  <DashboardSidebar variant="customer"/>
 
- <main className="md:ml-64 min-h-screen bg-white">
- <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md px-12 py-8 flex justify-between items-end border-b border-outline-variant/10">
+ <main className="ml-16 md:ml-64 min-h-screen bg-white">
+ <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md px-4 md:px-12 py-5 md:py-8 flex justify-between items-end border-b border-outline-variant/10">
  <div>
  <div className="flex items-center gap-2 text-sm text-stone-400 mb-2">
  <Link href="/dashboard"className="hover:text-stitch-primary transition-colors flex items-center gap-1">
@@ -218,7 +218,7 @@ export function OrderDetailClient() {
  </div>
  </header>
 
- <section className="px-12 pb-24">
+ <section className="px-4 md:px-12 pb-24">
  <PaymentBanner order={order} locale={locale} />
 
  <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-10 mt-6">

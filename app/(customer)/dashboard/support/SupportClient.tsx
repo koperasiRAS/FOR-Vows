@@ -90,8 +90,8 @@ export function SupportClient() {
  <div className="min-h-screen bg-surface">
  <DashboardSidebar variant="customer"/>
 
- <main className="md:ml-64 min-h-screen bg-white">
- <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md px-12 py-8 border-b border-outline-variant/10">
+ <main className="ml-16 md:ml-64 min-h-screen bg-white">
+ <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md px-4 md:px-12 py-5 md:py-8 border-b border-outline-variant/10">
  <h2 className="font-headline text-3xl italic text-on-surface tracking-tight">
  {lang ==="id"?"Bantuan & Dukungan":"Help & Support"}
  </h2>
@@ -102,7 +102,7 @@ export function SupportClient() {
  </p>
  </header>
 
- <section className="px-12 pb-24">
+ <section className="px-4 md:px-12 pb-24">
  <div className="max-w-2xl mt-8 space-y-8">
  <div className="bg-surface-container-lowest rounded-[1rem] border border-outline-variant/10 overflow-hidden shadow-[0_20px_40px_rgba(43,43,43,0.03)]">
  <div className="bg-surface-container-low px-6 py-4 border-b border-outline-variant/10">

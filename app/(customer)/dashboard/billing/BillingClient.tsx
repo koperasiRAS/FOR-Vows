@@ -94,8 +94,8 @@ export function BillingClient() {
  <div className="min-h-screen bg-surface">
  <DashboardSidebar variant="customer"/>
 
- <main className="md:ml-64 min-h-screen bg-white">
- <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md px-12 py-8 border-b border-outline-variant/10">
+ <main className="ml-16 md:ml-64 min-h-screen bg-white">
+ <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md px-4 md:px-12 py-5 md:py-8 border-b border-outline-variant/10">
  <h2 className="font-headline text-3xl italic text-on-surface tracking-tight">
  {lang ==="id"?"Riwayat Pembayaran":"Billing History"}
  </h2>
@@ -106,7 +106,7 @@ export function BillingClient() {
  </p>
  </header>
 
- <section className="px-12 pb-24">
+ <section className="px-4 md:px-12 pb-24">
  {paidOrders.length > 0 && (
  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 mb-10 max-w-lg">
  <div className="bg-surface-container-low rounded-xl p-6 border border-outline-variant/10">
@@ -146,7 +146,7 @@ export function BillingClient() {
  {orders.map(({ orderCode, order, loading }) => {
  if (loading) {
  return (
- <div key={orderCode} className="flex items-center justify-center py-8 bg-surface-container-lowest rounded-xl border border-outline-variant/10">
+ <div key={orderCode} className="flex items-center justify-center py-5 md:py-8 bg-surface-container-lowest rounded-xl border border-outline-variant/10">
  <Loader2 size={18} className="text-stitch-primary animate-spin"/>
  </div>
  );

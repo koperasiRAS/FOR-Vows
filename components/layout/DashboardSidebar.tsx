@@ -16,11 +16,8 @@ import {
   Palette,
   Image,
   CalendarCheck,
-  Menu,
-  X,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import { useState } from "react";
 
 interface DashboardSidebarProps {
   variant?: "customer" | "admin";
@@ -29,7 +26,6 @@ interface DashboardSidebarProps {
 export function DashboardSidebar({ variant = "customer" }: Readonly<DashboardSidebarProps>) {
   const pathname = usePathname();
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
 
   const isActive = (path: string) => {
     if (path === "/dashboard" || path === "/admin/dashboard") {
@@ -51,8 +47,8 @@ export function DashboardSidebar({ variant = "customer" }: Readonly<DashboardSid
   const customerNav = [
     { tab: "orders",   label: "My Orders",  href: "/dashboard",         icon: BookOpen },
     { tab: "profile",  label: "Profile",    href: "/dashboard/profile", icon: User },
-    { tab: "billing",  label: "Billing",    href: "/dashboard/billing",  icon: CreditCard },
-    { tab: "support",  label: "Support",    href: "/dashboard/support",  icon: Headphones },
+    { tab: "billing",  label: "Billing",    href: "/dashboard/billing", icon: CreditCard },
+    { tab: "support",  label: "Support",    href: "/dashboard/support", icon: Headphones },
   ];
 
   const adminNav = [
@@ -62,61 +58,28 @@ export function DashboardSidebar({ variant = "customer" }: Readonly<DashboardSid
     { tab: "templates", label: "Templates",  href: "/admin/templates", icon: Palette },
     { tab: "portfolio", label: "Portfolio",  href: "/admin/portfolio", icon: Image },
     { tab: "rsvp",      label: "RSVP",       href: "/admin/rsvp",      icon: CalendarCheck },
-    { tab: "settings",  label: "Settings",  href: "/admin/settings",  icon: Settings },
+    { tab: "settings",  label: "Settings",   href: "/admin/settings",  icon: Settings },
   ];
 
   const navItems = variant === "admin" ? adminNav : customerNav;
 
   return (
-    <>
-      {/* Mobile Toggle FAB */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className="md:hidden fixed bottom-6 right-6 z-40 p-4 rounded-full text-white shadow-[0_8px_24px_rgba(115,92,0,0.3)] hover:opacity-90 active:scale-95 transition-all"
-        style={{
-          background: "linear-gradient(135deg, #735c00 0%, #d4af37 100%)",
-        }}
-        aria-label="Toggle Menu"
-      >
-        <Menu size={24} />
-      </button>
-
-      {/* Overlay for mobile */}
-      {isOpen && (
-        <div
-          className="md:hidden fixed inset-0 bg-black/40 backdrop-blur-[2px] z-40"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-
-      {/* Sidebar */}
-      <aside
-        className={`fixed left-0 top-0 h-screen w-64 bg-[#f6f3f2] flex flex-col z-50 py-8 pl-6 transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full"
-        } md:translate-x-0 md:shadow-none`}
-      >
-        {/* Mobile Close Button */}
-        <button
-          onClick={() => setIsOpen(false)}
-          className="md:hidden absolute top-7 right-6 p-2 text-stone-400 hover:text-stone-700 bg-white/50 rounded-full"
-        >
-          <X size={18} strokeWidth={2} />
-        </button>
-
-        {/* Logo */}
-        <div className="mb-12 pr-6">
-          <Link href="/" className="block" onClick={() => setIsOpen(false)}>
-            <h1 className="font-serif italic text-xl text-[#735c00] mb-1 leading-none">
-              FOR Vows
-            </h1>
-            <p className="text-[11px] uppercase tracking-widest text-stone-400 font-label">
-              {variant === "admin" ? "Admin Portal" : "The Digital Curator"}
-            </p>
-          </Link>
-        </div>
+    <aside className="fixed left-0 top-0 h-screen w-16 md:w-64 bg-surface-container-low flex flex-col z-40 py-6 md:py-8 pl-0 md:pl-6 border-r border-outline-variant/10 md:border-none">
+      {/* Logo */}
+      <div className="mb-8 md:mb-12 px-2 md:px-0 md:pr-6 flex justify-center md:justify-start">
+        <Link href="/" className="block text-center md:text-left">
+          <h1 className="font-serif italic text-lg md:text-xl text-[#735c00] md:mb-1 leading-none">
+            <span className="md:hidden font-bold not-italic text-[#735c00]">FV</span>
+            <span className="hidden md:inline">FOR Vows</span>
+          </h1>
+          <p className="hidden md:block text-[11px] uppercase tracking-widest text-stone-400 font-label">
+            {variant === "admin" ? "Admin Portal" : "Digital Curator"}
+          </p>
+        </Link>
+      </div>
 
       {/* Navigation */}
-      <nav className="flex-1 space-y-1">
+      <nav className="flex-1 space-y-1 md:space-y-1 w-full">
         {navItems.map((item) => {
           const active = isActive(item.href);
           const Icon = item.icon;
@@ -124,50 +87,59 @@ export function DashboardSidebar({ variant = "customer" }: Readonly<DashboardSid
             <Link
               key={item.tab}
               href={item.href}
+              title={item.label}
               className={`
-                flex items-center gap-4 py-3.5 px-5 rounded-l-[1.5rem] transition-all duration-200
-                ${
-                  active
-                    ? "bg-white text-[#735c00] shadow-sm font-semibold -translate-x-1"
-                    : "text-stone-500 hover:text-[#735c00] hover:-translate-x-0.5"
+                flex items-center gap-4 py-3 md:py-3.5 px-0 md:px-5 justify-center md:justify-start
+                md:rounded-l-[1.5rem] transition-all duration-200 w-full relative
+                ${active 
+                  ? "bg-white md:bg-white text-[#735c00] md:shadow-sm font-semibold md:-translate-x-1" 
+                  : "text-stone-500 hover:text-[#735c00]"
                 }
               `}
             >
-              <Icon size={18} strokeWidth={active ? 2.5 : 1.5} />
-              <span className="text-[11px] uppercase tracking-widest font-label">
+              <Icon size={18} strokeWidth={active ? 2.5 : 1.5} className="shrink-0" />
+              <span className="hidden md:inline text-[11px] uppercase tracking-widest font-label line-clamp-1">
                 {item.label}
               </span>
+              
+              {/* Active indicator on mobile */}
+              {active && (
+                <div className="md:hidden absolute left-0 top-0 bottom-0 w-1 bg-[#735c00] rounded-r-md" />
+              )}
             </Link>
           );
         })}
       </nav>
 
       {/* Footer actions */}
-      <div className="pr-6 space-y-3">
+      <div className="md:pr-6 space-y-2 md:space-y-3 w-full">
         {variant === "customer" && (
-          <Link
-            href="/templates"
-            className="flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-xl text-white text-xs font-medium shadow-[0_20px_40px_rgba(43,43,43,0.06)] hover:opacity-90 transition-all active:scale-[0.98]"
-            style={{
-              background: "linear-gradient(135deg, #735c00 0%, #d4af37 100%)",
-            }}
-          >
-            <Plus size={14} strokeWidth={2.5} />
-            New Invitation
-          </Link>
+          <div className="px-2 md:px-0">
+            <Link
+              href="/templates"
+              title="New Invitation"
+              className="flex items-center justify-center gap-2 w-full py-3 md:py-3.5 md:px-6 rounded-xl text-white text-xs font-medium shadow-[0_4px_12px_rgba(115,92,0,0.2)] hover:opacity-90 transition-all active:scale-[0.98]"
+              style={{
+                background: "linear-gradient(135deg, #735c00 0%, #d4af37 100%)",
+              }}
+            >
+              <Plus size={14} strokeWidth={2.5} className="shrink-0" />
+              <span className="hidden md:inline">New Invitation</span>
+            </Link>
+          </div>
         )}
 
         <button
           onClick={handleLogout}
-          className="flex items-center gap-4 py-3.5 px-5 text-stone-400 hover:text-red-500 transition-colors w-full"
+          title="Log Out"
+          className="flex items-center gap-4 py-3 md:py-3.5 px-0 md:px-5 justify-center md:justify-start text-stone-400 hover:text-red-500 transition-colors w-full"
         >
-          <LogOut size={16} strokeWidth={1.5} />
-          <span className="text-[11px] uppercase tracking-widest font-label">
+          <LogOut size={16} strokeWidth={1.5} className="shrink-0" />
+          <span className="hidden md:inline text-[11px] uppercase tracking-widest font-label">
             Log Out
           </span>
         </button>
       </div>
-      </aside>
-    </>
+    </aside>
   );
 }

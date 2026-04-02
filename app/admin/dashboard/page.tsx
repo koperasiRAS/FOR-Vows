@@ -65,8 +65,8 @@ export default function AdminDashboardPage() {
  return (
  <div className="min-h-screen bg-surface">
  <DashboardSidebar variant="admin"/>
- <main className="md:ml-64 min-h-screen">
- <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-12 py-8 border-b border-outline-variant/10">
+ <main className="ml-16 md:ml-64 min-h-screen">
+ <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-4 md:px-12 py-5 md:py-8 border-b border-outline-variant/10">
  <div className="flex justify-between items-center">
  <div>
  <h2 className="font-headline text-3xl font-bold tracking-tight text-stitch-primary">Dashboard</h2>
@@ -78,7 +78,7 @@ export default function AdminDashboardPage() {
  </div>
  </header>
 
- <section className="px-12 pb-16">
+ <section className="px-4 md:px-12 pb-16">
  {loading ? (
  <div className="flex items-center justify-center py-32">
  <div className="w-8 h-8 border-2 border-stitch-primary-container/30 border-t-stitch-primary rounded-full animate-spin"/>
@@ -135,7 +135,7 @@ export default function AdminDashboardPage() {
  </Link>
  </div>
 
- <div className="bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/10">
+ <div className="bg-surface-container-lowest rounded-2xl overflow-x-auto border border-outline-variant/10">
  {recentOrders.length === 0 ? (
  <div className="text-center py-16 text-stone-400">
  <ShoppingBag size={28} className="mx-auto mb-2 opacity-40"/>

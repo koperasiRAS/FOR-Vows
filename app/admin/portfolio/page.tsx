@@ -51,8 +51,8 @@ export default function AdminPortfolioPage() {
  return (
  <div className="min-h-screen bg-surface">
  <DashboardSidebar variant="admin"/>
- <main className="md:ml-64 min-h-screen">
- <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-12 py-8 flex justify-between items-center border-b border-outline-variant/10">
+ <main className="ml-16 md:ml-64 min-h-screen">
+ <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-4 md:px-12 py-5 md:py-8 flex justify-between items-center border-b border-outline-variant/10">
  <div>
  <h2 className="font-headline text-3xl font-bold tracking-tight text-stitch-primary">Portfolio</h2>
  <p className="text-sm text-stone-500 mt-1 font-light">
@@ -81,7 +81,7 @@ export default function AdminPortfolioPage() {
  </div>
  </header>
 
- <section className="px-12 pb-24">
+ <section className="px-4 md:px-12 pb-24">
  {/* Category filter */}
  <div className="flex flex-wrap gap-2 mt-8 mb-6">
  {CATEGORIES.map(cat => (

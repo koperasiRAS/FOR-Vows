@@ -183,9 +183,9 @@ export default function AdminOrdersPage() {
  <div className="min-h-screen bg-surface">
  <DashboardSidebar variant="admin"/>
 
- <main className="md:ml-64 min-h-screen">
+ <main className="ml-16 md:ml-64 min-h-screen">
  {/* Top Header */}
- <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-12 py-8 flex justify-between items-center border-b border-outline-variant/10">
+ <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-4 md:px-12 py-5 md:py-8 flex justify-between items-center border-b border-outline-variant/10">
  <div>
  <h2 className="font-headline text-3xl font-bold tracking-tight text-stitch-primary">
  {lang ==="id"?"Semua Pesanan":"All Orders"}
@@ -264,7 +264,7 @@ export default function AdminOrdersPage() {
  </div>
  </header>
 
- <section className="px-12 pb-24">
+ <section className="px-4 md:px-12 pb-24">
  {/* Table */}
  <div className="mt-8 bg-surface-container-lowest rounded-[1rem] overflow-hidden shadow-[0_20px_40px_rgba(43,43,43,0.03)] border border-outline-variant/10">
  {loading ? (
