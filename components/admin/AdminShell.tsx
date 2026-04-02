@@ -147,7 +147,6 @@ export function AdminShell({ children }: AdminShellProps) {
         userEmail={userEmail}
         drawerOpen={drawerOpen}
         onToggleDrawer={() => setDrawerOpen((v) => !v)}
-        onLogout={handleLogout}
       />
 
       {/* ===== TABLET DRAWER OVERLAY ===== */}

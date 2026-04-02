@@ -2,13 +2,11 @@
 
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import { useLanguage } from "@/lib/i18n/context";
 
 interface AdminHeaderProps {
   userEmail: string;
   drawerOpen: boolean;
   onToggleDrawer: () => void;
-  onLogout: () => void;
 }
 
 function getInitials(email: string) {
@@ -19,10 +17,7 @@ export function AdminHeader({
   userEmail,
   drawerOpen,
   onToggleDrawer,
-  onLogout,
 }: AdminHeaderProps) {
-  const { lang } = useLanguage();
-
   return (
     <header
       className="
@@ -56,8 +51,7 @@ export function AdminHeader({
         </Link>
       </div>
 
-      {/* Right slot */}
-      {/* Desktop: email (truncated) + avatar + logout */}
+      {/* Right slot: email + avatar only (logout is in sidebar) */}
       <div className="hidden lg:flex items-center gap-3">
         {userEmail && (
           <>
@@ -72,15 +66,9 @@ export function AdminHeader({
             </div>
           </>
         )}
-        <button
-          onClick={onLogout}
-          className="text-xs text-stone-400 hover:text-red-500 transition-colors px-2 py-1"
-        >
-          {lang === "id" ? "Keluar" : "Logout"}
-        </button>
       </div>
 
-      {/* Tablet & Mobile: logo centered + logout button */}
+      {/* Tablet & Mobile: logo centered */}
       <div className="flex lg:hidden items-center gap-3">
         <Link href="/admin/dashboard" className="flex items-center gap-2">
           <span className="font-serif italic font-semibold text-sm text-[#735c00]">
@@ -88,15 +76,6 @@ export function AdminHeader({
           </span>
           <span className="text-[10px] text-stone-400 border rounded px-1 py-0.5">Admin</span>
         </Link>
-      </div>
-
-      <div className="flex lg:hidden items-center">
-        <button
-          onClick={onLogout}
-          className="text-xs text-stone-400 hover:text-red-500 transition-colors px-2 py-1"
-        >
-          {lang === "id" ? "Keluar" : "Logout"}
-        </button>
       </div>
     </header>
   );

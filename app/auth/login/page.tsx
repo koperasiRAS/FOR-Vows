@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff, Loader2, Lock } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useLanguage } from "@/lib/i18n/context";
+import { AuthHeader } from "@/components/auth/AuthHeader";
 
 function CustomerLoginContent() {
   const { lang } = useLanguage();
@@ -58,6 +59,7 @@ function CustomerLoginContent() {
       <div className="absolute inset-0 bg-surface" />
 
       <div className="relative w-full max-w-sm">
+        <AuthHeader />
         {/* Logo / Brand */}
         <div className="text-center mb-10">
           <Link href="/" className="inline-block">
