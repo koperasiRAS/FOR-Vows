@@ -185,7 +185,7 @@ export default function AdminOrdersPage() {
 
  <main className="ml-16 md:ml-64 min-h-screen">
  {/* Top Header */}
- <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-4 md:px-12 py-5 md:py-8 flex justify-between items-center border-b border-outline-variant/10">
+ <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-4 md:px-12 py-5 md:py-8 flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between border-b border-outline-variant/10">
  <div>
  <h2 className="font-headline text-3xl font-bold tracking-tight text-stitch-primary">
  {lang ==="id"?"Semua Pesanan":"All Orders"}
@@ -196,7 +196,7 @@ export default function AdminOrdersPage() {
  : `${orders.length} total · ${pendingCount} pending`}
  </p>
  </div>
- <div className="flex items-center gap-6">
+ <div className="flex flex-wrap items-center gap-3 w-full md:w-auto md:gap-6">
  {/* Search */}
  <div className="relative">
  <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-outline"strokeWidth={1.5} />
@@ -205,7 +205,7 @@ export default function AdminOrdersPage() {
  value={search}
  onChange={(e) => { setSearch(e.target.value); setPage(1); }}
  placeholder={lang ==="id"?"Cari nama...":"Search customer..."}
- className="pl-11 pr-5 py-3 bg-surface-container-low rounded-xl w-72 text-sm border-none focus:ring-1 focus:ring-stitch-primary-container transition-all placeholder:text-stone-400"
+ className="pl-11 pr-5 py-3 bg-surface-container-low rounded-xl w-full sm:w-72 text-sm border-none focus:ring-1 focus:ring-stitch-primary-container transition-all placeholder:text-stone-400"
  />
  </div>
 
@@ -266,7 +266,7 @@ export default function AdminOrdersPage() {
 
  <section className="px-4 md:px-12 pb-24">
  {/* Table */}
- <div className="mt-8 bg-surface-container-lowest rounded-[1rem] overflow-hidden shadow-[0_20px_40px_rgba(43,43,43,0.03)] border border-outline-variant/10">
+ <div className="mt-8 bg-surface-container-lowest rounded-[1rem] overflow-x-auto shadow-[0_20px_40px_rgba(43,43,43,0.03)] border border-outline-variant/10">
  {loading ? (
  <div className="flex items-center justify-center py-20">
  <div className="w-8 h-8 border-2 border-stitch-primary-container/30 border-t-stitch-primary rounded-full animate-spin"/>
@@ -285,7 +285,7 @@ export default function AdminOrdersPage() {
  </div>
  ) : (
  <>
- <table className="w-full text-left border-collapse">
+ <table className="w-full text-left border-collapse whitespace-nowrap min-w-[800px]">
  <thead>
  <tr className="bg-surface-container-low">
  <th className="px-8 py-5 font-label text-[11px] uppercase tracking-widest text-stitch-secondary border-none">
