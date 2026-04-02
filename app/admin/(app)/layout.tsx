@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { LanguageProvider } from "@/lib/i18n/context";
 import { TemplateProvider } from "@/lib/template-context";
+import { AdminShell } from "@/components/admin/AdminShell";
 
 export const metadata: Metadata = {
   title: {
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AdminLayout({
+export default function AdminAppLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -17,7 +18,7 @@ export default function AdminLayout({
   return (
     <LanguageProvider>
       <TemplateProvider>
-        {children}
+        <AdminShell>{children}</AdminShell>
       </TemplateProvider>
     </LanguageProvider>
   );
