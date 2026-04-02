@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
 
     // [SECURITY] Task 1 & 6: Check if status is valid for payment
     // We reject if it's already paid, processing, or completed.
-    if (!["pending", "cancelled", "expired"].includes(order.status) && order.payment_status !== "expired") {
+    if (!["pending_payment", "cancelled", "expired"].includes(order.status) && order.payment_status !== "expired") {
       return NextResponse.json({ success: false, error: "Order is no longer eligible for payment." }, { status: 400 });
     }
 
@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
       : Infinity;
 
     // Do NOT reuse old token if the order was somehow cancelled/expired
-    if (order.snap_token && tokenAgeMinutes < 15 && order.status === "pending") {
+    if (order.snap_token && tokenAgeMinutes < 15 && order.status === "pending_payment") {
       console.log(`[FORVows Sec] Reusing Snap token for ${bookingId} (Age: ${Math.round(tokenAgeMinutes)}m)`);
       return NextResponse.json({
         success: true,

@@ -144,7 +144,7 @@ export async function POST(request: NextRequest) {
         package_name: pkg ?? null,
         phone: phone,
         notes: notes ?? null,
-        status: "pending",
+        status: "pending_payment",
         created_at: new Date().toISOString(),
         // Cart-style fields — always use server-calculated discount
         items: items ?? null,

@@ -15,14 +15,14 @@ import { WA_NUMBER } from "@/lib/config";
 import { createClient } from "@/lib/supabase/client";
 
 const STATUS_STEPS_ID = [
-  { key: "pending", label: "Pesanan Diterima" },
+  { key: "pending_payment", label: "Pesanan Diterima" },
   { key: "paid", label: "Pembayaran Diterima" },
   { key: "processing", label: "Sedang Diproses" },
   { key: "completed", label: "Selesai" },
   { key: "cancelled", label: "Dibatalkan" },
 ];
 const STATUS_STEPS_EN = [
-  { key: "pending", label: "Order Received" },
+  { key: "pending_payment", label: "Order Received" },
   { key: "paid", label: "Payment Received" },
   { key: "processing", label: "Processing" },
   { key: "completed", label: "Completed" },
@@ -69,7 +69,7 @@ function OrderTimeline({ status, locale }: { readonly status: string; readonly l
 }
 
 function PaymentBanner({ order, locale }: { readonly order: OrderRow; readonly locale: "id" | "en" }) {
-  if (order.status !== "pending") return null;
+  if (order.status !== "pending_payment") return null;
   if (order.final_total == null) return null;
 
   return (
@@ -172,14 +172,14 @@ export function OrderDetailClient() {
 
   const statusBadgeLabel = () => {
     if (locale === "id") {
-      if (order.status === "pending") return "Menunggu Pembayaran";
+      if (order.status === "pending_payment") return "Menunggu Pembayaran";
       if (order.status === "paid") return "Sudah Bayar";
       if (order.status === "processing") return "Sedang Diproses";
       if (order.status === "completed") return "Selesai";
       if (order.status === "cancelled") return "Dibatalkan";
       return order.status;
     } else {
-      if (order.status === "pending") return "Awaiting Payment";
+      if (order.status === "pending_payment") return "Awaiting Payment";
       if (order.status === "paid") return "Paid";
       if (order.status === "processing") return "Processing";
       if (order.status === "completed") return "Completed";

@@ -34,6 +34,27 @@ function createSupabaseServerClient(request: NextRequest, response: NextResponse
   );
 }
 
+// ── Service Role Supabase Client (bypasses RLS) ─────────────────────────────────
+
+function createServiceRoleClient(request: NextRequest, response: NextResponse) {
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            response.cookies.set({ name, value, ...options });
+          });
+        },
+      },
+    }
+  );
+}
+
 // ── Admin Auth Guard ──────────────────────────────────────────────────────────
 
 async function handleAdminAuth(request: NextRequest) {
@@ -54,15 +75,38 @@ async function handleAdminAuth(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // User is logged in — check if they have admin role
-  const rawRoles = user?.app_metadata?.roles;
-  let roles: string[] = [];
-  if (Array.isArray(rawRoles)) {
-    roles = rawRoles.filter((r): r is string => typeof r === "string");
-  } else if (typeof rawRoles === "string") {
-    roles = [rawRoles];
+  // Determine isAdmin by querying admin_users via service role key (bypasses RLS)
+  let isAdmin = false;
+  if (user) {
+    const serviceSupabase = createServiceRoleClient(request, response);
+
+    // Fast path: lookup by user_id (already linked)
+    const { data: adminByUid } = await serviceSupabase
+      .from("admin_users")
+      .select("role")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (adminByUid) {
+      isAdmin = true;
+    } else {
+      // Fallback: lookup by email, then backfill user_id for next login
+      const { data: adminByEmail } = await serviceSupabase
+        .from("admin_users")
+        .select("id")
+        .eq("email", user.email ?? "")
+        .maybeSingle();
+
+      if (adminByEmail) {
+        isAdmin = true;
+        // Backfill user_id so future lookups are faster
+        await serviceSupabase
+          .from("admin_users")
+          .update({ user_id: user.id })
+          .eq("email", user.email ?? "");
+      }
+    }
   }
-  const isAdmin = roles.includes("admin");
 
   // If user is on the login page:
   // - If already admin → skip login, go to orders

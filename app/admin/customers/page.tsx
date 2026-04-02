@@ -212,7 +212,7 @@ export default function AdminCustomersPage() {
                                           <span className={`px-2 py-0.5 text-[10px] rounded-full font-bold uppercase ${
                                             o.status === "completed" ? "bg-green-100 text-green-700" :
                                             o.status === "processing" ? "bg-blue-100 text-blue-700" :
-                                            o.status === "pending" ? "bg-yellow-100 text-yellow-700" :
+                                            o.status === "pending_payment" ? "bg-yellow-100 text-yellow-700" :
                                             "bg-stone-100 text-stone-500"
                                           }`}>{o.status}</span>
                                         </td>

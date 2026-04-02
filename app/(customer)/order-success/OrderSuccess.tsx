@@ -18,7 +18,12 @@ function OrderSuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const orderCode = searchParams.get("code");
+  const paymentMethod = searchParams.get("payment");
   const [order, setOrder] = useState<OrderRow | null>(null);
+
+  // Resolve effective payment method: URL param takes priority, else from DB
+  const effectivePaymentMethod =
+    paymentMethod ?? order?.payment_method ?? "midtrans";
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [paying, setPaying] = useState(false);
@@ -239,7 +244,52 @@ function OrderSuccessContent() {
               </div>
             </div>
 
-            {order.status === "pending" && (
+            {order.status === "pending_payment" && effectivePaymentMethod === "transfer_manual" && (
+              <div className="p-5 border border-[#c9a96e]/30 bg-[#c9a96e]/5 space-y-4">
+                <p className="text-xs text-[#8a8a8a] text-center">
+                  {lang === "id"
+                    ? "Pesanan berhasil dibuat! Selesaikan pembayaran via transfer manual."
+                    : "Order created! Please complete payment via bank transfer."}
+                </p>
+                <div className="border border-[#c9a96e]/20 bg-[#0a0a0a] rounded-xl p-4 space-y-2 text-sm">
+                  <p className="text-[10px] tracking-[0.15em] uppercase text-[#c9a96e] mb-2">
+                    {lang === "id" ? "Instruksi Pembayaran" : "Payment Instructions"}
+                  </p>
+                  <div className="flex justify-between">
+                    <span className="text-[#6a6a6a]">{lang === "id" ? "Bank" : "Bank"}</span>
+                    <span className="text-[#faf8f5]">BCA / 1234567890</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-[#6a6a6a]">{lang === "id" ? "Atas Nama" : "Account Name"}</span>
+                    <span className="text-[#faf8f5]">FOR Vows</span>
+                  </div>
+                  <div className="flex justify-between font-medium">
+                    <span className="text-[#c9a96e]">{lang === "id" ? "Jumlah" : "Amount"}</span>
+                    <span className="text-[#c9a96e] font-serif">{formatIDR(order.final_total ?? 0)}</span>
+                  </div>
+                </div>
+                <p className="text-[10px] text-[#4a4a4a] text-center">
+                  {lang === "id"
+                    ? "Setelah transfer, kirim bukti via WhatsApp ke tim kami."
+                    : "After transfer, send proof via WhatsApp to our team."}
+                </p>
+                <a
+                  href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
+                    `Halo FOR Vows! Saya sudah transfer untuk Order ID: ${order.order_code}. Berikut bukti pembayarannya.`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full py-3.5 text-center bg-green-600 text-white text-[11px] tracking-[0.18em] uppercase font-medium hover:bg-green-700 transition-colors"
+                >
+                  {lang === "id" ? "Kirim Bukti via WhatsApp" : "Send Proof via WhatsApp"}
+                </a>
+                <p className="text-center text-[10px] text-[#4a4a4a]">
+                  🔒 {lang === "id" ? "Pembayaran aman" : "Secure payment"}
+                </p>
+              </div>
+            )}
+
+            {order.status === "pending_payment" && effectivePaymentMethod !== "transfer_manual" && (
               <div className="p-5 border border-[#c9a96e]/30 bg-[#c9a96e]/5 space-y-3">
                 <p className="text-xs text-[#8a8a8a] text-center">
                   {lang === "id"

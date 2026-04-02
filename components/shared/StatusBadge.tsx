@@ -88,7 +88,7 @@ export function StatusBadge({ status, lang = "id", size = "md" }: StatusBadgePro
 
 /** Returns whether an order needs payment action */
 export function needsPayment(status: string): boolean {
-  return status === "pending";
+  return status === "pending_payment";
 }
 
 /** Returns whether an order is in a terminal/completed state */

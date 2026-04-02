@@ -117,6 +117,7 @@ export async function POST(request: NextRequest) {
     const updatePayload: Record<string, unknown> = { payment_status: paymentStatus };
     if (settled) {
       updatePayload.status = "paid";
+      updatePayload.payment_method = "midtrans";
       updatePayload.paid_at = new Date().toISOString();
     } else if (transaction_status === "expire" || transaction_status === "deny") {
       // Terminal failure — move to cancelled

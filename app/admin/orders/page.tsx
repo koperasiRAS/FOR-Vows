@@ -12,7 +12,7 @@ import type { OrderRow } from "@/types";
 
 const STATUS_OPTIONS = [
   { value: "all", label: "All" },
-  { value: "pending", label: "Menunggu Pembayaran" },
+  { value: "pending_payment", label: "Menunggu Pembayaran" },
   { value: "paid", label: "Sudah Bayar" },
   { value: "processing", label: "Sedang Diproses" },
   { value: "completed", label: "Selesai" },
@@ -20,7 +20,7 @@ const STATUS_OPTIONS = [
 ];
 
 const STATUS_STYLE: Record<string, { bg: string; text: string; border: string }> = {
-  pending: { bg: "bg-stitch-error/10", text: "text-stitch-error", border: "border-stitch-error/20" },
+  pending_payment: { bg: "bg-stitch-error/10", text: "text-stitch-error", border: "border-stitch-error/20" },
   paid: { bg: "bg-stone-100", text: "text-stone-500", border: "border-stone-200" },
   processing: { bg: "bg-stitch-primary-container/15", text: "text-stitch-primary", border: "border-stitch-primary-container/20" },
   completed: { bg: "bg-stitch-primary-container/15", text: "text-stitch-primary", border: "border-stitch-primary-container/20" },
@@ -171,7 +171,7 @@ export default function AdminOrdersPage() {
     .filter((o) => ["paid", "processing", "completed"].includes(o.status))
     .reduce((sum, o) => sum + (o.final_total ?? 0), 0);
   const activeCount = orders.filter((o) => o.status === "processing").length;
-  const pendingCount = orders.filter((o) => o.status === "pending").length;
+  const pendingCount = orders.filter((o) => o.status === "pending_payment").length;
 
   const handleLogout = async () => {
     const supabase = createClient();

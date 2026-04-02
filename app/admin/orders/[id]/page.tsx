@@ -12,7 +12,7 @@ import type { OrderRow } from "@/types";
 import { WA_NUMBER } from "@/lib/config";
 
 const STATUS_OPTIONS = [
-  { value: "pending", label: "Menunggu Pembayaran" },
+  { value: "pending_payment", label: "Menunggu Pembayaran" },
   { value: "paid", label: "Sudah Bayar" },
   { value: "processing", label: "Sedang Diproses" },
   { value: "completed", label: "Selesai" },
@@ -20,14 +20,14 @@ const STATUS_OPTIONS = [
 ];
 
 const STATUS_STEPS_ID = [
-  { key: "pending", label: "Pesanan Diterima" },
+  { key: "pending_payment", label: "Pesanan Diterima" },
   { key: "paid", label: "Pembayaran Diterima" },
   { key: "processing", label: "Sedang Diproses" },
   { key: "completed", label: "Selesai" },
   { key: "cancelled", label: "Dibatalkan" },
 ];
 const STATUS_STEPS_EN = [
-  { key: "pending", label: "Order Received" },
+  { key: "pending_payment", label: "Order Received" },
   { key: "paid", label: "Payment Received" },
   { key: "processing", label: "Processing" },
   { key: "completed", label: "Completed" },

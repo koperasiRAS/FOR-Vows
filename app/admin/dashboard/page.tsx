@@ -43,7 +43,7 @@ export default function AdminDashboardPage() {
   const monthRevenue = monthOrders
     .filter(o => ["paid", "processing", "completed"].includes(o.status))
     .reduce((s, o) => s + (o.final_total ?? 0), 0);
-  const pendingCount = orders.filter(o => o.status === "pending").length;
+  const pendingCount = orders.filter(o => o.status === "pending_payment").length;
   const processingCount = orders.filter(o => o.status === "processing").length;
   const completedCount = orders.filter(o => o.status === "completed").length;
   const recentOrders = [...orders].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, 5);
@@ -57,7 +57,7 @@ export default function AdminDashboardPage() {
   const statusColor = (s: string) => {
     if (s === "completed") return "bg-green-100 text-green-700";
     if (s === "processing") return "bg-blue-100 text-blue-700";
-    if (s === "pending") return "bg-yellow-100 text-yellow-700";
+    if (s === "pending_payment") return "bg-yellow-100 text-yellow-700";
     if (s === "cancelled") return "bg-red-100 text-red-600";
     return "bg-stone-100 text-stone-600";
   };

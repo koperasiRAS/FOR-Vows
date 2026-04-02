@@ -105,25 +105,48 @@ export interface InquiryRow {
 export interface OrderRow {
   id: string;
   order_code: string;
+  // Template & Package
+  template_slug?: string | null;
+  /** Alias for template_slug — used by admin pages */
+  template?: string | null;
+  template_name?: string | null;
+  package_id?: string | null;
+  package_name: string | null;
+  // Couple
   groom_name: string;
   bride_name: string;
-  template: string | null;
-  package_name: string | null;
+  // Contact
   phone: string;
+  customer_email?: string | null;
+  // Wedding Details
+  wedding_date?: string | null;
+  venue?: string | null;
+  venue_address?: string | null;
+  couple_story?: string | null;
+  // Notes / Story
   notes: string | null;
-  status: "pending" | "paid" | "processing" | "completed" | "cancelled";
-  created_at: string;
-  // Cart-style fields
+  // Pricing
+  total_amount?: number | null;
+  add_ons?: unknown[] | null;
+  add_on_total?: number | null;
   items: unknown[] | null;
   total_price: number | null;
   discount_amount: number | null;
   discount_note: string | null;
   final_total: number | null;
   referral_code: string | null;
-  wedding_date: string | null;
-  payment_status: string | null;
+  // Status
+  status: "pending_payment" | "paid" | "processing" | "completed" | "cancelled";
+  payment_status?: string | null;
+  payment_method?: string | null;
+  snap_token?: string | null;
   paid_at: string | null;
   midtrans_order_id: string | null;
+  akad_time?: string | null;
+  reception_time?: string | null;
+  // Timestamps
+  created_at: string;
+  updated_at?: string | null;
   // Auth
   user_id?: string | null;
 }
