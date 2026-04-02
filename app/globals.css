@@ -218,3 +218,23 @@
   -webkit-text-fill-color: transparent;
   animation: shimmer 2s linear infinite;
 }
+
+/* ─── Horizontal overflow guard ────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* ─── Scrollbar hide (for horizontal scroll filter pills) ──────────────── */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

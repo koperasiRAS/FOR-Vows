@@ -3,12 +3,11 @@
 import { useEffect, useState } from"react";
 import { useRouter } from"next/navigation";
 import { CalendarCheck, Download, Users, CheckCircle, XCircle, Clock } from"lucide-react";
-import { DashboardSidebar } from"@/components/layout/DashboardSidebar";
 import { createClient } from"@/lib/supabase/client";
 
 export default function AdminRSVPPage() {
  const router = useRouter();
- const [userEmail, setUserEmail] = useState("");
+
  const [selectedOrder, setSelectedOrder] = useState("");
  const [orders, setOrders] = useState<{ id: string; order_code: string; groom_name: string | null; bride_name: string | null }[]>([]);
  const [rsvpData, setRsvpData] = useState<{
@@ -25,7 +24,6 @@ export default function AdminRSVPPage() {
  const supabase = createClient();
  supabase.auth.getUser().then(({ data }: { data: { user: { email?: string } | null } }) => {
  if (!data.user) router.push("/admin/login");
- setUserEmail(data.user?.email ??"");
  });
 
  // Load orders to populate dropdown
@@ -70,18 +68,17 @@ export default function AdminRSVPPage() {
 
  return (
  <div className="min-h-screen bg-surface">
- <DashboardSidebar variant="admin"/>
- <main className="ml-16 md:ml-64 min-h-screen">
+ <main className="min-h-screen">
  <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-4 md:px-12 py-5 md:py-8 flex justify-between items-center border-b border-outline-variant/10">
  <div>
  <h2 className="font-headline text-3xl font-bold tracking-tight text-stitch-primary">RSVP</h2>
  <p className="text-sm text-stone-500 mt-1 font-light">Lihat dan export data RSVP tamu</p>
  </div>
- <div className="flex items-center gap-4">
+ <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
  <select
  value={selectedOrder}
  onChange={e => { setSelectedOrder(e.target.value); loadRSVP(e.target.value); }}
- className="px-4 py-3 bg-surface-container-low rounded-xl text-sm border-none focus:ring-1 focus:ring-stitch-primary-container"
+ className="px-4 py-3 bg-surface-container-low rounded-xl text-sm border-none focus:ring-1 focus:ring-stitch-primary-container w-full sm:w-auto sm:min-w-[240px]"
  >
  <option value="">Pilih Pesanan...</option>
  {orders.map(o => (
@@ -93,11 +90,10 @@ export default function AdminRSVPPage() {
  <button
  onClick={exportCSV}
  disabled={!rsvpData.length}
- className="flex items-center gap-2 px-4 py-3 bg-stitch-primary text-white rounded-xl disabled:opacity-40 text-sm font-semibold hover:opacity-90 transition-opacity"
+ className="flex items-center justify-center gap-2 px-4 py-3 bg-stitch-primary text-white rounded-xl disabled:opacity-40 text-sm font-semibold hover:opacity-90 transition-opacity whitespace-nowrap shrink-0"
  >
  <Download size={15} /> Export CSV
  </button>
- <span className="text-xs text-stone-500">{userEmail}</span>
  </div>
  </header>
 
@@ -129,14 +125,18 @@ export default function AdminRSVPPage() {
  <div className="w-8 h-8 border-2 border-stitch-primary-container/30 border-t-stitch-primary rounded-full animate-spin"/>
  </div>
  ) : !selectedOrder ? (
- <div className="text-center py-20 text-stone-400">
- <Clock size={32} className="mx-auto mb-3 opacity-40"/>
- <p className="text-sm">Pilih pesanan di atas untuk melihat data RSVP.</p>
+ <div className="flex flex-col items-center justify-center min-h-[300px] gap-3 text-stone-400">
+ <div className="w-14 h-14 rounded-full bg-surface-container-low flex items-center justify-center mb-1">
+ <Clock size={24} className="opacity-40"/>
+ </div>
+ <p className="text-sm font-medium">Pilih pesanan di atas untuk melihat data RSVP.</p>
  </div>
  ) : rsvpData.length === 0 ? (
- <div className="text-center py-20 text-stone-400">
- <CalendarCheck size={32} className="mx-auto mb-3 opacity-40"/>
- <p className="text-sm">Belum ada data RSVP untuk pesanan ini.</p>
+ <div className="flex flex-col items-center justify-center min-h-[300px] gap-3 text-stone-400">
+ <div className="w-14 h-14 rounded-full bg-surface-container-low flex items-center justify-center mb-1">
+ <CalendarCheck size={24} className="opacity-40"/>
+ </div>
+ <p className="text-sm font-medium">Belum ada data RSVP untuk pesanan ini.</p>
  </div>
  ) : (
  <table className="w-full text-left">

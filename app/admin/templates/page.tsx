@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback } from"react";
 import { useRouter } from"next/navigation";
 import { Search, Palette, Eye, Pencil, Star, Save, X, Loader2, AlertCircle, CheckCircle2 } from"lucide-react";
-import { DashboardSidebar } from"@/components/layout/DashboardSidebar";
 import { createClient } from"@/lib/supabase/client";
 import { templates as baseTemplates } from"@/lib/templates";
 
@@ -54,7 +53,7 @@ function mergeWithOverrides(overrides: TemplateOverride[]): MergedTemplate[] {
 
 export default function AdminTemplatesPage() {
  const router = useRouter();
- const [userEmail, setUserEmail] = useState("");
+
  const [search, setSearch] = useState("");
  const [filter, setFilter] = useState("all");
  const [mergedTemplates, setMergedTemplates] = useState<MergedTemplate[]>(
@@ -94,7 +93,6 @@ export default function AdminTemplatesPage() {
  const supabase = createClient();
  supabase.auth.getUser().then(({ data }) => {
  if (!data.user) router.push("/admin/login");
- setUserEmail(data.user?.email ??"");
  });
  loadOverrides();
  }, [router, loadOverrides]);
@@ -219,8 +217,7 @@ export default function AdminTemplatesPage() {
 
  return (
  <div className="min-h-screen bg-surface">
- <DashboardSidebar variant="admin"/>
- <main className="ml-16 md:ml-64 min-h-screen">
+ <main className="min-h-screen">
  <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-4 md:px-12 py-5 md:py-8 flex justify-between items-center border-b border-outline-variant/10">
  <div>
  <h2 className="font-headline text-3xl font-bold tracking-tight text-stitch-primary">Templates</h2>
@@ -236,21 +233,22 @@ export default function AdminTemplatesPage() {
  value={search}
  onChange={(e) => setSearch(e.target.value)}
  placeholder="Cari template..."
- className="pl-11 pr-5 py-3 bg-surface-container-low rounded-xl w-72 text-sm border-none focus:ring-1 focus:ring-stitch-primary-container transition-all placeholder:text-stone-400"
+ className="pl-11 pr-5 py-3 bg-surface-container-low rounded-xl w-full sm:w-72 text-sm border-none focus:ring-1 focus:ring-stitch-primary-container transition-all placeholder:text-stone-400"
  />
  </div>
- <span className="text-xs text-stone-500">{userEmail}</span>
+
  </div>
  </header>
 
  <section className="px-4 md:px-12 pb-24">
  {/* Category filter pills */}
- <div className="flex flex-wrap gap-2 mt-8 mb-6">
+ <div className="mt-8 mb-6">
+ <div className="flex overflow-x-auto gap-2 pb-2 scrollbar-hide">
  {CATEGORIES.map((cat) => (
  <button
  key={cat}
  onClick={() => setFilter(cat)}
- className={`px-4 py-2 text-xs rounded-full border transition-all ${
+ className={`shrink-0 px-4 py-2 text-xs rounded-full border transition-all ${
  filter === cat
  ?"bg-stitch-primary text-white border-stitch-primary"
  :"border-outline text-stitch-secondary hover:border-stitch-primary"
@@ -260,40 +258,43 @@ export default function AdminTemplatesPage() {
  </button>
  ))}
  </div>
+ </div>
 
  {/* Template grid */}
  {filtered.length === 0 ? (
- <div className="text-center py-20 text-stone-400">
- <Palette size={32} className="mx-auto mb-3 opacity-40"/>
- <p className="text-sm">Tidak ada template.</p>
+ <div className="flex flex-col items-center justify-center py-20 text-stone-400 gap-2">
+ <div className="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center mb-1">
+ <Palette size={22} className="opacity-40"/>
+ </div>
+ <p className="text-sm font-medium">Tidak ada template.</p>
  </div>
  ) : (
- <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+ <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
  {filtered.map((t) => (
  <div
  key={t.id}
- className="bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/10"
+ className="bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/10 flex flex-col"
  >
- {/* Preview card */}
+ {/* Preview area */}
  <div
- className="relative h-40"
+ className="relative h-[180px] shrink-0 overflow-hidden"
  style={{
  background: `linear-gradient(135deg, ${t.gradientFrom} 0%, ${t.gradientTo} 100%)`,
  }}
  >
  <div className="absolute inset-0 flex items-center justify-center">
- <div className="w-12 h-12 border opacity-20 rotate-45"style={{ borderColor: t.accentColor }} />
+ <div className="w-12 h-12 border opacity-20 rotate-45" style={{ borderColor: t.accentColor }} />
  </div>
  {t.featured && (
- <div className="absolute top-3 right-3">
- <span className="text-[9px] uppercase tracking-widest bg-amber-400 text-black px-2 py-1 font-bold rounded-full flex items-center gap-1">
+ <div className="absolute top-2 right-2">
+ <span className="text-[9px] uppercase tracking-widest bg-amber-400 text-black px-2 py-0.5 font-bold rounded-full flex items-center gap-1">
  <Star size={8} /> Featured
  </span>
  </div>
  )}
- <div className="absolute bottom-3 left-3">
+ <div className="absolute bottom-2 left-2">
  <span
- className="text-[9px] uppercase tracking-widest px-2 py-1 rounded-full font-bold"
+ className="text-[9px] uppercase tracking-widest px-2 py-0.5 rounded-full font-bold"
  style={{
  background: `${t.accentColor}30`,
  color: t.accentColor,
@@ -306,32 +307,32 @@ export default function AdminTemplatesPage() {
  </div>
 
  {/* Info */}
- <div className="p-5 space-y-3">
- <div>
- <h3 className="font-headline text-lg text-on-surface">{t.name}</h3>
- <p className="text-xs text-stone-500 mt-0.5 line-clamp-2">{t.shortDescription}</p>
+ <div className="p-4 flex flex-col flex-1 gap-2">
+ <div className="flex-1">
+ <h3 className="font-headline text-base text-on-surface font-semibold line-clamp-2">{t.name}</h3>
+ <p className="text-xs text-stone-500 mt-1 line-clamp-2">{t.shortDescription}</p>
  </div>
- <div className="flex items-center justify-between">
- <span className="text-sm font-semibold text-stitch-primary">{t.price}</span>
- <div className="flex gap-2">
+ <div className="flex items-center justify-between gap-2 mt-auto pt-1">
+ <span className="text-sm font-bold" style={{ color: "#8B6914" }}>{t.price}</span>
+ <div className="flex gap-1.5">
  <button
  onClick={() => router.push(`/templates/${t.slug}`)}
- className="p-2 rounded-lg border border-outline hover:bg-surface-container transition-colors text-outline hover:text-stitch-primary"
+ className="p-1.5 rounded-lg border border-outline hover:bg-surface-container transition-colors text-outline hover:text-stitch-primary"
  title="Preview"
  >
- <Eye size={15} />
+ <Eye size={14} />
  </button>
  <button
  onClick={() => openEditModal(t)}
- className="p-2 rounded-lg border border-outline hover:bg-surface-container transition-colors text-outline hover:text-stitch-primary"
+ className="p-1.5 rounded-lg border border-outline hover:bg-surface-container transition-colors text-outline hover:text-stitch-primary"
  title="Edit"
  >
- <Pencil size={15} />
+ <Pencil size={14} />
  </button>
  <button
  onClick={() => handleToggleFeatured(t.slug)}
  disabled={togglingSlug === t.slug}
- className={`p-2 rounded-lg border transition-colors disabled:opacity-50 ${
+ className={`p-1.5 rounded-lg border transition-colors disabled:opacity-50 ${
  t.featured
  ?"border-amber-400 text-amber-500 bg-amber-50"
  :"border-outline text-outline hover:text-amber-500 hover:border-amber-300"
@@ -339,9 +340,9 @@ export default function AdminTemplatesPage() {
  title={t.featured ?"Hapus dari featured":"Tandai sebagai featured"}
  >
  {togglingSlug === t.slug ? (
- <Loader2 size={15} className="animate-spin"/>
+ <Loader2 size={14} className="animate-spin"/>
  ) : (
- <Star size={15} />
+ <Star size={14} />
  )}
  </button>
  </div>

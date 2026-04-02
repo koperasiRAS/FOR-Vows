@@ -4,13 +4,12 @@ import { useEffect, useState } from"react";
 import { useRouter } from"next/navigation";
 import { Save, Phone, Eye, EyeOff, RefreshCw, KeyRound, CheckCircle2, AlertCircle, Loader2 } from"lucide-react";
 import { toast } from"sonner";
-import { DashboardSidebar } from"@/components/layout/DashboardSidebar";
 import { createClient } from"@/lib/supabase/client";
 import { PACKAGES } from"@/lib/packages";
 
 export default function AdminSettingsPage() {
  const router = useRouter();
- const [userEmail, setUserEmail] = useState("");
+
 
  const [waNumber, setWaNumber] = useState("");
  const [email, setEmail] = useState("");
@@ -38,7 +37,6 @@ export default function AdminSettingsPage() {
  const supabase = createClient();
  supabase.auth.getUser().then(({ data }: { data: { user: { email?: string } | null } }) => {
  if (!data.user) router.push("/admin/login");
- setUserEmail(data.user?.email ??"");
  });
 
  // Load settings from Supabase — TODO: create settings table in Supabase
@@ -153,9 +151,8 @@ export default function AdminSettingsPage() {
 
  if (!loaded) {
  return (
- <div className="min-h-screen bg-surface">
- <DashboardSidebar variant="admin"/>
- <main className="ml-16 md:ml-64 min-h-screen flex items-center justify-center">
+ <div className="min-h-screen bg-surface flex items-center justify-center">
+ <main className="min-h-screen flex items-center justify-center">
  <div className="w-8 h-8 border-2 border-stitch-primary-container/30 border-t-stitch-primary rounded-full animate-spin"/>
  </main>
  </div>
@@ -164,35 +161,31 @@ export default function AdminSettingsPage() {
 
  return (
  <div className="min-h-screen bg-surface">
- <DashboardSidebar variant="admin"/>
- <main className="ml-16 md:ml-64 min-h-screen">
- <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-4 md:px-12 py-5 md:py-8 flex justify-between items-center border-b border-outline-variant/10">
+ <main className="min-h-screen">
+ <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-4 md:px-6 lg:px-8 py-5 md:py-6 flex justify-between items-center border-b border-outline-variant/10">
  <div>
- <h2 className="font-headline text-3xl font-bold tracking-tight text-stitch-primary">Settings</h2>
+ <h2 className="font-headline text-2xl md:text-3xl font-bold tracking-tight text-stitch-primary">Settings</h2>
  <p className="text-sm text-stone-500 mt-1 font-light">Kelola pengaturan website FOR Vows</p>
  </div>
- <div className="flex items-center gap-4">
  <button
  onClick={handleSave}
  disabled={saving}
- className="flex items-center gap-2 px-6 py-3 bg-stitch-primary text-white rounded-xl text-sm font-semibold hover:opacity-90 disabled:opacity-50 transition-opacity"
+ className="flex items-center justify-center gap-2 px-5 py-3 bg-stitch-primary text-white rounded-xl text-sm font-semibold hover:opacity-90 disabled:opacity-50 transition-opacity w-full md:w-auto shadow-md md:shadow-none"
  >
  {saving ? <RefreshCw size={15} className="animate-spin"/> : <Save size={15} />}
- {saving ?"Menyimpan...":"Simpan Pengaturan"}
+ {saving ?"Menyimpan...":"Simpan"}
  </button>
- <span className="text-xs text-stone-500">{userEmail}</span>
- </div>
  </header>
 
- <section className="px-4 md:px-12 pb-24 space-y-8">
+ <section className="px-4 md:px-6 lg:px-8 pb-24">
  {/* Contact Info */}
- <div className="mt-8 bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/10">
- <h3 className="font-headline text-lg text-stitch-primary mb-6 flex items-center gap-2">
+ <div className="mt-6 md:mt-8 w-full max-w-2xl mx-auto bg-surface-container-lowest rounded-2xl p-6 md:p-8 border border-outline-variant/10">
+ <h3 className="font-headline text-base md:text-lg text-stitch-primary mb-5 md:mb-6 flex items-center gap-2">
  <Phone size={16} /> Informasi Kontak
  </h3>
- <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+ <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
  <div>
- <label className="block text-[11px] uppercase tracking-widest font-label text-stitch-secondary mb-2">
+ <label className="block text-xs font-medium tracking-wide text-stone-400 mb-2">
  WhatsApp Number
  </label>
  <input
@@ -204,7 +197,7 @@ export default function AdminSettingsPage() {
  />
  </div>
  <div>
- <label className="block text-[11px] uppercase tracking-widest font-label text-stitch-secondary mb-2">
+ <label className="block text-xs font-medium tracking-wide text-stone-400 mb-2">
  Email
  </label>
  <input
@@ -216,7 +209,7 @@ export default function AdminSettingsPage() {
  />
  </div>
  <div>
- <label className="block text-[11px] uppercase tracking-widest font-label text-stitch-secondary mb-2">
+ <label className="block text-xs font-medium tracking-wide text-stone-400 mb-2">
  Instagram
  </label>
  <input
@@ -231,12 +224,12 @@ export default function AdminSettingsPage() {
  </div>
 
  {/* Package Prices */}
- <div className="bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/10">
- <h3 className="font-headline text-lg text-stitch-primary mb-6">Harga Paket</h3>
- <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+ <div className="mt-4 w-full max-w-2xl mx-auto bg-surface-container-lowest rounded-2xl p-6 md:p-8 border border-outline-variant/10">
+ <h3 className="font-headline text-base md:text-lg text-stitch-primary mb-5 md:mb-6">Harga Paket</h3>
+ <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
  {PACKAGES.map(pkg => (
  <div key={pkg.key}>
- <label className="block text-[11px] uppercase tracking-widest font-label text-stitch-secondary mb-2">
+ <label className="block text-xs font-medium tracking-wide text-stone-400 mb-2">
  {pkg.label} (Rp)
  </label>
  <input
@@ -255,8 +248,8 @@ export default function AdminSettingsPage() {
  </div>
 
  {/* Maintenance Mode */}
- <div className="bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/10">
- <h3 className="font-headline text-lg text-stitch-primary mb-4">Maintenance Mode</h3>
+ <div className="mt-4 w-full max-w-2xl mx-auto bg-surface-container-lowest rounded-2xl p-6 md:p-8 border border-outline-variant/10">
+ <h3 className="font-headline text-base md:text-lg text-stitch-primary mb-4">Maintenance Mode</h3>
  <div className="flex items-center justify-between">
  <div>
  <p className="text-sm text-on-surface font-medium">Aktifkan Maintenance Mode</p>
@@ -266,7 +259,7 @@ export default function AdminSettingsPage() {
  </div>
  <button
  onClick={() => setMaintenanceMode(v => !v)}
- className={`relative w-14 h-8 rounded-full transition-colors ${
+ className={`relative w-14 h-8 rounded-full transition-colors shrink-0 ml-4 ${
  maintenanceMode ?"bg-red-500":"bg-stitch-secondary/20"
  }`}
  >
@@ -280,8 +273,8 @@ export default function AdminSettingsPage() {
  </div>
 
  {/* Change Password */}
- <div className="bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/10">
- <h3 className="font-headline text-lg text-stitch-primary mb-6 flex items-center gap-2">
+ <div className="mt-4 w-full max-w-2xl mx-auto bg-surface-container-lowest rounded-2xl p-6 md:p-8 border border-outline-variant/10">
+ <h3 className="font-headline text-base md:text-lg text-stitch-primary mb-5 md:mb-6 flex items-center gap-2">
  <KeyRound size={16} /> Ubah Password
  </h3>
 
@@ -298,10 +291,10 @@ export default function AdminSettingsPage() {
  </div>
  )}
 
- <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+ <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
  {/* Old Password */}
  <div>
- <label className="block text-[11px] uppercase tracking-widest font-label text-stitch-secondary mb-2">
+ <label className="block text-xs font-medium tracking-wide text-stone-400 mb-2">
  Password Lama
  </label>
  <div className="relative">
@@ -326,7 +319,7 @@ export default function AdminSettingsPage() {
 
  {/* New Password */}
  <div>
- <label className="block text-[11px] uppercase tracking-widest font-label text-stitch-secondary mb-2">
+ <label className="block text-xs font-medium tracking-wide text-stone-400 mb-2">
  Password Baru
  </label>
  <div className="relative">
@@ -351,7 +344,7 @@ export default function AdminSettingsPage() {
 
  {/* Confirm Password */}
  <div>
- <label className="block text-[11px] uppercase tracking-widest font-label text-stitch-secondary mb-2">
+ <label className="block text-xs font-medium tracking-wide text-stone-400 mb-2">
  Konfirmasi Password Baru
  </label>
  <input
@@ -365,11 +358,11 @@ export default function AdminSettingsPage() {
  </div>
  </div>
 
- <div className="mt-5 flex justify-end">
+ <div className="mt-5 flex md:justify-end">
  <button
  onClick={handleChangePassword}
  disabled={changingPassword || !oldPassword || !newPassword || !confirmPassword}
- className="flex items-center gap-2 px-6 py-3 text-white rounded-xl text-sm font-semibold hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+ className="flex items-center justify-center gap-2 px-6 py-3 text-white rounded-xl text-sm font-semibold hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all w-full md:w-auto"
  style={{ background:"linear-gradient(135deg, #735c00 0%, #d4af37 100%)"}}
  >
  {changingPassword ? (

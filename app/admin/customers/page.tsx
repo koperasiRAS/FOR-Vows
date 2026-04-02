@@ -4,8 +4,6 @@ import { useEffect, useState } from"react";
 import { useRouter } from"next/navigation";
 import { Search, Users as UsersIcon, ChevronRight, Eye } from"lucide-react";
 import { createClient } from"@/lib/supabase/client";
-import { DashboardSidebar } from"@/components/layout/DashboardSidebar";
-
 interface CustomerOrder {
  id: string;
  order_code: string;
@@ -32,7 +30,7 @@ export default function AdminCustomersPage() {
  const router = useRouter();
  const [customers, setCustomers] = useState<CustomerRow[]>([]);
  const [loading, setLoading] = useState(true);
- const [userEmail, setUserEmail] = useState("");
+
  const [search, setSearch] = useState("");
  const [expandedId, setExpandedId] = useState<string | null>(null);
  const [customerOrders, setCustomerOrders] = useState<Record<string, CustomerOrder[]>>({});
@@ -41,7 +39,6 @@ export default function AdminCustomersPage() {
  const supabase = createClient();
  supabase.auth.getUser().then(({ data }) => {
  if (!data.user) { router.push("/admin/login"); return; }
- setUserEmail(data.user.email ??"");
  });
  }, [router]);
 
@@ -113,8 +110,7 @@ export default function AdminCustomersPage() {
 
  return (
  <div className="min-h-screen bg-surface">
- <DashboardSidebar variant="admin"/>
- <main className="ml-16 md:ml-64 min-h-screen">
+ <main className="min-h-screen">
  <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-4 md:px-12 py-5 md:py-8 flex justify-between items-center border-b border-outline-variant/10">
  <div>
  <h2 className="font-headline text-3xl font-bold tracking-tight text-stitch-primary">Customers</h2>
@@ -130,11 +126,11 @@ export default function AdminCustomersPage() {
  value={search}
  onChange={e => setSearch(e.target.value)}
  placeholder="Cari nama atau email..."
- className="pl-11 pr-5 py-3 bg-surface-container-low rounded-xl w-72 text-sm border-none focus:ring-1 focus:ring-stitch-primary-container transition-all placeholder:text-stone-400"
+ className="pl-11 pr-5 py-3 bg-surface-container-low rounded-xl w-full md:max-w-[400px] text-sm border-none focus:ring-1 focus:ring-stitch-primary-container transition-all placeholder:text-stone-400"
  />
  </div>
  <div className="flex items-center gap-3">
- <span className="text-xs text-stone-500">{userEmail}</span>
+
  </div>
  </div>
  </header>
@@ -146,9 +142,12 @@ export default function AdminCustomersPage() {
  <div className="w-8 h-8 border-2 border-stitch-primary-container/30 border-t-stitch-primary rounded-full animate-spin"/>
  </div>
  ) : filtered.length === 0 ? (
- <div className="text-center py-20 text-stone-400">
- <UsersIcon size={32} className="mx-auto mb-3 opacity-40"/>
- <p className="text-sm">Belum ada customer.</p>
+ <div className="flex flex-col items-center justify-center min-h-[300px] gap-3 text-stone-400">
+ <div className="w-14 h-14 rounded-full bg-surface-container-low flex items-center justify-center mb-1">
+ <UsersIcon size={24} className="opacity-40"/>
+ </div>
+ <p className="text-sm font-medium">Belum ada customer.</p>
+ <p className="text-xs text-stone-400">Customer akan muncul di sini.</p>
  </div>
  ) : (
  <table className="w-full text-left border-collapse">

@@ -6,7 +6,6 @@ import { useParams, useRouter } from"next/navigation";
 import { ChevronLeft, Check, Loader2, MessageCircle, Phone, Clock, FileText, Download, Edit2, Eye } from"lucide-react";
 import { createClient } from"@/lib/supabase/client";
 import { useLanguage } from"@/lib/i18n/context";
-import { DashboardSidebar } from"@/components/layout/DashboardSidebar";
 import { formatIDR } from"@/lib/utils";
 import type { OrderRow } from"@/types";
 import { WA_NUMBER } from"@/lib/config";
@@ -42,7 +41,6 @@ export default function AdminOrderDetailPage() {
  const [loading, setLoading] = useState(true);
  const [error, setError] = useState(false);
  const [updating, setUpdating] = useState(false);
- const [userEmail, setUserEmail] = useState("");
 
  const orderId = String(params.id ??"");
 
@@ -50,7 +48,7 @@ export default function AdminOrderDetailPage() {
  const supabase = createClient();
  supabase.auth.getUser().then(({ data }) => {
  if (!data.user) { router.push("/admin/login"); return; }
- setUserEmail(data.user.email ??"");
+
  });
 
  if (!orderId) { setLoading(false); return; }
@@ -117,9 +115,7 @@ export default function AdminOrderDetailPage() {
 
  return (
  <div className="min-h-screen bg-surface">
- <DashboardSidebar variant="admin"/>
-
- <main className="ml-16 md:ml-64 min-h-screen">
+ <main className="min-h-screen">
  {/* Top Header */}
  <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-4 md:px-12 py-5 md:py-8 border-b border-outline-variant/10">
  <div className="flex items-center gap-3 text-sm text-stone-400 mb-2">
@@ -135,12 +131,6 @@ export default function AdminOrderDetailPage() {
  <h2 className="font-headline text-3xl font-bold tracking-tight text-on-surface">
  {order.groom_name} & {order.bride_name}
  </h2>
- </div>
- <div className="flex items-center gap-4">
- <span className="text-xs text-stone-400">{userEmail}</span>
- <div className="w-9 h-9 rounded-full bg-stitch-secondary-fixed flex items-center justify-center text-xs font-bold">
- {userEmail ? userEmail.split("@")[0].slice(0, 2).toUpperCase() :"AD"}
- </div>
  </div>
  </div>
  </header>

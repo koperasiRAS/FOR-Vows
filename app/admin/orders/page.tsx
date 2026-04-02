@@ -6,7 +6,6 @@ import { useRouter } from"next/navigation";
 import { Search, Filter, ChevronLeft, ChevronRight, Eye, TrendingUp, Download } from"lucide-react";
 import { createClient } from"@/lib/supabase/client";
 import { useLanguage } from"@/lib/i18n/context";
-import { DashboardSidebar } from"@/components/layout/DashboardSidebar";
 import { formatIDR } from"@/lib/utils";
 import type { OrderRow } from"@/types";
 
@@ -53,7 +52,7 @@ export default function AdminOrdersPage() {
  const router = useRouter();
  const [orders, setOrders] = useState<OrderRow[]>([]);
  const [loading, setLoading] = useState(true);
- const [userEmail, setUserEmail] = useState("");
+ 
  const [filter, setFilter] = useState("all");
  const [search, setSearch] = useState("");
  const [statusOpen, setStatusOpen] = useState(false);
@@ -70,7 +69,6 @@ export default function AdminOrdersPage() {
  router.push("/admin/login");
  return;
  }
- setUserEmail(data.user.email ??"");
  });
 
  const fetchData = async () => {
@@ -173,17 +171,11 @@ export default function AdminOrdersPage() {
  const activeCount = orders.filter((o) => o.status ==="processing").length;
  const pendingCount = orders.filter((o) => o.status ==="pending_payment").length;
 
- const handleLogout = async () => {
- const supabase = createClient();
- await supabase.auth.signOut();
- router.push("/admin/login");
- };
+ 
 
  return (
  <div className="min-h-screen bg-surface">
- <DashboardSidebar variant="admin"/>
-
- <main className="ml-16 md:ml-64 min-h-screen">
+ <main className="min-h-screen">
  {/* Top Header */}
  <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-4 md:px-12 py-5 md:py-8 flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between border-b border-outline-variant/10">
  <div>
@@ -248,19 +240,6 @@ export default function AdminOrdersPage() {
  </span>
  </button>
 
- {/* Avatar */}
- <div className="flex items-center gap-3">
- <span className="text-xs text-stone-500">{userEmail}</span>
- <div className="w-10 h-10 rounded-full bg-stitch-secondary-fixed flex items-center justify-center text-xs font-bold text-stitch-on-secondary-container overflow-hidden">
- {userEmail ? getInitials(userEmail.split("@")[0]) :"AD"}
- </div>
- <button
- onClick={handleLogout}
- className="text-xs text-stone-400 hover:text-stitch-error transition-colors ml-2"
- >
- {lang ==="id"?"Keluar":"Logout"}
- </button>
- </div>
  </div>
  </header>
 

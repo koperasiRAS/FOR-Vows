@@ -4,7 +4,6 @@ import { useEffect, useState } from"react";
 import { useRouter } from"next/navigation";
 import Link from"next/link";
 import { ShoppingBag, TrendingUp, Clock, CheckCircle, Eye } from"lucide-react";
-import { DashboardSidebar } from"@/components/layout/DashboardSidebar";
 import { createClient } from"@/lib/supabase/client";
 
 interface OrderRow {
@@ -23,13 +22,11 @@ export default function AdminDashboardPage() {
  const router = useRouter();
  const [orders, setOrders] = useState<OrderRow[]>([]);
  const [loading, setLoading] = useState(true);
- const [userEmail, setUserEmail] = useState("");
 
  useEffect(() => {
  const supabase = createClient();
  supabase.auth.getUser().then(({ data }: { data: { user: { email?: string } | null } }) => {
  if (!data.user) { router.push("/admin/login"); return; }
- setUserEmail(data.user?.email ??"");
  });
 
  fetch("/api/orders")
@@ -64,8 +61,7 @@ export default function AdminDashboardPage() {
 
  return (
  <div className="min-h-screen bg-surface">
- <DashboardSidebar variant="admin"/>
- <main className="ml-16 md:ml-64 min-h-screen">
+ <main className="min-h-screen">
  <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-4 md:px-12 py-5 md:py-8 border-b border-outline-variant/10">
  <div className="flex justify-between items-center">
  <div>
@@ -74,7 +70,6 @@ export default function AdminDashboardPage() {
  {new Intl.DateTimeFormat("id-ID", { month:"long", year:"numeric"}).format(now)}
  </p>
  </div>
- <span className="text-xs text-stone-500">{userEmail}</span>
  </div>
  </header>
 
@@ -86,48 +81,56 @@ export default function AdminDashboardPage() {
  ) : (
  <>
  {/* Stat cards */}
- <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8">
- <div className="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10">
- <div className="flex items-center gap-2 mb-3">
- <TrendingUp size={16} className="text-stitch-primary"/>
- <span className="text-[10px] uppercase tracking-widest font-label text-stitch-secondary">Revenue Bulan Ini</span>
+ <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-8">
+ <div className="bg-surface-container-lowest rounded-2xl p-4 border border-outline-variant/10 flex flex-col justify-between min-h-[100px]">
+ <div className="flex items-center gap-2 mb-2">
+ <TrendingUp size={14} className="text-stitch-primary shrink-0"/>
+ <span className="text-xs uppercase tracking-widest font-label text-stitch-secondary truncate">Revenue Bulan Ini</span>
  </div>
- <span className="text-2xl font-headline text-on-surface">
+ <div>
+ <span className="text-xl font-headline text-on-surface leading-tight">
  {monthRevenue > 0 ? formatIDR(monthRevenue) :"Rp 0"}
  </span>
- <p className="text-xs text-stone-400 mt-1">{monthOrders.length} pesanan</p>
+ <p className="text-[10px] text-stone-400 mt-0.5">{monthOrders.length} pesanan</p>
+ </div>
  </div>
 
- <div className="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10">
- <div className="flex items-center gap-2 mb-3">
- <Clock size={16} className="text-yellow-600"/>
- <span className="text-[10px] uppercase tracking-widest font-label text-stitch-secondary">Menunggu</span>
+ <div className="bg-surface-container-lowest rounded-2xl p-4 border border-outline-variant/10 flex flex-col justify-between min-h-[100px]">
+ <div className="flex items-center gap-2 mb-2">
+ <Clock size={14} className="text-yellow-600 shrink-0"/>
+ <span className="text-xs uppercase tracking-widest font-label text-stitch-secondary">Menunggu</span>
  </div>
- <span className="text-2xl font-headline text-on-surface">{pendingCount}</span>
- <p className="text-xs text-stone-400 mt-1">pesanan</p>
+ <div>
+ <span className="text-xl font-headline text-on-surface leading-tight">{pendingCount}</span>
+ <p className="text-[10px] text-stone-400 mt-0.5">pesanan</p>
  </div>
-
- <div className="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10">
- <div className="flex items-center gap-2 mb-3">
- <ShoppingBag size={16} className="text-blue-600"/>
- <span className="text-[10px] uppercase tracking-widest font-label text-stitch-secondary">Sedang Diproses</span>
- </div>
- <span className="text-2xl font-headline text-on-surface">{processingCount}</span>
- <p className="text-xs text-stone-400 mt-1">pesanan</p>
  </div>
 
- <div className="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10">
- <div className="flex items-center gap-2 mb-3">
- <CheckCircle size={16} className="text-green-600"/>
- <span className="text-[10px] uppercase tracking-widest font-label text-stitch-secondary">Selesai</span>
+ <div className="bg-surface-container-lowest rounded-2xl p-4 border border-outline-variant/10 flex flex-col justify-between min-h-[100px]">
+ <div className="flex items-center gap-2 mb-2">
+ <ShoppingBag size={14} className="text-blue-600 shrink-0"/>
+ <span className="text-xs uppercase tracking-widest font-label text-stitch-secondary truncate">Sedang Diproses</span>
  </div>
- <span className="text-2xl font-headline text-on-surface">{completedCount}</span>
- <p className="text-xs text-stone-400 mt-1">pesanan</p>
+ <div>
+ <span className="text-xl font-headline text-on-surface leading-tight">{processingCount}</span>
+ <p className="text-[10px] text-stone-400 mt-0.5">pesanan</p>
+ </div>
+ </div>
+
+ <div className="bg-surface-container-lowest rounded-2xl p-4 border border-outline-variant/10 flex flex-col justify-between min-h-[100px]">
+ <div className="flex items-center gap-2 mb-2">
+ <CheckCircle size={14} className="text-green-600 shrink-0"/>
+ <span className="text-xs uppercase tracking-widest font-label text-stitch-secondary">Selesai</span>
+ </div>
+ <div>
+ <span className="text-xl font-headline text-on-surface leading-tight">{completedCount}</span>
+ <p className="text-[10px] text-stone-400 mt-0.5">pesanan</p>
+ </div>
  </div>
  </div>
 
  {/* Recent orders */}
- <div className="mt-10">
+ <div className="mt-10 w-full">
  <div className="flex items-center justify-between mb-4">
  <h3 className="font-headline text-lg text-stitch-primary">Pesanan Terbaru</h3>
  <Link href="/admin/orders"className="text-xs text-stitch-primary hover:underline font-semibold">
@@ -137,9 +140,12 @@ export default function AdminDashboardPage() {
 
  <div className="bg-surface-container-lowest rounded-2xl overflow-x-auto border border-outline-variant/10">
  {recentOrders.length === 0 ? (
- <div className="text-center py-16 text-stone-400">
- <ShoppingBag size={28} className="mx-auto mb-2 opacity-40"/>
- <p className="text-sm">Belum ada pesanan.</p>
+ <div className="flex flex-col items-center justify-center py-14 text-stone-400 gap-2">
+ <div className="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center mb-1">
+ <ShoppingBag size={22} className="opacity-40"/>
+ </div>
+ <p className="text-sm font-medium">Belum ada pesanan.</p>
+ <p className="text-xs text-stone-400">Pesanan baru akan muncul di sini.</p>
  </div>
  ) : (
  <table className="w-full text-left">
