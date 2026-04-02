@@ -56,10 +56,10 @@ export default function AdminSettingsPage() {
           }
         }
       } catch {
-        // Fallback: use env vars if API not ready
-        setWaNumber(process.env.NEXT_PUBLIC_WA_NUMBER ?? "");
-        setEmail("frameofrangga@gmail.com");
-        setInstagram("frameofrangga");
+        // Fallback jika tabel settings belum dibuat
+        setWaNumber("");
+        setEmail("");
+        setInstagram("");
       }
       setLoaded(true);
     };
@@ -69,12 +69,27 @@ export default function AdminSettingsPage() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      // TODO: POST to /api/settings when that route is created
-      // For now, save to localStorage as a temporary client-side persistence
-      localStorage.setItem("forvows_admin_settings", JSON.stringify({ wa_number: waNumber, email, instagram, maintenance_mode: maintenanceMode, prices }));
+      const res = await fetch("/api/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          wa_number: waNumber,
+          email,
+          instagram,
+          maintenance_mode: maintenanceMode,
+          prices,
+        }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error ?? "Gagal menyimpan");
+      }
+
       toast.success("Pengaturan berhasil disimpan!");
-    } catch {
-      toast.error("Gagal menyimpan pengaturan.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Gagal menyimpan pengaturan.";
+      toast.error(message);
     } finally {
       setSaving(false);
     }
@@ -367,13 +382,6 @@ export default function AdminSettingsPage() {
             </div>
           </div>
 
-          {/* Database note */}
-          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6">
-            <p className="text-sm font-semibold text-amber-700 mb-2">Pengaturan Belum Tersimpan di Database</p>
-            <p className="text-xs text-amber-600 leading-relaxed">
-              Untuk mengaktifkan penyimpanan pengaturan yang persisten, buat tabel <code>settings</code> di Supabase dengan kolom: <code>wa_number</code>, <code>email</code>, <code>instagram</code>, <code>maintenance_mode</code>, <code>prices</code> (JSONB). Lalu buat <code>app/api/settings/route.ts</code> dengan GET/POST endpoints.
-            </p>
-          </div>
         </section>
       </main>
     </div>
