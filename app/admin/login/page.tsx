@@ -3,8 +3,19 @@
 import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Eye, EyeOff, Loader2, Lock, AlertCircle } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  Loader2,
+  Lock,
+  AlertCircle,
+  KeyRound,
+  X,
+  CheckCircle2,
+  Send,
+} from "lucide-react";
 import { useLanguage } from "@/lib/i18n/context";
+import { createClient } from "@/lib/supabase/client";
 
 function AdminLoginContent() {
   const { lang } = useLanguage();
@@ -23,43 +34,67 @@ function AdminLoginContent() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+  // Reset password modal state
+  const [showResetModal, setShowResetModal] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [resetLoading, setResetLoading] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
+  const [resetError, setResetError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email.trim() || !password.trim()) return;
 
     setLoading(true);
     setError(null);
 
-    const res = await fetch("/api/admin-login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: email.trim(), password }),
-    });
+    try {
+      const res = await fetch("/api/admin-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), password }),
+      });
 
-    const result = await res.json();
+      const result = await res.json();
 
-    if (!result.success) {
-      const msg = result.error ?? "";
-      if (
-        msg.toLowerCase().includes("invalid") ||
-        msg.toLowerCase().includes("credentials") ||
-        msg.toLowerCase().includes("email") ||
-        msg.toLowerCase().includes("password")
-      ) {
-        setError(lang === "id" ? "Email atau password salah." : "Invalid email or password.");
-      } else if (msg.toLowerCase().includes("rate limit") || msg.toLowerCase().includes("terlalu banyak")) {
-        setError(
-          lang === "id"
-            ? "Terlalu banyak percobaan. Tunggu beberapa menit."
-            : "Too many attempts. Please wait a few minutes."
-        );
-      } else {
-        setError(
-          lang === "id"
-            ? "Login gagal. Coba lagi."
-            : "Login failed. Please try again."
-        );
+      if (!result.success) {
+        const msg: string = result.error ?? "";
+        if (
+          msg.toLowerCase().includes("admin") ||
+          msg.toLowerCase().includes("hak akses")
+        ) {
+          setError(
+            lang === "id"
+              ? "Akun ini tidak memiliki hak akses admin."
+              : "This account does not have admin access."
+          );
+        } else if (
+          msg.toLowerCase().includes("terlalu banyak") ||
+          msg.toLowerCase().includes("rate") ||
+          msg.toLowerCase().includes("terkunci")
+        ) {
+          setError(
+            lang === "id"
+              ? "Terlalu banyak percobaan. Tunggu beberapa menit."
+              : "Too many attempts. Please wait a few minutes."
+          );
+        } else {
+          // Default: show email or password error
+          setError(
+            lang === "id"
+              ? "Email atau password salah."
+              : "Invalid email or password."
+          );
+        }
+        setLoading(false);
+        return;
       }
+    } catch {
+      setError(
+        lang === "id"
+          ? "Gagal terhubung. Periksa koneksi internet Anda."
+          : "Connection failed. Check your internet connection."
+      );
       setLoading(false);
       return;
     }
@@ -67,6 +102,36 @@ function AdminLoginContent() {
     // Auth succeeded — middleware will validate admin role and redirect
     router.push("/admin/orders");
     router.refresh();
+  };
+
+  const handleResetPassword = async () => {
+    if (!resetEmail.trim()) return;
+    setResetLoading(true);
+    setResetError(null);
+
+    try {
+      const supabase = createClient();
+      const { error: resetErr } = await supabase.auth.resetPasswordForEmail(
+        resetEmail.trim(),
+        {
+          redirectTo: `${window.location.origin}/admin/settings?tab=password`,
+        }
+      );
+
+      if (resetErr) {
+        setResetError(
+          lang === "id"
+            ? "Gagal mengirim email reset. Pastikan email terdaftar."
+            : "Failed to send reset email. Make sure the email is registered."
+        );
+      } else {
+        setResetSent(true);
+      }
+    } catch {
+      setResetError(lang === "id" ? "Terjadi kesalahan. Coba lagi." : "An error occurred. Try again.");
+    }
+
+    setResetLoading(false);
   };
 
   const urlError = searchParams.get("error");
@@ -210,6 +275,23 @@ function AdminLoginContent() {
                   "Sign In"
                 )}
               </button>
+
+              {/* Reset password link */}
+              <div className="text-center pt-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setResetEmail(email);
+                    setResetSent(false);
+                    setResetError(null);
+                    setShowResetModal(true);
+                  }}
+                  className="text-xs text-stone-400 hover:text-[#735c00] transition-colors flex items-center gap-1.5 mx-auto"
+                >
+                  <KeyRound size={12} strokeWidth={1.5} />
+                  {lang === "id" ? "Lupa / Ubah Password?" : "Forgot / Change Password?"}
+                </button>
+              </div>
             </form>
           </div>
         </div>
@@ -224,6 +306,92 @@ function AdminLoginContent() {
           </Link>
         </div>
       </div>
+
+      {/* Reset Password Modal */}
+      {showResetModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-6">
+          <div className="bg-white rounded-2xl p-8 w-full max-w-sm shadow-2xl border border-outline-variant/20">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="font-serif italic text-xl text-[#735c00]">
+                {lang === "id" ? "Reset Password" : "Reset Password"}
+              </h3>
+              <button
+                onClick={() => setShowResetModal(false)}
+                className="p-1.5 rounded-lg hover:bg-stone-100 text-stone-400 hover:text-stone-600 transition-colors"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {resetSent ? (
+              <div className="text-center py-4">
+                <CheckCircle2 size={48} className="mx-auto mb-4 text-green-500" strokeWidth={1.5} />
+                <p className="text-sm font-medium text-on-surface mb-2">
+                  {lang === "id" ? "Email terkirim!" : "Email sent!"}
+                </p>
+                <p className="text-xs text-stone-500 leading-relaxed">
+                  {lang === "id"
+                    ? `Link reset password telah dikirim ke ${resetEmail}. Cek inbox atau folder spam Anda.`
+                    : `Password reset link sent to ${resetEmail}. Check your inbox or spam folder.`}
+                </p>
+                <button
+                  onClick={() => setShowResetModal(false)}
+                  className="mt-6 w-full py-3 text-xs tracking-widest uppercase font-semibold text-white rounded-xl"
+                  style={{ background: "linear-gradient(135deg, #735c00 0%, #d4af37 100%)" }}
+                >
+                  {lang === "id" ? "Tutup" : "Close"}
+                </button>
+              </div>
+            ) : (
+              <>
+                <p className="text-xs text-stone-500 mb-5 leading-relaxed">
+                  {lang === "id"
+                    ? "Masukkan email admin Anda. Kami akan mengirim link untuk mengubah password."
+                    : "Enter your admin email. We'll send a link to reset your password."}
+                </p>
+
+                {resetError && (
+                  <div className="flex items-start gap-2 bg-red-50 border border-red-200 text-red-700 text-xs px-3 py-2.5 rounded-lg mb-4">
+                    <AlertCircle size={13} className="shrink-0 mt-0.5" />
+                    <span>{resetError}</span>
+                  </div>
+                )}
+
+                <div className="space-y-1.5 mb-5">
+                  <label className="text-[11px] tracking-[0.12em] uppercase text-stone-400 font-semibold">
+                    Email Admin
+                  </label>
+                  <input
+                    type="email"
+                    value={resetEmail}
+                    onChange={(e) => setResetEmail(e.target.value)}
+                    placeholder="admin@forvows.com"
+                    disabled={resetLoading}
+                    className="w-full px-4 py-3 bg-stone-50 border border-stone-200 text-on-surface text-sm placeholder:text-stone-400 focus:outline-none focus:border-[#735c00] focus:ring-1 focus:ring-[#735c00]/20 transition-colors rounded-lg disabled:opacity-50"
+                    onKeyDown={(e) => e.key === "Enter" && handleResetPassword()}
+                  />
+                </div>
+
+                <button
+                  onClick={handleResetPassword}
+                  disabled={resetLoading || !resetEmail.trim()}
+                  className="w-full py-3 text-xs tracking-widest uppercase font-semibold text-white rounded-xl flex items-center justify-center gap-2 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  style={{ background: "linear-gradient(135deg, #735c00 0%, #d4af37 100%)" }}
+                >
+                  {resetLoading ? (
+                    <Loader2 size={14} className="animate-spin" />
+                  ) : (
+                    <Send size={14} />
+                  )}
+                  {resetLoading
+                    ? (lang === "id" ? "Mengirim..." : "Sending...")
+                    : (lang === "id" ? "Kirim Link Reset" : "Send Reset Link")}
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

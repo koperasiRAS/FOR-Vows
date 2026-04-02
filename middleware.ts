@@ -182,6 +182,7 @@ export async function middleware(request: NextRequest) {
   // ── 4. API Routes Guard ──────────────────────────────────────────────────────
   if (pathname.startsWith("/api/")) {
     const isPublicApi =
+      pathname.startsWith("/api/admin-login") ||
       pathname.startsWith("/api/midtrans/payment-notification") ||
       pathname.startsWith("/api/orders/create") ||
       pathname.startsWith("/api/webhook/whatsapp");

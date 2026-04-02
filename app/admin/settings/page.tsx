@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Save, Phone, Mail, Instagram, Eye, EyeOff, RefreshCw } from "lucide-react";
+import { Save, Phone, Eye, EyeOff, RefreshCw, KeyRound, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { DashboardSidebar } from "@/components/layout/DashboardSidebar";
 import { createClient } from "@/lib/supabase/client";
@@ -23,6 +23,16 @@ export default function AdminSettingsPage() {
   });
   const [saving, setSaving] = useState(false);
   const [loaded, setLoaded] = useState(false);
+
+  // Change password state
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showOldPwd, setShowOldPwd] = useState(false);
+  const [showNewPwd, setShowNewPwd] = useState(false);
+  const [changingPassword, setChangingPassword] = useState(false);
+  const [pwdSuccess, setPwdSuccess] = useState(false);
+  const [pwdError, setPwdError] = useState<string | null>(null);
 
   useEffect(() => {
     const supabase = createClient();
@@ -68,6 +78,59 @@ export default function AdminSettingsPage() {
     } finally {
       setSaving(false);
     }
+  };
+
+  const handleChangePassword = async () => {
+    setPwdError(null);
+    setPwdSuccess(false);
+
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      setPwdError("Semua field wajib diisi.");
+      return;
+    }
+    if (newPassword.length < 6) {
+      setPwdError("Password baru minimal 6 karakter.");
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setPwdError("Konfirmasi password tidak cocok.");
+      return;
+    }
+
+    setChangingPassword(true);
+    const supabase = createClient();
+
+    // Re-authenticate first to verify old password
+    const { data: userData } = await supabase.auth.getUser();
+    const currentEmail = userData.user?.email ?? "";
+
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: currentEmail,
+      password: oldPassword,
+    });
+
+    if (signInError) {
+      setPwdError("Password lama salah.");
+      setChangingPassword(false);
+      return;
+    }
+
+    // Update password
+    const { error: updateError } = await supabase.auth.updateUser({
+      password: newPassword,
+    });
+
+    if (updateError) {
+      setPwdError("Gagal mengubah password. Coba lagi.");
+    } else {
+      setPwdSuccess(true);
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      toast.success("Password berhasil diubah!");
+    }
+
+    setChangingPassword(false);
   };
 
   const formatIDR = (v: string) =>
@@ -197,6 +260,109 @@ export default function AdminSettingsPage() {
                     maintenanceMode ? "translate-x-7" : "translate-x-1"
                   }`}
                 />
+              </button>
+            </div>
+          </div>
+
+          {/* Change Password */}
+          <div className="bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/10">
+            <h3 className="font-headline text-lg text-stitch-primary mb-6 flex items-center gap-2">
+              <KeyRound size={16} /> Ubah Password
+            </h3>
+
+            {pwdError && (
+              <div className="flex items-start gap-2.5 bg-red-50 border border-red-200 text-red-700 text-xs px-4 py-3 rounded-xl mb-5">
+                <AlertCircle size={14} className="shrink-0 mt-0.5" />
+                <span>{pwdError}</span>
+              </div>
+            )}
+            {pwdSuccess && (
+              <div className="flex items-center gap-2.5 bg-green-50 border border-green-200 text-green-700 text-xs px-4 py-3 rounded-xl mb-5">
+                <CheckCircle2 size={14} className="shrink-0" />
+                <span>Password berhasil diubah!</span>
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Old Password */}
+              <div>
+                <label className="block text-[11px] uppercase tracking-widest font-label text-stitch-secondary mb-2">
+                  Password Lama
+                </label>
+                <div className="relative">
+                  <input
+                    type={showOldPwd ? "text" : "password"}
+                    value={oldPassword}
+                    onChange={(e) => setOldPassword(e.target.value)}
+                    placeholder="••••••••"
+                    disabled={changingPassword}
+                    className="w-full px-4 py-3 pr-11 bg-surface-container-low rounded-xl text-sm border-none focus:ring-1 focus:ring-stitch-primary-container disabled:opacity-50"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowOldPwd((v) => !v)}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 transition-colors"
+                    tabIndex={-1}
+                  >
+                    {showOldPwd ? <EyeOff size={15} strokeWidth={1.5} /> : <Eye size={15} strokeWidth={1.5} />}
+                  </button>
+                </div>
+              </div>
+
+              {/* New Password */}
+              <div>
+                <label className="block text-[11px] uppercase tracking-widest font-label text-stitch-secondary mb-2">
+                  Password Baru
+                </label>
+                <div className="relative">
+                  <input
+                    type={showNewPwd ? "text" : "password"}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="Min 6 karakter"
+                    disabled={changingPassword}
+                    className="w-full px-4 py-3 pr-11 bg-surface-container-low rounded-xl text-sm border-none focus:ring-1 focus:ring-stitch-primary-container disabled:opacity-50"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowNewPwd((v) => !v)}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 transition-colors"
+                    tabIndex={-1}
+                  >
+                    {showNewPwd ? <EyeOff size={15} strokeWidth={1.5} /> : <Eye size={15} strokeWidth={1.5} />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Confirm Password */}
+              <div>
+                <label className="block text-[11px] uppercase tracking-widest font-label text-stitch-secondary mb-2">
+                  Konfirmasi Password Baru
+                </label>
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Ulangi password baru"
+                  disabled={changingPassword}
+                  className="w-full px-4 py-3 bg-surface-container-low rounded-xl text-sm border-none focus:ring-1 focus:ring-stitch-primary-container disabled:opacity-50"
+                />
+              </div>
+            </div>
+
+            <div className="mt-5 flex justify-end">
+              <button
+                onClick={handleChangePassword}
+                disabled={changingPassword || !oldPassword || !newPassword || !confirmPassword}
+                className="flex items-center gap-2 px-6 py-3 text-white rounded-xl text-sm font-semibold hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                style={{ background: "linear-gradient(135deg, #735c00 0%, #d4af37 100%)" }}
+              >
+                {changingPassword ? (
+                  <Loader2 size={15} className="animate-spin" />
+                ) : (
+                  <KeyRound size={15} />
+                )}
+                {changingPassword ? "Mengubah..." : "Ubah Password"}
               </button>
             </div>
           </div>
