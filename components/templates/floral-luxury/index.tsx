@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Mail, Instagram, ArrowDown, Sparkles, MapPin } from "lucide-react";
+import Image from "next/image";
+import { Mail, ArrowDown, Sparkles, MapPin } from "lucide-react";
+import { InstagramIcon } from "@/components/icons/InstagramIcon";
 
 export function FloralLuxuryTemplate() {
   const [scrolled, setScrolled] = useState(false);
@@ -74,10 +76,11 @@ export function FloralLuxuryTemplate() {
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="relative aspect-[3/4] overflow-hidden group">
             <div className="absolute inset-0 bg-[#cfa579]/5 mix-blend-overlay z-10 group-hover:bg-transparent transition-colors duration-1000" />
-            <img 
-              src="https://images.unsplash.com/photo-1507676184212-d0330a15183c?q=80&w=1000&auto=format&fit=crop" 
-              alt="Floral Arrangement" 
-              className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-[2s] ease-out"
+            <Image
+              src="https://images.unsplash.com/photo-1507676184212-d0330a15183c?q=80&w=1000&auto=format&fit=crop"
+              alt="Floral Arrangement"
+              fill
+              className="object-cover scale-105 group-hover:scale-100 transition-transform duration-[2s] ease-out"
             />
             {/* Corner Decorative Frame */}
             <div className="absolute top-4 left-4 w-12 h-12 border-t border-l border-[#cfa579]/40 z-20" />
@@ -130,10 +133,11 @@ export function FloralLuxuryTemplate() {
             <div className="group cursor-pointer">
               <div className="block overflow-hidden relative aspect-[4/5] mb-6">
                 <div className="absolute inset-0 bg-[#0d0906]/20 group-hover:bg-[#0d0906]/0 transition-colors duration-700 z-10" />
-                <img 
-                  src="https://images.unsplash.com/photo-1542456012-16e7dd78ec22?q=80&w=800&auto=format&fit=crop" 
-                  alt="Aesthetic Editorial" 
-                  className="w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-[1.5s]"
+                <Image
+                  src="https://images.unsplash.com/photo-1542456012-16e7dd78ec22?q=80&w=800&auto=format&fit=crop"
+                  alt="Aesthetic Editorial"
+                  fill
+                  className="object-cover scale-100 group-hover:scale-105 transition-transform duration-[1.5s]"
                 />
               </div>
               <div className="flex justify-between items-start font-sans">
@@ -149,10 +153,11 @@ export function FloralLuxuryTemplate() {
             <div className="group cursor-pointer md:mt-24">
               <div className="block overflow-hidden relative aspect-[4/5] mb-6">
                 <div className="absolute inset-0 bg-[#0d0906]/20 group-hover:bg-[#0d0906]/0 transition-colors duration-700 z-10" />
-                <img 
-                  src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?q=80&w=800&auto=format&fit=crop" 
-                  alt="Floral Identity" 
-                  className="w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-[1.5s]"
+                <Image
+                  src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?q=80&w=800&auto=format&fit=crop"
+                  alt="Floral Identity"
+                  fill
+                  className="object-cover scale-100 group-hover:scale-105 transition-transform duration-[1.5s]"
                 />
               </div>
               <div className="flex justify-between items-start font-sans">
@@ -168,10 +173,11 @@ export function FloralLuxuryTemplate() {
             <div className="group cursor-pointer">
               <div className="block overflow-hidden relative aspect-[4/5] mb-6 hover:shadow-2xl">
                 <div className="absolute inset-0 bg-[#cfa579]/10 blend-overlay z-10 group-hover:bg-transparent transition-all duration-700" />
-                <img 
-                  src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?q=80&w=800&auto=format&fit=crop" 
-                  alt="Luxury Packaging" 
-                  className="w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-[1.5s]"
+                <Image
+                  src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?q=80&w=800&auto=format&fit=crop"
+                  alt="Luxury Packaging"
+                  fill
+                  className="object-cover scale-100 group-hover:scale-105 transition-transform duration-[1.5s]"
                 />
               </div>
               <div className="flex justify-between items-start font-sans">
@@ -209,7 +215,7 @@ export function FloralLuxuryTemplate() {
               <span className="text-[11px] tracking-widest uppercase">hello@elorastudio</span>
             </a>
             <a href="https://instagram.com" className="group flex items-center justify-center gap-3 px-8 py-4 border border-[#cfa579]/30 hover:bg-[#cfa579] hover:text-[#0d0906] transition-all duration-300">
-              <Instagram size={16} className="text-[#cfa579] group-hover:text-[#0d0906]" />
+              <InstagramIcon size={16} className="text-[#cfa579] group-hover:text-[#0d0906]" />
               <span className="text-[11px] tracking-widest uppercase">@elora.studio</span>
             </a>
           </div>

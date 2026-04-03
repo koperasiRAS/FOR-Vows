@@ -7,6 +7,7 @@ import { Check, ArrowLeft, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useLanguage } from "@/lib/i18n/context";
 import { StatusBadge } from "@/components/shared/StatusBadge";
+import { PAYMENT_VA_DISPLAY, PAYMENT_ACCOUNT_NAME } from "@/lib/config";
 import type { OrderRow } from "@/types";
 import { formatIDR } from "@/lib/utils";
 import { WA_NUMBER } from "@/lib/config";
@@ -257,11 +258,11 @@ function OrderSuccessContent() {
                   </p>
                   <div className="flex justify-between">
                     <span className="text-[#6a6a6a]">{lang === "id" ? "Bank" : "Bank"}</span>
-                    <span className="text-[#faf8f5]">BCA / 1234567890</span>
+                    <span className="text-[#faf8f5]">{PAYMENT_VA_DISPLAY || "—"}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-[#6a6a6a]">{lang === "id" ? "Atas Nama" : "Account Name"}</span>
-                    <span className="text-[#faf8f5]">FOR Vows</span>
+                    <span className="text-[#faf8f5]">{PAYMENT_ACCOUNT_NAME}</span>
                   </div>
                   <div className="flex justify-between font-medium">
                     <span className="text-[#c9a96e]">{lang === "id" ? "Jumlah" : "Amount"}</span>

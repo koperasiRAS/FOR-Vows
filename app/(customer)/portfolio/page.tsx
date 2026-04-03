@@ -1,15 +1,24 @@
 import type { Metadata } from "next";
+import { PortfolioPage as PortfolioPageComponent } from "@/components/shared/PortfolioPage";
 import { getServerLanguage } from "@/lib/i18n/server";
 import { translations, type Language } from "@/lib/i18n/translations";
-import { getTranslatedPortfolioItems } from "@/lib/templates";
-import { PortfolioGrid } from "@/components/shared/PortfolioGrid";
 
 export const metadata: Metadata = {
-  title: "Portfolio Karya Kami | FOR Vows",
-  description: "Koleksi kurasi undangan pernikahan digital premium yang telah kami buat untuk pasangan-pasangan istimewa. FOR Vows.",
+  title: "Portfolio Karya Kami | FOR Vows — Undangan Digital, Foto, Video & Content Creator",
+  description:
+    "Portfolio kurasi undangan pernikahan digital, foto & video sinematik, wedding content creator dari FOR Vows. Setiap perayaan diabadikan dengan penuh perhatian.",
+  keywords: [
+    "portfolio undangan digital",
+    "portfolio foto pernikahan",
+    "portfolio video wedding",
+    "wedding content creator portfolio",
+    "karya for vows",
+    "contoh undangan digital",
+    "hasil foto video pernikahan",
+  ],
   openGraph: {
     title: "Portfolio Karya Kami | FOR Vows",
-    description: "Koleksi kurasi undangan pernikahan digital premium FOR Vows.",
+    description: "Undangan digital, foto, video, dan konten pernikahan — semua dari satu studio kreatif.",
     url: "https://for-vows.vercel.app/portfolio",
     siteName: "FOR Vows",
     locale: "id_ID",
@@ -20,20 +29,6 @@ export const metadata: Metadata = {
 export default async function PortfolioPage() {
   const lang = await getServerLanguage();
   const t = translations[lang as Language].portfolio;
-  const items = getTranslatedPortfolioItems(lang);
 
-  return (
-    <PortfolioGrid
-      overline={t.overline}
-      title={t.title}
-      subtitle={t.subtitle}
-      note={t.note}
-      ctaOverline={t.ctaOverline}
-      ctaTitle={t.ctaTitle}
-      ctaSubtitle={t.ctaSubtitle}
-      ctaMulaiLabel={t.ctaMulai}
-      ctaLihatLabel={t.ctaLihat}
-      items={items}
-    />
-  );
+  return <PortfolioPageComponent t={t} />;
 }

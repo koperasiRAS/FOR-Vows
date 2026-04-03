@@ -16,22 +16,41 @@ export const translations = {
       bukaMenu: "Buka menu",
       tutupMenu: "Tutup menu",
       lihatTemplate: "Lihat Template",
+      layanan: {
+        title: "Layanan",
+        digital: "Undangan Digital",
+        fotoVideo: "Foto & Video Wedding",
+        contentCreator: "Wedding Content Creator",
+        souvenir: "Desain Souvenir",
+        website: "Website Pernikahan",
+      },
+      hargaDropdown: {
+        title: "Harga",
+        digital: "Undangan Digital",
+        fotoVideo: "Foto & Video",
+        contentCreator: "Content Creator",
+        souvenir: "Souvenir",
+      },
     },
 
     // ── Footer ──────────────────────────────────────────────────────────────
     footer: {
       brandDesc:
-        "Merek undangan pernikahan digital premium dari Frame Of Rangga. Menciptakan momen sakral menjadi pengalaman digital yang tak terlupakan.",
+        "Wedding creative studio dari Frame Of Rangga. Undangan digital, foto & video, content creator, dan desain souvenir pernikahan premium.",
       tagline: "Crafting Your Sacred Moments",
       layanan: "Layanan",
       perusahaan: "Perusahaan",
+      portfolio: "Portfolio",
+      sosialMedia: "Sosial Media",
       lainnya: "Lainnya",
       template: "Template",
       harga: "Harga",
       fitur: "Fitur",
       pesanCustom: "Pesan Custom",
       tentangForvows: "Tentang FOR Vows",
-      portfolio: "Portfolio",
+      portfolioFoto: "Portfolio Foto",
+      portfolioUndangan: "Portfolio Undangan",
+      portfolioVideo: "Portfolio Video",
       caraPesan: "Cara Pesan",
       hubungiKami: "Hubungi Kami",
       instagram: "Instagram",
@@ -40,8 +59,12 @@ export const translations = {
       termsConditions: "Syarat & Ketentuan",
       privacyPolicy: "Kebijakan Privasi",
       copyright: "© {year} FOR Vows. Sub-brand dari Frame Of Rangga. Hak cipta dilindungi.",
-      premiumDigital:
-        "Premium Digital Wedding Invitations",
+      premiumDigital: "Premium Digital Wedding Invitations",
+      undanganDigital: "Undangan Digital",
+      fotoVideo: "Foto & Video Wedding",
+      contentCreator: "Wedding Content Creator",
+      souvenir: "Desain Souvenir",
+      website: "Website Pernikahan",
     },
 
     // ── Cart Drawer ─────────────────────────────────────────────────────────
@@ -256,9 +279,9 @@ export const translations = {
         youMayAlsoLike: "You May Also Like",
       },
       pricing: {
-        overline: "Undangan Digital",
-        title: "Harga Sederhana & Transparan",
-        subtitle: "Tiga paket yang didesain dengan cermat, masing-masing dibuat untuk memberikan undangan pernikahan Anda perhatian yang layak. Tanpa biaya tersembunyi.",
+        overline: "Semua Layanan",
+        title: "Harga Transparan, Kualitas Premium",
+        subtitle: "Dari undangan digital hingga foto & video — semua layanan pernikahan dari satu studio kreatif. Tanpa biaya tersembunyi.",
         enhancePackage: "Tingkatkan Paket Anda",
         optionalAddons: "Add-on Opsional",
         priceNote: "Semua harga dalam Rupiah Indonesia (IDR) dan sudah termasuk arahan kreatif, pengiriman digital, dan 1 sesi revisi. Revisi tambahan tersedia dengan biaya Rp 75.000 per sesi.",
@@ -303,6 +326,30 @@ export const translations = {
               "Website pernikahan bespoke dengan kustomisasi penuh dan dukungan prioritas.",
           },
         },
+        fotoVideo: {
+          overline: "Abadikan Momen",
+          title: "Foto & Video Wedding",
+          subtitle: "Tim fotografer dan videografer profesional mengabadikan setiap momen pernikahan Anda.",
+        },
+        contentCreator: {
+          overline: "Konten Instagram",
+          title: "Wedding Content Creator",
+          subtitle: "Capture dan bagikan momen secara realtime di Instagram. Sameday edit, siap upload hari yang sama.",
+          note: "Harga per session. Tersedia untuk akad, resepsi, siraman, dan event lainnya.",
+        },
+        souvenir: {
+          overline: "Kenangan untuk Tamu",
+          title: "Desain Souvenir Pernikahan",
+          subtitle: "Souvenir custom dengan desain premium. Nama dan tema pernikahan tercetak indah di setiap pcs.",
+          mulaiDari: "Mulai dari",
+          ctaOrder: "Pesan Sekarang",
+          ctaKonsultasi: "Konsultasi Gratis",
+        },
+        navUndangan: "Undangan Digital",
+        navFotoVideo: "Foto & Video",
+        navContent: "Content Creator",
+        navSouvenir: "Souvenir",
+        navWebsite: "Website",
       },
       howItWorks: {
         overline: "Perjalanan Anda",
@@ -579,7 +626,7 @@ export const translations = {
       },
       secretGarden: {
         name: "Secret Garden",
-        description: "Atmosfer intim tersINDERap dalam bentuk digital. Nuansa burgundi pekat, bunga lembut, dan pencahayaan amber hangat menciptakan undangan yang terasa seperti ajakan berbisik pada sesuatu yang sakral dan privat.",
+        description: "Atmosfer intim tersembunyi dalam bentuk digital. Nuansa burgundi pekat, bunga lembut, dan pencahayaan amber hangat menciptakan undangan yang terasa seperti ajakan berbisik pada sesuatu yang sakral dan privat.",
         shortDescription: "Intimasi cahaya lilin dengan kehangatan burgundi pekat.",
         suitableFor: ["Upacara intim", "Estate privat", "Perayaan malam"],
         features: [
@@ -743,14 +790,35 @@ export const translations = {
     // ── Portfolio Page ────────────────────────────────────────────────────────
     portfolio: {
       overline: "Karya Kami",
-      title: "Undangan Pilihan",
-      subtitle: "Seleksi kurasi karya kami, masing-masing perayaan unik yang diabadikan dalam bentuk digital.",
+      title: "Portfolio Lengkap",
+      subtitle: "Seleksi kurasi karya kami — undangan digital, foto & video, hingga konten pernikahan. Setiap perayaan diabadikan dengan penuh perhatian.",
       note: "Setiap undangan dibuat custom untuk pasangan masing-masing. Untuk melihat demo langsung template apapun, hubungi kami dan kami akan arrange walkthrough personal.",
       ctaOverline: "Buat Milik Anda",
       ctaTitle: "Undangan Anda Bisa Jadi Berikutnya",
       ctaSubtitle: "Bergabunglah dengan pasangan yang memilih FOR Vows untuk perayaan paling penting mereka.",
       ctaMulai: "Mulai Undangan Anda",
       ctaLihat: "Lihat Template",
+      // Tab labels
+      tabAll: "Semua",
+      tabUndangan: "Undangan Digital",
+      tabFoto: "Foto Pernikahan",
+      tabVideo: "Video Wedding",
+      tabContent: "Content Creator",
+      // Foto section
+      fotoTitle: "Foto Pernikahan",
+      fotoSubtitle: "Momen-momen yang di froze dalam frame, bercerita tanpa kata.",
+      fotoComingSoon: "Portfolio foto segera hadir",
+      fotoCta: "Tanya via WhatsApp",
+      // Video section
+      videoTitle: "Video Wedding",
+      videoSubtitle: "Kisah cinta yang bergerak, setiap detik penuh makna.",
+      videoComingSoon: "Portfolio video segera hadir",
+      videoCta: "Tanya via WhatsApp",
+      // Content section
+      contentTitle: "Wedding Content Creator",
+      contentSubtitle: "Konten pernikahan yang ready to shine di Instagram Anda.",
+      contentComingSoon: "Portfolio content creator segera hadir",
+      contentCta: "Tanya via WhatsApp",
     },
 
     // ── About Page ────────────────────────────────────────────────────────────
@@ -761,7 +829,7 @@ export const translations = {
       storyP2A: "FOR Vows didirikan sebagai divisi undangan pernikahan dari ",
       storyP2B: "Frame Of Rangga",
       storyP2C: ", studio kreatif yang dikenal dengan karya editorial dalam fotografi dan storytelling visual. Dari turunan itu, kami membawa standar, selera, dan dedikasi yang sama ke dunia undangan pernikahan digital.",
-      storyP3: "Nama kami membawa niat: FOR, untuk melayani, Vows, janji suci yang Anda berikan satu sama lain. Setiap undangan yang kami buat adalah testamentasi untuk dedikasi itu.",
+      storyP3: "Nama kami membawa niat: FOR, untuk melayani, Vows, janji suci yang Anda berikan satu sama lain. Setiap undangan yang kami buat adalah testamen untuk dedikasi itu.",
       lihatKarya: "Lihat karya utama Frame Of Rangga",
       subBrand: "Sub-brand dari",
       philosophyOverline: "Filosofi Kami",
@@ -772,7 +840,7 @@ export const translations = {
       v2Title: "Tamu Utama",
       v2Desc: "Setiap keputusan, dari tipografi hingga navigasi, dibuat dengan pengalaman tamu Anda sebagai prioritas. Undangan seharusnya terasa seperti pelukan.",
       v3Title: "Kemewahan Terkurung",
-      v3Desc: "Keeleganan sejati bukan tentang berlebih lebihan. Kami percaya pada detail yang refined, tipografi yang cermat, dan ornamentasi yang bermakna, tanpa clutter.",
+      v3Desc: "Keleganan sejati bukan tentang berlebih-lebihan. Kami percaya pada detail yang refined, tipografi yang cermat, dan ornamentasi yang bermakna, tanpa clutter.",
       v4Title: "Teknologi untuk Melayani",
       v4Desc: "Tool digital memungkinkan kami membuat sesuatu yang tidak bisa dilakukan kertas, interaktif, personal, hidup. Kami menggunakan teknologi untuk memperdalam, bukan mengalihkan.",
       ctaOverline: "Bekerja Sama Dengan Kami",
@@ -784,10 +852,10 @@ export const translations = {
 
     // ── Home Page ─────────────────────────────────────────────────────────────
     home: {
-      heroTagline: "A Premium Wedding Invitation Studio",
-      heroCta1: "View Templates",
-      heroCta2: "Start Your Invitation",
-      heroSubBrand: "A sub-brand of Frame Of Rangga",
+      heroTagline: "Wedding Creative Studio \u00b7 Frame Of Rangga",
+      heroCta1: "Lihat Templates",
+      heroCta2: "Mulai Pesan",
+      heroSubBrand: "Semua layanan pernikahan dari satu studio kreatif",
       scrollLabel: "Scroll",
       featuredOverline: "Curated Collection",
       featuredTitle: "Featured Templates",
@@ -931,22 +999,41 @@ export const translations = {
       bukaMenu: "Open menu",
       tutupMenu: "Close menu",
       lihatTemplate: "View Templates",
+      layanan: {
+        title: "Services",
+        digital: "Digital Invitation",
+        fotoVideo: "Photo & Video Wedding",
+        contentCreator: "Wedding Content Creator",
+        souvenir: "Souvenir Design",
+        website: "Wedding Website",
+      },
+      hargaDropdown: {
+        title: "Pricing",
+        digital: "Digital Invitation",
+        fotoVideo: "Photo & Video",
+        contentCreator: "Content Creator",
+        souvenir: "Souvenir",
+      },
     },
 
     // ── Footer ──────────────────────────────────────────────────────────────
     footer: {
       brandDesc:
-        "Premium digital wedding invitation brand from Frame Of Rangga. Turning sacred moments into unforgettable digital experiences.",
+        "A wedding creative studio from Frame Of Rangga. Digital invitations, photo & video, content creator, and premium wedding souvenir design.",
       tagline: "Crafting Your Sacred Moments",
       layanan: "Services",
       perusahaan: "Company",
+      portfolio: "Portfolio",
+      sosialMedia: "Social Media",
       lainnya: "Other",
       template: "Templates",
       harga: "Pricing",
       fitur: "Features",
       pesanCustom: "Custom Orders",
       tentangForvows: "About FOR Vows",
-      portfolio: "Portfolio",
+      portfolioFoto: "Photo Portfolio",
+      portfolioUndangan: "Invitation Portfolio",
+      portfolioVideo: "Video Portfolio",
       caraPesan: "How It Works",
       hubungiKami: "Contact Us",
       instagram: "Instagram",
@@ -956,6 +1043,11 @@ export const translations = {
       privacyPolicy: "Privacy Policy",
       copyright: "© {year} FOR Vows. A sub-brand of Frame Of Rangga. All rights reserved.",
       premiumDigital: "Premium Digital Wedding Invitations",
+      undanganDigital: "Digital Invitation",
+      fotoVideo: "Photo & Video Wedding",
+      contentCreator: "Wedding Content Creator",
+      souvenir: "Souvenir Design",
+      website: "Wedding Website",
     },
 
     // ── Cart Drawer ─────────────────────────────────────────────────────────
@@ -1168,9 +1260,9 @@ export const translations = {
         youMayAlsoLike: "You May Also Like",
       },
       pricing: {
-        overline: "Digital Invitation",
-        title: "Simple & Transparent Pricing",
-        subtitle: "Three carefully crafted packages, each designed to give your wedding invitation the attention it deserves. No hidden fees.",
+        overline: "All Services",
+        title: "Transparent Pricing, Premium Quality",
+        subtitle: "From digital invitations to photo & video — all wedding services from one creative studio. No hidden fees.",
         enhancePackage: "Enhance Your Package",
         optionalAddons: "Optional Add-ons",
         priceNote: "All prices in Indonesian Rupiah (IDR) and include creative direction, digital delivery, and 1 revision session. Additional revisions available at Rp 75,000 per session.",
@@ -1186,13 +1278,11 @@ export const translations = {
           subtitle: "Build guest anticipation with a memorable Save the Date, the first step toward your special day.",
           essentials: {
             name: "Essentials",
-            description:
-              "Elegant announcement for your Save the Date, share your special date in a memorable way.",
+            description: "Elegant announcement for your Save the Date, share your special date in a memorable way.",
           },
           premium: {
             name: "Premium",
-            description:
-              "Save the Date with premium visuals and extra features to build guest anticipation.",
+            description: "Save the Date with premium visuals and extra features to build guest anticipation.",
           },
         },
         website: {
@@ -1201,20 +1291,41 @@ export const translations = {
           subtitle: "All your wedding information in one place, guests just scan the QR or open the link to find everything.",
           basic: {
             name: "Basic",
-            description:
-              "Complete wedding website with all the important information for your guests.",
+            description: "Complete wedding website with all the important information for your guests.",
           },
           premium: {
             name: "Premium",
-            description:
-              "Complete wedding website with premium features for the best guest experience.",
+            description: "Complete wedding website with premium features for the best guest experience.",
           },
           exclusive: {
             name: "Exclusive",
-            description:
-              "Bespoke wedding website with full customization and priority support.",
+            description: "Bespoke wedding website with full customization and priority support.",
           },
         },
+        fotoVideo: {
+          overline: "Capture the Moments",
+          title: "Foto & Video Wedding",
+          subtitle: "Professional photographers and videographers capturing every moment of your wedding day.",
+        },
+        contentCreator: {
+          overline: "Instagram Content",
+          title: "Wedding Content Creator",
+          subtitle: "Capture and share your moments in real time on Instagram. Sameday edit, ready to upload the same day.",
+          note: "Price per session. Available for ceremony, reception, siraman, and other events.",
+        },
+        souvenir: {
+          overline: "Keepsakes for Guests",
+          title: "Wedding Souvenir Design",
+          subtitle: "Custom souvenirs with premium design. Your name and wedding theme beautifully printed on every piece.",
+          mulaiDari: "Starting from",
+          ctaOrder: "Order Now",
+          ctaKonsultasi: "Free Consultation",
+        },
+        navUndangan: "Digital Invitation",
+        navFotoVideo: "Photo & Video",
+        navContent: "Content Creator",
+        navSouvenir: "Souvenir",
+        navWebsite: "Website",
       },
       howItWorks: {
         overline: "Your Journey",
@@ -1587,12 +1698,12 @@ export const translations = {
         },
       },
       addons: {
-        domainCustom: { name: "Custom Domain", description: "Your own domain for your invitation page", price: "Rp 150,000 per year" },
-        rushDelivery: { name: "Rush Delivery", description: "48-hour delivery instead of standard 5-7 days", price: "Rp 100,000" },
-        premiumAnimation: { name: "Premium Animation", description: "Elegant entrance animations and transitions", price: "Rp 75,000" },
-        extraGallery: { name: "Extra Gallery", description: "50 additional photos beyond package limit", price: "Rp 50,000" },
-        qrGiftEnvelope: { name: "Digital Gift QR", description: "QR code linking to bank account or e-wallet", price: "Rp 25,000" },
-        customGuestLink: { name: "Custom Guest Link", description: "Unique short link for each guest or family", price: "Rp 50,000" },
+        domainCustom: { name: "Custom Domain", description: "Your own domain for your invitation page", price: "Rp150.000 per year" },
+        rushDelivery: { name: "Rush Delivery", description: "48-hour delivery instead of standard 5-7 days", price: "Rp100.000" },
+        premiumAnimation: { name: "Premium Animation", description: "Elegant entrance animations and transitions", price: "Rp75.000" },
+        extraGallery: { name: "Extra Gallery", description: "50 additional photos beyond package limit", price: "Rp50.000" },
+        qrGiftEnvelope: { name: "Digital Gift QR", description: "QR code linking to bank account or e-wallet", price: "Rp25.000" },
+        customGuestLink: { name: "Custom Guest Link", description: "Unique short link for each guest or family", price: "Rp50.000" },
       },
       features: {
         personalGuestName: { title: "Personal Guest Names", description: "Each invitation addresses your guest by name, creating an intimate and thoughtful experience from the very first touch." },
@@ -1648,14 +1759,31 @@ export const translations = {
     // ── Portfolio Page ────────────────────────────────────────────────────────
     portfolio: {
       overline: "Our Work",
-      title: "Selected Invitations",
-      subtitle: "A curated selection of our work, each celebration unique, immortalized in digital form.",
+      title: "Complete Portfolio",
+      subtitle: "A curated selection of our work — digital invitations, photo & video, and wedding content. Every celebration captured with care.",
       note: "Each invitation is custom-made for each couple. To see a live demo of any template, contact us and we'll arrange a personal walkthrough.",
       ctaOverline: "Make It Yours",
       ctaTitle: "Your Invitation Could Be Next",
       ctaSubtitle: "Join the couples who chose FOR Vows for their most important celebration.",
       ctaMulai: "Start Your Invitation",
       ctaLihat: "View Templates",
+      tabAll: "All",
+      tabUndangan: "Digital Invitation",
+      tabFoto: "Wedding Photo",
+      tabVideo: "Wedding Video",
+      tabContent: "Content Creator",
+      fotoTitle: "Wedding Photography",
+      fotoSubtitle: "Moments frozen in frames, speaking without words.",
+      fotoComingSoon: "Photo portfolio coming soon",
+      fotoCta: "Ask via WhatsApp",
+      videoTitle: "Wedding Video",
+      videoSubtitle: "A love story in motion, every second meaningful.",
+      videoComingSoon: "Video portfolio coming soon",
+      videoCta: "Ask via WhatsApp",
+      contentTitle: "Wedding Content Creator",
+      contentSubtitle: "Wedding content ready to shine on your Instagram.",
+      contentComingSoon: "Content creator portfolio coming soon",
+      contentCta: "Ask via WhatsApp",
     },
 
     // ── About Page ────────────────────────────────────────────────────────────
@@ -1689,10 +1817,10 @@ export const translations = {
 
     // ── Home Page ─────────────────────────────────────────────────────────────
     home: {
-      heroTagline: "A Premium Wedding Invitation Studio",
+      heroTagline: "Wedding Creative Studio \u00b7 Frame Of Rangga",
       heroCta1: "View Templates",
-      heroCta2: "Start Your Invitation",
-      heroSubBrand: "A sub-brand of Frame Of Rangga",
+      heroCta2: "Start Now",
+      heroSubBrand: "All wedding services from one creative studio",
       scrollLabel: "Scroll",
       featuredOverline: "Curated Collection",
       featuredTitle: "Featured Templates",

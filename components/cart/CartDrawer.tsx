@@ -16,11 +16,7 @@ const TYPE_KEYS = {
   website: "cart.website",
 } as const;
 
-const IDR_FORMATTER = new Intl.NumberFormat("id-ID", {
-  style: "currency",
-  currency: "IDR",
-  minimumFractionDigits: 0,
-});
+import { formatIDR } from "@/lib/utils";
 
 
 export function CartDrawer() {
@@ -42,7 +38,7 @@ export function CartDrawer() {
   }, [isOpen]);
 
   // Memoize formatted total — only recomputes when totalPrice changes
-  const formattedTotal = useMemo(() => IDR_FORMATTER.format(totalPrice), [totalPrice]);
+  const formattedTotal = useMemo(() => formatIDR(totalPrice), [totalPrice]);
 
   const getTypeLabel = (type: string) => {
     const key = TYPE_KEYS[type as keyof typeof TYPE_KEYS];

@@ -33,7 +33,7 @@ export const templates: WeddingTemplate[] = [
     ],
     featured: true,
     price: "Rp 599.000",
-    thumbnailUrl: "/images/templates/floral-luxury/thumbnail.jpg", // TODO: Add image at public/images/templates/floral-luxury/thumbnail.jpg
+    thumbnailUrl: null,
   },
   {
     id: "1",
@@ -60,7 +60,7 @@ export const templates: WeddingTemplate[] = [
     ],
     featured: true,
     price: "Rp 599.000",
-    thumbnailUrl: "/images/templates/eternal-gold/thumbnail.jpg", // TODO: Add image at public/images/templates/eternal-gold/thumbnail.jpg
+    thumbnailUrl: null,
   },
   {
     id: "2",
@@ -85,7 +85,7 @@ export const templates: WeddingTemplate[] = [
     ],
     featured: true,
     price: "Rp 599.000",
-    thumbnailUrl: "/images/templates/ivory-elegance/thumbnail.jpg", // TODO: Add image at public/images/templates/ivory-elegance/thumbnail.jpg
+    thumbnailUrl: null,
   },
   {
     id: "3",
@@ -110,7 +110,7 @@ export const templates: WeddingTemplate[] = [
     ],
     featured: true,
     price: "Rp 299.000",
-    thumbnailUrl: "/images/templates/nusantara-heritage/thumbnail.jpg", // TODO: Add image at public/images/templates/nusantara-heritage/thumbnail.jpg
+    thumbnailUrl: null,
   },
   {
     id: "4",
@@ -137,7 +137,7 @@ export const templates: WeddingTemplate[] = [
     ],
     featured: false,
     price: "Rp 599.000",
-    thumbnailUrl: "/images/templates/javanese-symphony/thumbnail.jpg", // TODO: Add image at public/images/templates/javanese-symphony/thumbnail.jpg
+    thumbnailUrl: null,
   },
   {
     id: "5",
@@ -161,7 +161,7 @@ export const templates: WeddingTemplate[] = [
     ],
     featured: false,
     price: "Rp 299.000",
-    thumbnailUrl: "/images/templates/garden-terrace/thumbnail.jpg", // TODO: Add image at public/images/templates/garden-terrace/thumbnail.jpg
+    thumbnailUrl: null,
   },
   {
     id: "6",
@@ -184,7 +184,7 @@ export const templates: WeddingTemplate[] = [
     ],
     featured: false,
     price: "Rp 299.000",
-    thumbnailUrl: "/images/templates/minimalist-romance/thumbnail.jpg", // TODO: Add image at public/images/templates/minimalist-romance/thumbnail.jpg
+    thumbnailUrl: null,
   },
   {
     id: "7",
@@ -210,7 +210,7 @@ export const templates: WeddingTemplate[] = [
     ],
     featured: true,
     price: "Rp 599.000",
-    thumbnailUrl: "/images/templates/secret-garden/thumbnail.jpg", // TODO: Add image at public/images/templates/secret-garden/thumbnail.jpg
+    thumbnailUrl: null,
   },
   {
     id: "8",
@@ -234,7 +234,7 @@ export const templates: WeddingTemplate[] = [
     ],
     featured: false,
     price: "Rp 299.000",
-    thumbnailUrl: "/images/templates/cozy-celebration/thumbnail.jpg", // TODO: Add image at public/images/templates/cozy-celebration/thumbnail.jpg
+    thumbnailUrl: null,
   },
 ];
 
@@ -733,6 +733,9 @@ export function getTranslatedPortfolioItems(lang: Language) {
   const t = translations[lang].templates.portfolio;
   return portfolioItems.map((item) => ({
     ...item,
-    description: (t as Record<string, string>)[item.slug] ?? item.description,
+    description:
+      typeof t[item.slug as keyof typeof t] === "string"
+        ? t[item.slug as keyof typeof t]
+        : item.description,
   }));
 }

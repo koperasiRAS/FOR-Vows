@@ -8,11 +8,12 @@ import { getServerLanguage } from "@/lib/i18n/server";
 import { translations } from "@/lib/i18n/translations";
 
 export const metadata = {
-  title: "Cara Pesan Undangan | FOR Vows",
-  description: "5 langkah mudah pesan undangan pernikahan digital di FOR Vows. Pilih template, kirim detail, review & setuju, lakukan pembayaran, dan publikasi.",
+  title: "Cara Pesan | FOR Vows — Undangan Digital, Foto & Video, Content Creator",
+  description:
+    "5 langkah mudah pesan layanan pernikahan di FOR Vows. Dari undangan digital, foto & video, content creator, hingga souvenir — pilih layanan, kirim detail, dan publikasi.",
   openGraph: {
-    title: "Cara Pesan Undangan | FOR Vows",
-    description: "5 langkah mudah pesan undangan pernikahan digital premium.",
+    title: "Cara Pesan | FOR Vows",
+    description: "5 langkah mudah pesan undangan digital, foto & video, content creator, dan souvenir pernikahan premium.",
     url: "https://for-vows.vercel.app/how-it-works",
     siteName: "FOR Vows",
     locale: "id_ID",

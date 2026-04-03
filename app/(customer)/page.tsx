@@ -1,8 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { CTASection } from "@/components/sections/CTASection";
 import { PricingSection } from "@/components/sections/PricingSection";
+import { WeddingPhotographySection } from "@/components/sections/WeddingPhotographySection";
+import { WeddingContentCreatorSection } from "@/components/sections/WeddingContentCreatorSection";
+import { WeddingSouvenirSection } from "@/components/sections/WeddingSouvenirSection";
 import { TemplateCard } from "@/components/templates/TemplateCard";
 import { TestimonialCard } from "@/components/shared/TestimonialCard";
 import { HowItWorksStep } from "@/components/shared/HowItWorksStep";
@@ -14,13 +18,23 @@ import {
 import { getServerLanguage } from "@/lib/i18n/server";
 import { translations } from "@/lib/i18n/translations";
 
-export const metadata = {
-  title: "Undangan Pernikahan Digital Premium | FOR Vows",
+export const metadata: Metadata = {
+  title: "FOR Vows — Wedding Creative Studio | Undangan Digital, Foto & Video, Content Creator",
   description:
-    "Undangan pernikahan digital premium dengan desain elegan dan sakral. FOR Vows membantu pasangan menciptakan momen yang tak terlupakan — dari Jakarta untuk Indonesia.",
+    "Wedding creative studio premium dari Frame Of Rangga. Undangan digital, foto & video sinematik, wedding content creator, dan desain souvenir untuk pernikahan impian Anda.",
+  keywords: [
+    "wedding creative studio",
+    "undangan pernikahan digital",
+    "foto video wedding jakarta",
+    "wedding content creator",
+    "desain souvenir pernikahan",
+    "undangan digital premium",
+    "for vows",
+    "frame of rangga",
+  ],
   openGraph: {
-    title: "Undangan Pernikahan Digital Premium | FOR Vows",
-    description: "Premium digital wedding invitations crafted with elegance.",
+    title: "FOR Vows — Wedding Creative Studio | Undangan Digital, Foto & Video, Content Creator",
+    description: "Wedding creative studio premium dari Frame Of Rangga. Undangan digital, foto & video, content creator, dan desain souvenir pernikahan.",
     url: "https://for-vows.vercel.app",
     siteName: "FOR Vows",
     locale: "id_ID",
@@ -53,40 +67,56 @@ export default async function HomePage() {
     <>
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a0a0a]">
+        {/* Background gradient — elegant dark + warm gold glows */}
         <div
           className="absolute inset-0"
           style={{
-            background:
-              "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,169,110,0.07) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 80% 80%, rgba(201,169,110,0.04) 0%, transparent 50%)",
+            background: [
+              "radial-gradient(ellipse 90% 70% at 50% -10%, rgba(201,169,110,0.08) 0%, transparent 60%)",
+              "radial-gradient(ellipse 50% 40% at 20% 90%, rgba(201,169,110,0.04) 0%, transparent 50%)",
+              "radial-gradient(ellipse 50% 40% at 80% 85%, rgba(201,169,110,0.03) 0%, transparent 50%)",
+            ].join(", "),
           }}
         />
-        <div className="absolute inset-0 overflow-hidden">
+
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-[#0a0a0a]/60 sm:bg-[#0a0a0a]/55 md:bg-[#0a0a0a]/50" />
+
+        {/* Decorative accent lines */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-linear-to-b from-transparent via-[#c9a96e]/20 to-transparent" />
           <div className="absolute top-0 left-1/4 w-px h-16 bg-linear-to-b from-transparent to-white/[0.03]" />
           <div className="absolute top-0 right-1/4 w-px h-16 bg-linear-to-b from-transparent to-white/[0.03]" />
         </div>
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center space-y-8 pt-20">
+          {/* Tagline badge */}
           <div className="space-y-2">
-            <p className="text-xs tracking-[0.4em] uppercase text-[#c9a96e] font-medium">
+            <p className="text-[10px] sm:text-xs tracking-[0.35em] sm:tracking-[0.4em] uppercase text-[#c9a96e] font-medium">
               {t.heroTagline}
             </p>
             <div className="w-16 h-px bg-[#c9a96e]/40 mx-auto" />
           </div>
 
-          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-medium leading-[1.05] tracking-tight">
-            <span className="block text-[#faf8f5]">Crafting Your</span>
+          {/* Heading */}
+          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-medium leading-[1.05] tracking-tight">
+            <span className="block text-[#faf8f5]">Wujudkan</span>
+            <span className="block text-[#faf8f5]">
+              Pernikahan
+            </span>
             <span className="block mt-2">
-              <span className="text-[#c9a96e] italic">Sacred</span>
-              <span className="block text-[#faf8f5]"> Moments</span>
+              <span className="text-[#c9a96e] italic">Impian</span>
+              <span className="block text-[#faf8f5]"> Anda</span>
             </span>
           </h1>
 
-          <p className="font-accent italic text-xl md:text-2xl text-[#8a8a8a] max-w-2xl mx-auto leading-relaxed">
-            Premium digital wedding invitations that transform your celebration
-            into a timeless, elegant experience. From FOR Vows.
+          {/* Subheading */}
+          <p className="font-accent italic text-lg sm:text-xl md:text-2xl text-[#9a9a9a] sm:text-[#8a8a8a] max-w-2xl mx-auto leading-relaxed px-2">
+            Dari undangan digital premium, foto & video sinematik, hingga
+            konten pernikahan untuk Instagram &mdash; semua dari satu studio kreatif.
           </p>
 
+          {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <Link
               href="/templates"
@@ -102,14 +132,24 @@ export default async function HomePage() {
             </Link>
           </div>
 
+          {/* Sub-brand */}
           <p className="text-xs text-[#4a4a4a] tracking-wider pt-4">
             {t.heroSubBrand}
           </p>
         </div>
       </section>
 
-      {/* Pricing - Moved below Hero */}
+      {/* Pricing - Undangan Digital */}
       <PricingSection />
+
+      {/* Foto & Video Wedding */}
+      <WeddingPhotographySection />
+
+      {/* Wedding Content Creator */}
+      <WeddingContentCreatorSection />
+
+      {/* Desain Souvenir */}
+      <WeddingSouvenirSection />
 
       {/* Featured Templates */}
       <section className="bg-[#0f0f0f] py-20 lg:py-28">

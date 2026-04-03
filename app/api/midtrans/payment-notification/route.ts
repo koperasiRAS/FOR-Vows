@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
       fraud_status,
     } = notification;
 
-    console.log("[FORVows Payment Webhook]", {
+    if (process.env.NODE_ENV !== "production") console.log("[FORVows Payment Webhook]", {
       order_id,
       transaction_status,
       payment_type,
@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
       existingOrder.status === "completed" ||
       existingOrder.status === "cancelled"
     ) {
-      console.log(`[FORVows Sec] Order ${order_id} already in terminal state (${existingOrder.status}) — explicit early return`);
+      if (process.env.NODE_ENV !== "production") console.log(`[FORVows Sec] Order ${order_id} already in terminal state (${existingOrder.status}) — explicit early return`);
       return NextResponse.json({ success: true, message: "Already processed" });
     }
 
@@ -129,26 +129,31 @@ export async function POST(request: NextRequest) {
     }
 
     // [ATOMIC IDEMPOTENCY] Only update if still in a transitional state.
-    // If status is already "paid" (double-fire race), the conditional update updates 0 rows.
+    // Skip if: already settled (payment_status=paid) OR in terminal status OR null payment_status
     const { error: updateError, count } = await supabase
       .from("orders")
       .update(updatePayload)
       .eq("order_code", order_id)
-      .neq("payment_status", "paid"); // skip if already settled
+      .not("payment_status", "eq", "paid")
+      .not("payment_status", "is", null)
+      .not("status", "eq", "completed")
+      .not("status", "eq", "cancelled");
 
     if (updateError) {
       console.error("[FORVows Payment] DB update failed:", updateError);
       return NextResponse.json({ success: false, error: "DB update failed" }, { status: 500 });
     }
 
-    if (count === 0) {
-      // No rows updated — already settled or concurrent race
-      console.log(`[FORVows Payment] Order ${order_id} no rows updated (already settled)`);
-    } else {
-      console.log(
-        `[FORVows Payment] Order ${order_id} updated: ` +
-        `payment_status=${paymentStatus}${settled ? ", status=paid" : ""}`
-      );
+    if (process.env.NODE_ENV !== "production") {
+      if (count === 0) {
+        // No rows updated — already settled or concurrent race
+        console.log(`[FORVows Payment] Order ${order_id} no rows updated (already settled)`);
+      } else {
+        console.log(
+          `[FORVows Payment] Order ${order_id} updated: ` +
+          `payment_status=${paymentStatus}${settled ? ", status=paid" : ""}`
+        );
+      }
     }
     return NextResponse.json({ success: true, message: "Notification processed" });
 

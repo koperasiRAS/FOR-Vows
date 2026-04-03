@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { getPartnerById, PARTNER_COOKIE } from "@/lib/partners";
 
-// Next.js App Router middleware — protects /admin/* routes via Supabase SSR auth
+// Next.js App Router proxy — protects /admin/* routes via Supabase SSR auth
 
 // ── Partner Proxy ────────────────────────────────────────────────────────────
 
@@ -158,9 +158,9 @@ async function handleCustomerAuth(request: NextRequest) {
   return response;
 }
 
-// ── Main Middleware ────────────────────────────────────────────────────────────
+// ── Main Proxy ────────────────────────────────────────────────────────────────
 
-export async function middleware(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
   const host = request.headers.get("host") ?? "";
 

@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import { OrderFormClient } from "./OrderFormClient";
 
 export const metadata: Metadata = {
-  title: "Pesan Undangan | FOR Vows",
+  title: "Form Pemesanan | FOR Vows",
   description:
-    "Pesan undangan pernikahan digital premium di FOR Vows. Pilih paket, isi data couple, dan selesaikan pembayaran dengan Midtrans.",
+    "Pesan layanan wedding dari FOR Vows — Undangan Digital, Foto & Video, Content Creator, atau Souvenir. Isi form dan tim kami akan menghubungi kamu.",
   openGraph: {
-    title: "Pesan Undangan | FOR Vows",
-    description: "Pesan undangan pernikahan digital premium dengan mudah.",
+    title: "Form Pemesanan | FOR Vows",
+    description: "Pesan layanan wedding dari FOR Vows dengan mudah.",
     url: "https://for-vows.vercel.app/order",
     siteName: "FOR Vows",
     locale: "id_ID",

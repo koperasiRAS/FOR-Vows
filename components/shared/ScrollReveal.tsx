@@ -6,16 +6,13 @@ import { useEffect, useRef, ReactNode } from "react";
 // Instead of creating one IntersectionObserver per ScrollReveal instance,
 // we share a single global observer. This significantly reduces memory
 // overhead on pages with many animated elements (e.g., template grid).
-interface RevealEntry {
-  el: HTMLElement;
-  delay: number;
-}
-
 const globalRevealer = (() => {
   if (typeof window === "undefined") return null;
 
   let observer: IntersectionObserver | null = null;
-  const pending = new Map<HTMLElement, RevealEntry>();
+  // WeakMap: element is automatically dropped when removed from DOM (GC)
+  // delay is stored separately so it survives even if element ref is lost
+  const pendingDelays = new WeakMap<HTMLElement, number>();
 
   const flush = (el: HTMLElement, delay: number) => {
     setTimeout(() => {
@@ -28,10 +25,10 @@ const globalRevealer = (() => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const data = pending.get(entry.target as HTMLElement);
-            if (data) {
-              flush(entry.target as HTMLElement, data.delay);
-              pending.delete(entry.target as HTMLElement);
+            const delay = pendingDelays.get(entry.target as HTMLElement);
+            if (delay !== undefined) {
+              flush(entry.target as HTMLElement, delay);
+              pendingDelays.delete(entry.target as HTMLElement);
             }
             observer!.unobserve(entry.target);
           }
@@ -45,7 +42,7 @@ const globalRevealer = (() => {
     if (!observer) {
       initObserver();
     }
-    pending.set(el, { el, delay });
+    pendingDelays.set(el, delay);
     observer!.observe(el);
   };
 

@@ -15,9 +15,6 @@ interface PortfolioCardProps {
 }
 
 export function PortfolioCard({ item }: PortfolioCardProps) {
-  const thumbnailSrc =
-    item.thumbnailUrl ?? `/images/templates/${item.slug}/thumbnail.jpg`;
-
   return (
     <Link
       href={`/templates/${item.slug}`}
@@ -27,12 +24,12 @@ export function PortfolioCard({ item }: PortfolioCardProps) {
       <div
         className="absolute inset-0 transition-transform duration-700 group-hover:scale-105"
         style={{
-          background: thumbnailSrc ? undefined : `linear-gradient(160deg, ${item.gradientFrom} 0%, ${item.gradientTo} 100%)`,
+          background: item.thumbnailUrl ? undefined : `linear-gradient(160deg, ${item.gradientFrom} 0%, ${item.gradientTo} 100%)`,
         }}
       >
-        {thumbnailSrc ? (
+        {item.thumbnailUrl ? (
           <Image
-            src={thumbnailSrc}
+            src={item.thumbnailUrl}
             alt={item.coupleName ?? item.title}
             fill
             className="object-cover"

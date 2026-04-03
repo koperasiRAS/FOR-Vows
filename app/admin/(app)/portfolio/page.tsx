@@ -42,10 +42,6 @@ export default function AdminPortfolioPage() {
  });
  };
 
- const toggleVisible = (id: string) => {
- // TODO: toggle in Supabase
- };
-
  return (
  <div className="min-h-screen bg-surface">
  <main className="min-h-screen">

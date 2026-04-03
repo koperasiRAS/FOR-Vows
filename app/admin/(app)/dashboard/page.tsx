@@ -5,6 +5,7 @@ import { useRouter } from"next/navigation";
 import Link from"next/link";
 import { ShoppingBag, TrendingUp, Clock, CheckCircle, Eye } from"lucide-react";
 import { createClient } from"@/lib/supabase/client";
+import { formatIDR } from"@/lib/utils";
 
 interface OrderRow {
  id: string;
@@ -44,9 +45,6 @@ export default function AdminDashboardPage() {
  const processingCount = orders.filter(o => o.status ==="processing").length;
  const completedCount = orders.filter(o => o.status ==="completed").length;
  const recentOrders = [...orders].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, 5);
-
- const formatIDR = (n: number) =>
- new Intl.NumberFormat("id-ID", { style:"currency", currency:"IDR", maximumFractionDigits: 0 }).format(n);
 
  const formatDate = (d: string) =>
  new Intl.DateTimeFormat("id-ID", { day:"2-digit", month:"short"}).format(new Date(d));

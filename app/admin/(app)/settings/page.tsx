@@ -6,6 +6,7 @@ import { Save, Phone, Eye, EyeOff, RefreshCw, KeyRound, CheckCircle2, AlertCircl
 import { toast } from"sonner";
 import { createClient } from"@/lib/supabase/client";
 import { PACKAGES } from"@/lib/packages";
+import { formatIDR } from"@/lib/utils";
 
 export default function AdminSettingsPage() {
  const router = useRouter();
@@ -146,9 +147,6 @@ export default function AdminSettingsPage() {
  setChangingPassword(false);
  };
 
- const formatIDR = (v: string) =>
- new Intl.NumberFormat("id-ID", { style:"currency", currency:"IDR", maximumFractionDigits: 0 }).format(Number(v));
-
  if (!loaded) {
  return (
  <div className="min-h-screen bg-surface flex items-center justify-center">
@@ -238,7 +236,7 @@ export default function AdminSettingsPage() {
  onChange={e => setPrices(prev => ({ ...prev, [pkg.key]: e.target.value }))}
  className="w-full px-4 py-3 bg-surface-container-low rounded-xl text-sm border-none focus:ring-1 focus:ring-stitch-primary-container"
  />
- <p className="text-xs text-stone-400 mt-1">{formatIDR(prices[pkg.key])}</p>
+ <p className="text-xs text-stone-400 mt-1">{formatIDR(Number(prices[pkg.key]))}</p>
  </div>
  ))}
  </div>

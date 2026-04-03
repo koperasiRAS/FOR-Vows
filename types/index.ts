@@ -20,7 +20,7 @@ export interface WeddingTemplate {
   featured: boolean;
   price: string;
   /** Path to thumbnail image (e.g. /images/templates/floral-luxury/thumbnail.jpg). Falls back to gradient placeholder. */
-  thumbnailUrl?: string;
+  thumbnailUrl?: string | null;
 }
 
 export interface PricingTier {
@@ -68,8 +68,8 @@ export interface PortfolioItem {
   gradientFrom: string;
   gradientTo: string;
   description: string;
-  /** Path to thumbnail image. Falls back to /images/templates/[slug]/thumbnail.jpg */
-  thumbnailUrl?: string;
+  /** Path to thumbnail image. Falls back to gradient placeholder. */
+  thumbnailUrl?: string | null;
   coupleName?: string;
   location?: string;
   date?: string;
@@ -105,6 +105,9 @@ export interface InquiryRow {
 export interface OrderRow {
   id: string;
   order_code: string;
+  // Service Category (multi-category support)
+  service_category?: string | null;
+  service_details?: Record<string, unknown> | null;
   // Template & Package
   template_slug?: string | null;
   /** Alias for template_slug — used by admin pages */

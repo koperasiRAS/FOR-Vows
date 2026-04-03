@@ -5,12 +5,13 @@ import { CTASection } from "@/components/sections/CTASection";
 import { getServerLanguage } from "@/lib/i18n/server";
 import { translations } from "@/lib/i18n/translations";
 
-export const metadata = {
-  title: "Tentang FOR Vows | FOR Vows",
-  description: "FOR Vows adalah studio undangan pernikahan digital premium dari Jakarta. Membantu pasangan menciptakan undangan yang sakral, elegan, dan tak terlupakan.",
+export const metadata: Metadata = {
+  title: "Tentang FOR Vows — Wedding Creative Studio",
+  description:
+    "FOR Vows adalah wedding creative studio dari Frame Of Rangga. Kami menyediakan undangan digital premium, foto & video sinematik, wedding content creator, dan desain souvenir untuk pernikahan impian Anda.",
   openGraph: {
-    title: "Tentang FOR Vows | FOR Vows",
-    description: "Studio undangan pernikahan digital premium dari Jakarta. Crafting Your Sacred Moments.",
+    title: "Tentang FOR Vows — Wedding Creative Studio",
+    description: "Wedding creative studio dari Frame Of Rangga. Undangan digital, foto & video, content creator, dan souvenir premium.",
     url: "https://for-vows.vercel.app/about",
     siteName: "FOR Vows",
     locale: "id_ID",

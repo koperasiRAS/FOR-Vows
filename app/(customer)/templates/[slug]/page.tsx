@@ -1,7 +1,23 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getTemplateBySlug, getRelatedTemplates, getTranslatedTemplate } from "@/lib/templates";
+import { getTemplateBySlug, getRelatedTemplates } from "@/lib/templates";
 import { TemplateDetailClient } from "@/components/templates/TemplateDetailClient";
+
+const STATIC_SLUGS = [
+  "floral-luxury",
+  "eternal-gold",
+  "ivory-elegance",
+  "nusantara-heritage",
+  "javanese-symphony",
+  "garden-terrace",
+  "minimalist-romance",
+  "secret-garden",
+  "cozy-celebration",
+];
+
+export async function generateStaticParams() {
+  return STATIC_SLUGS.map((slug) => ({ slug }));
+}
 
 interface Props {
   params: Promise<{ slug: string }>;

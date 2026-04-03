@@ -3,19 +3,30 @@
 import Link from "next/link";
 import { useLanguage } from "@/lib/i18n/context";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
-import { memo } from "react";
-import { PACKAGES } from "@/lib/packages";
+import { DIGITAL_INVITATION, formatPriceRange } from "@/lib/constants/services";
 
-const OrderButton = memo(function OrderButton({ tier }: { tier: (typeof PACKAGES)[number] }) {
+const tiers = DIGITAL_INVITATION.tiers;
+
+function CheckItem({ text }: { text: string }) {
+  return (
+    <div className="flex items-start gap-2">
+      <span className="text-[#c9a96e] text-xs mt-0.5 shrink-0">✓</span>
+      <span className="text-xs text-[#8a8a8a] leading-relaxed">{text}</span>
+    </div>
+  );
+}
+
+function CTAButton({ tierId, label }: { tierId: string; label: string }) {
+  const href = tierId === "custom" ? "/contact" : `/order?package=${tierId}`;
   return (
     <Link
-      href={`/order?package=${tier.key}`}
+      href={href}
       className="block w-full py-2.5 text-[10px] tracking-[0.15em] uppercase font-medium bg-[#c9a96e] text-[#0a0a0a] hover:bg-[#d4b87a] transition-colors text-center"
     >
-      Pesan
+      {label}
     </Link>
   );
-});
+}
 
 export function PricingSection() {
   const { t, lang } = useLanguage();
@@ -38,99 +49,92 @@ export function PricingSection() {
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
-          {PACKAGES.map((tier, i) => (
-            <ScrollReveal key={tier.key} delay={i * 100}>
-              <div
-                className={`relative flex flex-col border transition-all duration-300 ${
-                  tier.featured
-                    ? "border-[#c9a96e]/40 bg-gradient-to-b " + tier.gradient + " md:-mt-4 md:mb-[-16px] md:pt-6 md:pb-6"
-                    : "border-white/[0.07] bg-[#0a0a0a]"
-                }`}
-                style={{
-                  boxShadow: tier.featured
-                    ? "0 0 40px rgba(201,169,110,0.08), 0 0 0 1px rgba(201,169,110,0.15)"
-                    : undefined,
-                }}
-              >
-                {/* Featured label */}
-                {tier.featured && (
-                  <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#c9a96e]/60 to-transparent" />
-                )}
+        {/* 4-card grid: 1 col mobile / 2 col tablet / 4 col desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-5 items-stretch">
+          {tiers.map((tier, i) => {
+            const isPremium = tier.id === "premium";
+            const isCustom = tier.id === "custom";
 
-                <div className="p-6 flex flex-col flex-1">
-                  {/* Header */}
-                  <div className="mb-5">
-                    {tier.featured && (
+            return (
+              <ScrollReveal key={tier.id} delay={i * 100}>
+                <div
+                  className={`
+                    relative flex flex-col border transition-all duration-300 h-full
+                    ${isPremium
+                      ? "border-[#c9a96e]/40 bg-gradient-to-b from-[#1a1408] to-[#0a0a0a] md:-mt-4 md:mb-[-16px] md:pt-6 md:pb-6"
+                      : isCustom
+                      ? "border-[#c9a96e]/20 bg-[#0f0f0f]"
+                      : "border-white/[0.07] bg-[#0a0a0a]"
+                    }
+                  `}
+                  style={
+                    isPremium
+                      ? { boxShadow: "0 0 40px rgba(201,169,110,0.08), 0 0 0 1px rgba(201,169,110,0.15)" }
+                      : undefined
+                  }
+                >
+                  {/* Top gold line for featured */}
+                  {isPremium && (
+                    <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#c9a96e]/60 to-transparent" />
+                  )}
+
+                  <div className="p-5 lg:p-6 flex flex-col flex-1">
+
+                    {/* Badge */}
+                    {tier.badge && (
                       <p className="text-[9px] tracking-[0.25em] uppercase text-[#c9a96e] mb-3">
-                        Most Popular
+                        {tier.badge}
                       </p>
                     )}
+
+                    {/* Label */}
                     <h3 className="font-serif text-xl text-[#faf8f5] mb-1">
-                      {lang === "id" ? tier.key.charAt(0).toUpperCase() + tier.key.slice(1) : tier.key.charAt(0).toUpperCase() + tier.key.slice(1)}
+                      {lang === "id"
+                        ? tier.label.charAt(0).toUpperCase() + tier.label.slice(1)
+                        : tier.label.charAt(0).toUpperCase() + tier.label.slice(1)
+                      }
                     </h3>
-                    <p className="text-[10px] text-[#6a6a6a] leading-relaxed">
-                      {lang === "id" ? tier.priceId : tier.priceEn}
-                    </p>
-                  </div>
 
-                  {/* Divider */}
-                  <div className="h-px bg-white/[0.06] mb-5" />
-
-                  {/* Description */}
-                  <div className="flex-1 mb-6">
-                    <p className="text-xs text-[#8a8a8a] leading-relaxed">
-                      {home.home?.[`pricing${tier.key.charAt(0).toUpperCase() + tier.key.slice(1)}Desc` as keyof typeof home.home]}
+                    {/* Price */}
+                    <p className="text-[10px] text-[#6a6a6a] leading-relaxed mb-5">
+                      {tier.price.startLabel
+                        ? `${tier.price.startLabel} ${formatPriceRange(tier.price)}`
+                        : formatPriceRange(tier.price)
+                      }
                     </p>
-                    {tier.key === "exclusive" && (
-                      <p className="text-[10px] text-[#6a6a6a] mt-2 italic">
-                        {home.home?.pricingCustomNote}
+
+                    {/* Divider */}
+                    <div className="h-px bg-white/[0.06] mb-5" />
+
+                    {/* Tagline */}
+                    {tier.tagline && (
+                      <p className="text-xs text-[#8a8a8a] leading-relaxed mb-5 italic">
+                        {tier.tagline}
                       </p>
                     )}
-                  </div>
 
-                  {/* Features */}
-                  <div className="space-y-2 mb-6">
-                    {(tier.key === "basic"
-                      ? [
-                          "1 Template Pilihan",
-                          "Desain Premium",
-                          "Revisi Minor",
-                          "Unlimited Guests",
-                          "Support via WhatsApp",
-                        ]
-                      : tier.key === "premium"
-                      ? [
-                          "3+ Template Pilihan",
-                          "Semua fitur Basic",
-                          "RSVP Online",
-                          "Kustomisasi Tambahan",
-                          "Revisi Major",
-                          "Priority Support",
-                        ]
-                      : [
-                          "Unlimited Template",
-                          "Semua fitur Premium",
-                          "Fully Custom Design",
-                          "Konsultasi Pribadi",
-                          "Revisi Unlimited",
-                          "Wedding Branding Kit",
-                          "Priority Production",
-                        ]
-                    ).map((feat) => (
-                      <div key={feat} className="flex items-start gap-2">
-                        <span className="text-[#c9a96e] text-xs mt-0.5 shrink-0">✓</span>
-                        <span className="text-xs text-[#8a8a8a]">{feat}</span>
-                      </div>
-                    ))}
-                  </div>
+                    {/* Features */}
+                    <div className="flex-1 mb-6 space-y-2">
+                      {tier.features
+                        .filter((f) => f.included)
+                        .map((feat) => (
+                          <CheckItem key={feat.text} text={feat.text} />
+                        ))}
+                    </div>
 
-                  {/* CTA */}
-                  <OrderButton tier={tier} />
+                    {/* CTA */}
+                    <CTAButton
+                      tierId={tier.id}
+                      label={isCustom
+                        ? lang === "id" ? "Konsultasi Gratis" : "Free Consultation"
+                        : lang === "id" ? "Pesan" : "Order"
+                      }
+                    />
+                  </div>
                 </div>
-              </div>
-            </ScrollReveal>
-          ))}
+              </ScrollReveal>
+            );
+          })}
         </div>
 
         {/* Bottom note */}

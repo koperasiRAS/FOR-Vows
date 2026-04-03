@@ -66,7 +66,6 @@ export function TemplateDetailClient({ slug, template, related }: Props) {
               </span>
             )}
           </div>
-          {/* TODO: Add hero image at public/images/templates/[slug]/hero.jpg */}
         </div>
       </div>
 

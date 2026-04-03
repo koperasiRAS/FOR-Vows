@@ -22,24 +22,24 @@ export function ContactForm() {
     switch (selectedService) {
       case "save_the_date":
         return [
-          { value: "essentials", label: "Essentials Rp 99.000" },
-          { value: "premium", label: "Premium Rp 199.000" },
-          { value: "exclusive", label: "Exclusive Rp 349.000" },
+          { value: "essentials", label: "Essentials Rp99.000" },
+          { value: "premium", label: "Premium Rp149.000" },
+          { value: "exclusive", label: "Exclusive Rp249.000" },
         ];
       case "wedding_website":
         return [
-          { value: "basic", label: "Basic Rp 499.000" },
-          { value: "premium", label: "Premium Rp 999.000" },
-          { value: "exclusive", label: "Exclusive Rp 1.999.000" },
+          { value: "basic", label: "Basic Rp499.000" },
+          { value: "premium", label: "Premium Rp999.000" },
+          { value: "exclusive", label: "Exclusive Rp1.999.000" },
         ];
       case "custom_design":
       case "other":
       case "digital_invitation":
       default:
         return [
-          { value: "basic", label: "Basic Rp 299.000" },
-          { value: "premium", label: "Premium Rp 599.000" },
-          { value: "exclusive", label: "Exclusive Rp 999.000" },
+          { value: "basic", label: "Starter Rp299.000" },
+          { value: "premium", label: "Premium Rp599.000" },
+          { value: "exclusive", label: "Custom Rp999.000" },
         ];
     }
   };
@@ -50,11 +50,20 @@ export function ContactForm() {
     setErrorMsg("");
 
     const formData = new FormData(e.currentTarget);
+    const phone = formData.get("phone") as string;
+
+    // Client-side phone validation
+    if (phone && phone.length > 0 && !/^[+\d\s\-()]{8,20}$/.test(phone)) {
+      setStatus("error");
+      setErrorMsg(t("contact.teleponTidakValid") ?? "Nomor WhatsApp tidak valid.");
+      return;
+    }
+
     const data: ContactFormData = {
       fullName: formData.get("fullName") as string,
       partnerName: formData.get("partnerName") as string,
       email: formData.get("email") as string,
-      phone: formData.get("phone") as string,
+      phone,
       weddingDate: formData.get("weddingDate") as string,
       serviceType: formData.get("serviceType") as string,
       packageName: formData.get("packageName") as string,
@@ -62,22 +71,28 @@ export function ContactForm() {
       message: formData.get("message") as string,
     };
 
-    const result = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    }).then((r) => r.json());
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
 
-    if (result.success) {
-      setStatus("success");
-      setWaLink(result.waLink || "");
-      toast.success(t("contact.terimaKasih"));
-      e.currentTarget.reset();
-    } else {
-      const msg = result.error || t("contact.terjadiError");
+      if (result.success) {
+        setStatus("success");
+        setWaLink(result.waLink || "");
+        toast.success(t("contact.terimaKasih"));
+        e.currentTarget.reset();
+      } else {
+        const msg = result.error || t("contact.terjadiError");
+        setStatus("error");
+        setErrorMsg(msg);
+        toast.error(msg);
+      }
+    } catch {
       setStatus("error");
-      setErrorMsg(msg);
-      toast.error(msg);
+      setErrorMsg(t("contact.terjadiError") ?? "Terjadi kesalahan. Silakan coba lagi.");
     }
   };
 

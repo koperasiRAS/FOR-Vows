@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Eye, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { useLanguage } from "@/lib/i18n/context";
 import type { WeddingTemplate } from "@/types";
 
@@ -25,16 +25,16 @@ export function TemplateCard({ template, showActions = true }: TemplateCardProps
 
   return (
     <div className="group bg-[#141414] border border-white/[0.06] hover:border-[#c9a96e]/30 transition-all duration-500 flex flex-col overflow-hidden h-full">
-      {/* Preview */}
+      {/* Cover — links to order, not demo */}
       <Link
-        href={`/templates/${template.slug}`}
+        href={`/order?package=premium`}
         className="block relative aspect-[4/3] overflow-hidden shrink-0"
       >
         {/* Image when available, gradient fallback */}
         {template.thumbnailUrl ? (
           <Image
             src={template.thumbnailUrl}
-            alt={`Preview ${template.name}`}
+            alt={`${template.name} preview`}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -80,13 +80,6 @@ export function TemplateCard({ template, showActions = true }: TemplateCardProps
             </span>
           </div>
         )}
-
-        {/* Hover overlay — Preview CTA */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
-          <span className="text-[11px] tracking-[0.15em] uppercase text-white border border-white/40 px-4 py-2 backdrop-blur-sm translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-            {t("ui.preview")}
-          </span>
-        </div>
       </Link>
 
       {/* Info */}
@@ -101,17 +94,10 @@ export function TemplateCard({ template, showActions = true }: TemplateCardProps
         </div>
 
         {showActions && (
-          <div className="flex gap-2 pt-2">
+          <div className="pt-2">
             <Link
-              href={`/templates/${template.slug}`}
-              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[10px] tracking-[0.12em] uppercase border border-white/15 text-[#8a8a8a] hover:border-[#c9a96e]/40 hover:text-[#c9a96e] transition-all duration-300"
-            >
-              <Eye size={12} />
-              {t("ui.preview")}
-            </Link>
-            <Link
-              href={`/order?template=${template.slug}`}
-              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[10px] tracking-[0.12em] uppercase bg-[#c9a96e] text-[#0a0a0a] font-medium hover:bg-[#d4b87a] transition-all duration-300"
+              href={`/order?package=premium`}
+              className="flex items-center justify-center gap-1.5 py-2.5 text-[10px] tracking-[0.12em] uppercase bg-[#c9a96e] text-[#0a0a0a] font-medium hover:bg-[#d4b87a] transition-all duration-300 w-full"
             >
               <ShoppingCart size={12} />
               {t("ui.order")}

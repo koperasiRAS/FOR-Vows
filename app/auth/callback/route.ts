@@ -24,8 +24,12 @@ async function claimGuestOrders(userId: string, orderCodes: string[]) {
     supabase.from('orders').update({ user_id: userId }).eq('id', order.id)
   );
 
-  await Promise.all(updates);
-  console.log(
+  const results = await Promise.allSettled(updates);
+  const failures = results.filter((r) => r.status === "rejected" || r.value?.error);
+  if (failures.length > 0 && process.env.NODE_ENV !== "production") {
+    console.warn(`[FORVows Auth] ${failures.length}/${results.length} guest order updates failed`);
+  }
+  if (process.env.NODE_ENV !== "production") console.log(
     `[FORVows Auth] Claimed ${unlinkedOrders.length} guest orders for user ${userId}:`,
     unlinkedOrders.map((o) => o.order_code)
   );

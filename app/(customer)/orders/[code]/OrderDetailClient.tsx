@@ -111,12 +111,17 @@ export function OrderDetailClient() {
 
  useEffect(() => {
  const supabase = createClient();
- supabase.auth.getUser().then(({ data }) => {
+ supabase.auth.getUser()
+ .then(({ data }) => {
  if (!data.user) {
  router.replace(`/auth/login?redirectTo=/orders/${encodeURIComponent(orderCode)}`);
  } else {
  setAuthChecked(true);
  }
+ })
+ .catch(() => {
+ // Auth check failed — treat as not logged in
+ router.replace(`/auth/login?redirectTo=/orders/${encodeURIComponent(orderCode)}`);
  });
  }, [orderCode, router]);
 
@@ -160,7 +165,7 @@ export function OrderDetailClient() {
  const waSupportHref = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
  `Halo FOR Vows! Saya perlu bantuan terkait pesanan ${order.order_code}. Terima kasih!`
  )}`;
- const waCustomerHref = `https://wa.me/${order.phone.replaceAll(/\D/g,"")}`;
+ const waCustomerHref = order.phone ? `https://wa.me/${order.phone.replaceAll(/\D/g,"")}` : "";
 
  const statusBadgeStyle = () => {
  if (order.status ==="completed") return"bg-stitch-primary-container/15 text-stitch-primary border border-stitch-primary-container/20";

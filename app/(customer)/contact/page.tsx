@@ -1,17 +1,19 @@
 import type { Metadata } from "next";
-import * as LucideIcons from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
+import { InstagramIcon } from "@/components/icons/InstagramIcon";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { WA_NUMBER } from "@/lib/config";
 
-export const metadata = {
-  title: "Hubungi Kami | FOR Vows",
-  description: "Hubungi FOR Vows untuk konsultasi undangan pernikahan digital premium. WhatsApp, email, atau isi formulir — tim kami siap membantu.",
+export const metadata: Metadata = {
+  title: "Hubungi Kami | FOR Vows — Undangan Digital, Foto & Video, Content Creator",
+  description:
+    "Hubungi FOR Vows untuk konsultasi undangan digital, foto & video, content creator, atau souvenir pernikahan. WhatsApp, email, atau formulir — tim kami siap membantu.",
   openGraph: {
     title: "Hubungi Kami | FOR Vows",
-    description: "Konsultasi gratis undangan pernikahan digital premium via WhatsApp.",
+    description: "Konsultasi gratis undangan digital, foto & video, content creator, dan souvenir pernikahan premium via WhatsApp.",
     url: "https://for-vows.vercel.app/contact",
     siteName: "FOR Vows",
     locale: "id_ID",
@@ -80,7 +82,7 @@ export default function ContactPage() {
 
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
-                    <LucideIcons.Mail size={16} className="text-[#c9a96e] mt-0.5 shrink-0" />
+                    <Mail size={16} className="text-[#c9a96e] mt-0.5 shrink-0" />
                     <div>
                       <p className="text-xs text-[#6a6a6a]">Email</p>
                       <a
@@ -93,7 +95,7 @@ export default function ContactPage() {
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <LucideIcons.Phone size={16} className="text-[#c9a96e] mt-0.5 shrink-0" />
+                    <Phone size={16} className="text-[#c9a96e] mt-0.5 shrink-0" />
                     <div>
                       <p className="text-xs text-[#6a6a6a]">WhatsApp</p>
                       <a
@@ -106,7 +108,7 @@ export default function ContactPage() {
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <LucideIcons.Instagram size={16} className="text-[#c9a96e] mt-0.5 shrink-0" />
+                    <InstagramIcon size={16} className="text-[#c9a96e] mt-0.5 shrink-0" />
                     <div>
                       <p className="text-xs text-[#6a6a6a]">Instagram</p>
                       <a
@@ -121,7 +123,7 @@ export default function ContactPage() {
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <LucideIcons.MapPin size={16} className="text-[#c9a96e] mt-0.5 shrink-0" />
+                    <MapPin size={16} className="text-[#c9a96e] mt-0.5 shrink-0" />
                     <div>
                       <p className="text-xs text-[#6a6a6a]">Lokasi</p>
                       <p className="text-sm text-[#faf8f5]">

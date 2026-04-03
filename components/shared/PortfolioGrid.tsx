@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { PortfolioCard } from "@/components/shared/PortfolioCard";
-import type { TemplateCategory } from "@/types";
+import type { PortfolioItem, TemplateCategory } from "@/types";
 
 const CATEGORIES: Array<TemplateCategory | "all"> = ["all", "luxury", "adat", "modern", "intimate"];
 
@@ -25,7 +26,7 @@ interface PortfolioClientProps {
   ctaSubtitle: string;
   ctaMulaiLabel: string;
   ctaLihatLabel: string;
-  items: unknown[];
+  items: PortfolioItem[];
 }
 
 export function PortfolioGrid({
@@ -42,7 +43,7 @@ export function PortfolioGrid({
 }: PortfolioClientProps) {
   const [active, setActive] = useState<string>("all");
 
-  const filtered = active === "all" ? items : (items as { category: string }[]).filter((i) => i.category === active);
+  const filtered = active === "all" ? items : items.filter((i) => i.category === active);
 
   return (
     <div className="bg-[#0a0a0a] min-h-screen pt-24 pb-20">
@@ -79,9 +80,9 @@ export function PortfolioGrid({
       {/* Portfolio Grid */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {filtered.map((item: unknown, i: number) => (
-            <ScrollReveal key={(item as { id: string }).id} delay={i * 60}>
-              <PortfolioCard item={item as Parameters<typeof PortfolioCard>[0]["item"]} />
+          {filtered.map((item, i) => (
+            <ScrollReveal key={item.id} delay={i * 60}>
+              <PortfolioCard item={item} />
             </ScrollReveal>
           ))}
         </div>
@@ -107,18 +108,18 @@ export function PortfolioGrid({
           <h2 className="font-serif text-2xl lg:text-3xl text-[#faf8f5] mb-3">{ctaTitle}</h2>
           <p className="text-[#6a6a6a] text-sm mb-8">{ctaSubtitle}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
+            <Link
               href="/contact"
               className="px-8 py-3.5 text-[11px] tracking-[0.15em] uppercase bg-[#c9a96e] text-[#0a0a0a] font-medium hover:bg-[#d4b87a] transition-colors"
             >
               {ctaMulaiLabel}
-            </a>
-            <a
+            </Link>
+            <Link
               href="/templates"
               className="px-8 py-3.5 text-[11px] tracking-[0.15em] uppercase border border-white/15 text-[#8a8a8a] hover:border-white/30 transition-colors"
             >
               {ctaLihatLabel}
-            </a>
+            </Link>
           </div>
         </ScrollReveal>
       </div>

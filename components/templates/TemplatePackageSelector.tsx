@@ -12,7 +12,7 @@ interface TemplatePackageSelectorProps {
 export function TemplatePackageSelector({ templateSlug }: TemplatePackageSelectorProps) {
   const [selected, setSelected] = useState<PackageKey>("premium");
 
-  const selectedPkg = PACKAGES.find((p) => p.key === selected)!;
+  const selectedPkg = PACKAGES.find((p) => p.key === selected) ?? PACKAGES[1];
 
   return (
     <div className="space-y-4">

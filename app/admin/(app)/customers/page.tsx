@@ -4,6 +4,7 @@ import { useEffect, useState } from"react";
 import { useRouter } from"next/navigation";
 import { Search, Users as UsersIcon, ChevronRight, Eye } from"lucide-react";
 import { createClient } from"@/lib/supabase/client";
+import { formatIDR } from"@/lib/utils";
 interface CustomerOrder {
  id: string;
  order_code: string;
@@ -45,6 +46,7 @@ export default function AdminCustomersPage() {
  useEffect(() => {
  const fetchCustomers = async () => {
  setLoading(true);
+ try {
  const res = await fetch("/api/customers");
  if (res.ok) {
  const data = await res.json();
@@ -80,6 +82,9 @@ export default function AdminCustomersPage() {
  }
  }
  setLoading(false);
+ } catch {
+ setLoading(false);
+ }
  };
  fetchCustomers();
  }, []);
@@ -104,9 +109,6 @@ export default function AdminCustomersPage() {
  const formatDate = (d: string | null) => d
  ? new Intl.DateTimeFormat("id-ID", { day:"2-digit", month:"short", year:"numeric"}).format(new Date(d))
  :"—";
-
- const formatIDR = (n: number) =>
- new Intl.NumberFormat("id-ID", { style:"currency", currency:"IDR", maximumFractionDigits: 0 }).format(n);
 
  return (
  <div className="min-h-screen bg-surface">

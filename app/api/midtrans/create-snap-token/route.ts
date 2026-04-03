@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
 
     // Do NOT reuse old token if the order was somehow cancelled/expired
     if (order.snap_token && tokenAgeMinutes < 15 && order.status === "pending_payment") {
-      console.log(`[FORVows Sec] Reusing Snap token for ${bookingId} (Age: ${Math.round(tokenAgeMinutes)}m)`);
+      if (process.env.NODE_ENV !== "production") console.log(`[FORVows Sec] Reusing Snap token for ${bookingId} (Age: ${Math.round(tokenAgeMinutes)}m)`);
       return NextResponse.json({
         success: true,
         token: order.snap_token,
@@ -80,14 +80,15 @@ export async function POST(request: NextRequest) {
     }
 
     // Determine item details — prefer server-side items from DB, fall back to client-supplied
-    const itemDetails = (order.items?.length ? order.items : items)?.map(
-      (item: { name: string; price: number; priceValue?: number; quantity: number }) => ({
-        id: item.name.split(/\s+/).join("-").toLowerCase(),
-        name: item.name,
-        price: item.price ?? item.priceValue,
-        quantity: item.quantity,
+    const rawItems = (order.items?.length ? order.items : items) ?? [];
+    const itemDetails = rawItems.map(
+      (item: Record<string, unknown>) => ({
+        id: String(item.name ?? "item").split(/\s+/).join("-").toLowerCase(),
+        name: String(item.name ?? "Item"),
+        price: Number(item.price ?? item.priceValue ?? 0),
+        quantity: Number(item.quantity ?? 1),
       })
-    ) ?? [];
+    );
 
     // Use Sandbox if not in production
     const isProduction = process.env.MIDTRANS_IS_PRODUCTION === "true";
@@ -120,10 +121,15 @@ export async function POST(request: NextRequest) {
     const snapToken = await (midtrans as any).createTransactionToken(parameter);
 
     // [SECURITY] Task 7: Lock the token by saving it and the creation timestamp
-    await supabase.from("orders").update({
+    const { error: updateError } = await supabase.from("orders").update({
       snap_token: snapToken,
       payment_token_created_at: now.toISOString(),
     }).eq("order_code", bookingId);
+
+    if (updateError) {
+      console.error("[FORVows SnapToken] Failed to save snap token:", updateError);
+      return NextResponse.json({ success: false, error: "Failed to save payment token" }, { status: 500 });
+    }
 
     return NextResponse.json({
       success: true,

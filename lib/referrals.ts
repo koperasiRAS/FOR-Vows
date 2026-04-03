@@ -8,6 +8,7 @@
  * referrer's behalf. Discounts are applied at booking time (displayed in
  * the BookingModal order summary and included in the WhatsApp message).
  */
+import { formatIDR } from "@/lib/utils";
 
 export type DiscountType = "percentage" | "fixed";
 
@@ -94,11 +95,7 @@ export function formatDiscount(referral: ReferralCode, lang: "id" | "en" = "id")
       ? `Diskon ${referral.discountValue}%`
       : `${referral.discountValue}% off`;
   }
-  const formatted = new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-  }).format(referral.discountValue);
+  const formatted = formatIDR(referral.discountValue);
   return lang === "id" ? `Diskon ${formatted}` : `${formatted} off`;
 }
 

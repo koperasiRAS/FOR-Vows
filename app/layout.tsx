@@ -33,19 +33,25 @@ const notoSerif = Noto_Serif({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://for-vows.vercel.app"),
   title: {
-    default: "FOR Vows | Crafting Your Sacred Moments",
+    default: "FOR Vows — Wedding Creative Studio | Undangan Digital, Foto & Video, Content Creator",
     template: "%s | FOR Vows",
   },
   description:
-    "Premium digital wedding invitations crafted with elegance. FOR Vows transforms your sacred moments into timeless digital experiences, a luxury sub-brand of Frame Of Rangga.",
+    "Wedding creative studio premium dari Frame Of Rangga. Undangan digital, foto & video sinematik, wedding content creator, dan desain souvenir untuk pernikahan impian Anda.",
   keywords: [
-    "wedding invitation",
-    "digital invitation",
-    "premium wedding",
-    "luxury wedding invitation",
-    "wedding website",
-    "digital wedding card",
+    "wedding creative studio",
+    "undangan pernikahan digital",
+    "foto video wedding",
+    "wedding content creator",
+    "desain souvenir pernikahan",
+    "premium wedding invitation",
+    "undangan digital premium",
+    "fotografer pernikahan",
+    "videografer pernikahan",
+    "frame of rangga",
+    "for vows",
   ],
   icons: {
     icon: [
@@ -93,7 +99,7 @@ export default function RootLayout({
               name: "FOR Vows",
               url: "https://for-vows.vercel.app",
               description:
-                "Premium digital wedding invitations crafted with elegance. A luxury sub-brand of Frame Of Rangga from Jakarta, Indonesia.",
+                "Wedding creative studio from Frame Of Rangga. Digital invitations, photo & video, content creator, and premium wedding souvenir design.",
               telephone: "+6287779560264",
               email: "frameofrangga@gmail.com",
               address: {

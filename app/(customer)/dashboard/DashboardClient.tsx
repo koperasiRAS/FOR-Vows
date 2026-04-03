@@ -151,15 +151,23 @@ export function DashboardClient() {
  useEffect(() => {
  const fetchAllOrders = async () => {
  const supabase = createClient();
+ let userId: string | null = null;
+
+ try {
  const { data: { user } } = await supabase.auth.getUser();
+ userId = user?.id ?? null;
+ } catch {
+ userId = null;
+ }
+
  const seenCodes = new Set<string>();
  const initialOrders: TrackedOrder[] = [];
 
- if (user) {
+ if (userId) {
  const { data: userOrders } = await supabase
  .from("orders")
  .select("*")
- .eq("user_id", user.id)
+ .eq("user_id", userId)
  .order("created_at", { ascending: false });
 
  if (userOrders && userOrders.length > 0) {

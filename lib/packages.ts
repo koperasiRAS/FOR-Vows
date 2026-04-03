@@ -62,12 +62,3 @@ export const PACKAGES: Package[] = [
   },
 ];
 
-/** Lookup a package by its key */
-export function getPackage(key: PackageKey): Package {
-  return PACKAGES.find((p) => p.key === key) ?? PACKAGES[1];
-}
-
-/** Format a price value as "Rp X.XXX.XXX" */
-export function formatPrice(value: number): string {
-  return `Rp ${value.toLocaleString("id-ID")}`;
-}

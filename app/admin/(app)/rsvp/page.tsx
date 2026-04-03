@@ -22,14 +22,17 @@ export default function AdminRSVPPage() {
 
  useEffect(() => {
  const supabase = createClient();
- supabase.auth.getUser().then(({ data }: { data: { user: { email?: string } | null } }) => {
+ supabase.auth.getUser()
+ .then(({ data }: { data: { user: { email?: string } | null } }) => {
  if (!data.user) router.push("/admin/login");
- });
+ })
+ .catch(() => router.push("/admin/login"));
 
  // Load orders to populate dropdown
- fetch("/api/orders").then(r => r.json()).then(d => {
- setOrders(d.orders ?? []);
- });
+ fetch("/api/orders")
+ .then(r => r.json())
+ .then(d => setOrders(d.orders ?? []))
+ .catch(() => setOrders([]));
  }, [router]);
 
  const loadRSVP = async (orderCode: string) => {

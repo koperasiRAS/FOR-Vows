@@ -19,33 +19,34 @@ export function Footer() {
     {
       key: "footer.layanan",
       links: [
-        { href: "/templates", key: "footer.template" },
-        { href: "/pricing", key: "footer.harga" },
-        { href: "/features", key: "footer.fitur" },
-        { href: "/contact", key: "footer.pesanCustom" },
+        { href: "/pricing#undangan-digital",    key: "footer.undanganDigital"   },
+        { href: "/pricing#foto-video",          key: "footer.fotoVideo"         },
+        { href: "/pricing#content-creator",     key: "footer.contentCreator"    },
+        { href: "/pricing#souvenir",            key: "footer.souvenir"          },
+        { href: "/pricing#website",            key: "footer.website"            },
       ],
     },
     {
       key: "footer.perusahaan",
       links: [
-        { href: "/about", key: "footer.tentangForvows" },
-        { href: "/portfolio", key: "footer.portfolio" },
-        { href: "/how-it-works", key: "footer.caraPesan" },
+        { href: "/about",         key: "footer.tentangForvows" },
+        { href: "/how-it-works",  key: "footer.caraPesan"     },
       ],
     },
     {
-      key: "footer.lainnya",
+      key: "footer.portfolio",
       links: [
-        { href: "/contact", key: "footer.hubungiKami" },
-        { href: "https://instagram.com/frameofrangga", key: "footer.instagram", external: true },
-        { href: "https://www.tiktok.com/@madebyrangga", key: "footer.tiktok", external: true },
+        { href: "/portfolio?tab=foto",       key: "footer.portfolioFoto"      },
+        { href: "/portfolio?tab=undangan",  key: "footer.portfolioUndangan"  },
+        { href: "/portfolio?tab=video",     key: "footer.portfolioVideo"     },
       ],
     },
     {
-      key: "footer.legal",
+      key: "footer.sosialMedia",
       links: [
-        { href: "/terms", key: "footer.termsConditions" },
-        { href: "/privacy", key: "footer.privacyPolicy" },
+        { href: "/contact",                            key: "footer.hubungiKami" },
+        { href: "https://instagram.com/frameofrangga",  key: "footer.instagram", external: true },
+        { href: "https://www.tiktok.com/@madebyrangga", key: "footer.tiktok",   external: true },
       ],
     },
   ];
