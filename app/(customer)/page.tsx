@@ -100,20 +100,20 @@ export default async function HomePage() {
 
           {/* Heading */}
           <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-medium leading-[1.05] tracking-tight">
-            <span className="block text-[#faf8f5]">Wujudkan</span>
+            <span className="block text-[#faf8f5]">Ceritakan</span>
             <span className="block text-[#faf8f5]">
-              Pernikahan
+              Kisah Cinta
             </span>
             <span className="block mt-2">
-              <span className="text-[#c9a96e] italic">Impian</span>
-              <span className="block text-[#faf8f5]"> Anda</span>
+              <span className="text-[#c9a96e] italic">Anda</span>
+              <span className="block text-[#faf8f5]">Lewat Detail</span>
             </span>
           </h1>
 
           {/* Subheading */}
           <p className="font-accent italic text-lg sm:text-xl md:text-2xl text-[#9a9a9a] sm:text-[#8a8a8a] max-w-2xl mx-auto leading-relaxed px-2">
-            Dari undangan digital premium, foto & video sinematik, hingga
-            konten pernikahan untuk Instagram &mdash; semua dari satu studio kreatif.
+            Undangan digital yang Personal. Foto dan video sinematik yang Tak Terlupakan.
+            Konten pernikahan yang Instagram-Worthy. Semuanya dalam satu studio.
           </p>
 
           {/* CTA buttons */}

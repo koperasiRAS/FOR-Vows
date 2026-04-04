@@ -852,10 +852,10 @@ export const translations = {
 
     // ── Home Page ─────────────────────────────────────────────────────────────
     home: {
-      heroTagline: "Wedding Creative Studio \u00b7 Frame Of Rangga",
+      heroTagline: "Studio Kreatif Pernikahan \u00b7 Frame Of Rangga",
       heroCta1: "Lihat Templates",
       heroCta2: "Mulai Pesan",
-      heroSubBrand: "Semua layanan pernikahan dari satu studio kreatif",
+      heroSubBrand: "Undangan digital, foto video, content creator — semua dari satu tempat",
       scrollLabel: "Scroll",
       featuredOverline: "Curated Collection",
       featuredTitle: "Featured Templates",
@@ -1820,7 +1820,7 @@ export const translations = {
       heroTagline: "Wedding Creative Studio \u00b7 Frame Of Rangga",
       heroCta1: "View Templates",
       heroCta2: "Start Now",
-      heroSubBrand: "All wedding services from one creative studio",
+      heroSubBrand: "Digital invitations, photo video, content creator — all in one place",
       scrollLabel: "Scroll",
       featuredOverline: "Curated Collection",
       featuredTitle: "Featured Templates",

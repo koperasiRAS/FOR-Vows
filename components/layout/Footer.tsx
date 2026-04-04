@@ -54,10 +54,10 @@ export function Footer() {
   return (
     <footer className="bg-[#0a0a0a] border-t border-white/[0.06]">
       {/* Top Section */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16 lg:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr_1fr_1fr] gap-12 lg:gap-8">
-          {/* Brand Column */}
-          <div className="space-y-5">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 lg:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6">
+          {/* Brand column */}
+          <div className="md:col-span-2 lg:col-span-1 space-y-4">
             <Link href="/" className="block">
               <div className="relative h-16 w-auto sm:h-24">
                 <Image
@@ -73,7 +73,7 @@ export function Footer() {
               {t("footer.brandDesc")}
             </p>
             <p className="text-xs text-[#c9a96e] tracking-[0.1em] italic font-accent">
-              &ldquo;{t("footer.tagline")}&rdquo;
+              {t("footer.tagline")}
             </p>
             <div className="flex items-center gap-4 pt-1">
               <a

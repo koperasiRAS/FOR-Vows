@@ -57,22 +57,18 @@ function DropdownMenu({
 
   return (
     <div
-      className="absolute top-full left-1/2 -translate-x-1/2 pt-3 pointer-events-none"
+      className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50"
       aria-hidden={!open}
     >
-      {/* Arrow */}
       <div className="w-3 h-3 bg-[#1a1a1a] border-l border-t border-white/10 rotate-45 mx-auto -mt-[7px]" />
 
-      {/* Panel */}
       <div
         className={`
           bg-[#1a1a1a] border border-white/10 rounded-xl
           shadow-[0_20px_60px_rgba(0,0,0,0.6)]
-          overflow-hidden pointer-events-none
+          overflow-hidden
           transition-all duration-300 ease-out
-          ${open
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 -translate-y-2"}
+          ${open ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"}
         `}
         style={{ minWidth: "220px" }}
       >
@@ -85,7 +81,7 @@ function DropdownMenu({
               className={`
                 block px-5 py-2.5 text-sm text-[#9a9a9a]
                 hover:text-[#c9a96e] hover:bg-white/4
-                transition-colors duration-200
+                transition-colors duration-200 cursor-pointer
                 ${i < items.length - 1 ? "border-b border-white/5" : ""}
               `}
             >
