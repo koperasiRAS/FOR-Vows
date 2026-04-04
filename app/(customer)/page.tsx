@@ -19,11 +19,11 @@ import { getServerLanguage } from "@/lib/i18n/server";
 import { translations } from "@/lib/i18n/translations";
 
 export const metadata: Metadata = {
-  title: "FOR Vows — Wedding Creative Studio | Undangan Digital, Foto & Video, Content Creator",
+  title: "FOR Vows — Studio Kreatif Pernikahan | Undangan Digital, Foto Video & Content Creator",
   description:
-    "Wedding creative studio premium dari Frame Of Rangga. Undangan digital, foto & video sinematik, wedding content creator, dan desain souvenir untuk pernikahan impian Anda.",
+    "Studio kreatif pernikahan premium dari Frame Of Rangga. Undangan digital yang Personal, foto video sinematik yang Tak Terlupakan, dan konten pernikahan yang Instagram-Worthy.",
   keywords: [
-    "wedding creative studio",
+    "studio kreatif pernikahan",
     "undangan pernikahan digital",
     "foto video wedding jakarta",
     "wedding content creator",
@@ -33,8 +33,8 @@ export const metadata: Metadata = {
     "frame of rangga",
   ],
   openGraph: {
-    title: "FOR Vows — Wedding Creative Studio | Undangan Digital, Foto & Video, Content Creator",
-    description: "Wedding creative studio premium dari Frame Of Rangga. Undangan digital, foto & video, content creator, dan desain souvenir pernikahan.",
+    title: "FOR Vows — Studio Kreatif Pernikahan | Undangan Digital, Foto Video & Content Creator",
+    description: "Studio kreatif pernikahan premium dari Frame Of Rangga. Undangan digital yang Personal, foto video sinematik yang Tak Terlupakan, dan konten pernikahan yang Instagram-Worthy.",
     url: "https://for-vows.vercel.app",
     siteName: "FOR Vows",
     locale: "id_ID",

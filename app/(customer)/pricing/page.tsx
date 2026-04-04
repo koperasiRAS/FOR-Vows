@@ -81,7 +81,7 @@ function UndanganDigitalCard({
       className={`
         relative flex flex-col border transition-all duration-300 h-full
         ${isPremium
-          ? "border-[#c9a96e]/40 bg-gradient-to-b from-[#1a1408] to-[#0a0a0a] md:-mt-4 md:mb-[-16px] md:pt-6 md:pb-6"
+          ? "border-[#c9a96e]/40 bg-gradient-to-b from-[#1a1408] to-[#0a0a0a]"
           : isCustom
           ? "border-[#c9a96e]/20 bg-[#0f0f0f]"
           : "border-white/[0.07] bg-[#0a0a0a]"

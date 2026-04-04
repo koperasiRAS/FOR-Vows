@@ -18,7 +18,7 @@ type NavItem =
 const NAV_ITEMS: NavItem[] = [
   {
     type: "dropdown",
-    labelKey: "nav.layanan",
+    labelKey: "nav.layanan.title",
     items: [
       { href: "/pricing#undangan-digital",   labelKey: "nav.layanan.digital"       },
       { href: "/pricing#foto-video",         labelKey: "nav.layanan.fotoVideo"      },
@@ -29,7 +29,7 @@ const NAV_ITEMS: NavItem[] = [
   },
   {
     type: "dropdown",
-    labelKey: "nav.harga",
+    labelKey: "nav.hargaDropdown.title",
     items: [
       { href: "/pricing#undangan-digital", labelKey: "nav.hargaDropdown.digital"      },
       { href: "/pricing#foto-video",       labelKey: "nav.hargaDropdown.fotoVideo"     },

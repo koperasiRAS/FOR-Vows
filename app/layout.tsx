@@ -35,11 +35,11 @@ const notoSerif = Noto_Serif({
 export const metadata: Metadata = {
   metadataBase: new URL("https://for-vows.vercel.app"),
   title: {
-    default: "FOR Vows — Wedding Creative Studio | Undangan Digital, Foto & Video, Content Creator",
+    default: "FOR Vows — Studio Kreatif Pernikahan | Undangan Digital, Foto Video & Content Creator",
     template: "%s | FOR Vows",
   },
   description:
-    "Wedding creative studio premium dari Frame Of Rangga. Undangan digital, foto & video sinematik, wedding content creator, dan desain souvenir untuk pernikahan impian Anda.",
+    "Studio kreatif pernikahan premium dari Frame Of Rangga. Buat undangan digital yang Personal, foto video sinematik yang Tak Terlupakan, dan konten pernikahan yang Instagram-Worthy.",
   keywords: [
     "wedding creative studio",
     "undangan pernikahan digital",
