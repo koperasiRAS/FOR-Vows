@@ -54,7 +54,7 @@ export function Footer() {
   return (
     <footer className="bg-[#0a0a0a] border-t border-white/[0.06]">
       {/* Top Section */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 lg:py-16">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-12 pb-6 lg:pt-16 lg:pb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-8">
           {/* Brand column */}
           <div className="md:col-span-2 lg:col-span-2 space-y-6 lg:pr-8">
@@ -138,7 +138,7 @@ export function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/[0.05]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-5 pb-3 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-[#3a3a3a]">
             {t("footer.copyright", { year: new Date().getFullYear() })}
           </p>
