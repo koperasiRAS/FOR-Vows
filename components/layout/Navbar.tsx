@@ -218,10 +218,10 @@ export function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <nav className="max-w-7xl mx-auto px-6 lg:px-8 h-16 lg:h-[72px] flex items-center justify-between gap-4">
+      <nav className="max-w-7xl mx-auto px-6 lg:px-8 h-20 lg:h-[88px] flex items-center justify-between gap-4">
         {/* ── Logo ── */}
         <Link href="/" className="flex items-center gap-2 group shrink-0">
-          <div className="relative h-16 w-auto sm:h-24">
+          <div className="relative h-20 w-auto sm:h-28 flex items-center justify-center">
             <Image
               src="/images/logo-brand.png"
               alt="FOR Vows"

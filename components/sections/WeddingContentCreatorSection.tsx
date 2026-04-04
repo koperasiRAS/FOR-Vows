@@ -77,12 +77,14 @@ export function WeddingContentCreatorSection() {
                   )}
 
                   <div className="p-5 lg:p-6 flex flex-col flex-1">
-                    {/* Badge */}
-                    {tier.badge && (
-                      <p className="text-[9px] tracking-[0.25em] uppercase text-[#c9a96e] mb-3">
-                        {tier.badge}
-                      </p>
-                    )}
+                    {/* Badge Area (keeps heights aligned) */}
+                    <div className="min-h-[20px] mb-2 flex items-center">
+                      {tier.badge && (
+                        <p className="text-[9px] tracking-[0.25em] uppercase text-[#c9a96e]">
+                          {tier.badge}
+                        </p>
+                      )}
+                    </div>
 
                     {/* Package label */}
                     <h3 className="font-serif text-xl text-[#faf8f5] mb-1">

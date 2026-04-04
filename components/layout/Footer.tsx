@@ -55,21 +55,21 @@ export function Footer() {
     <footer className="bg-[#0a0a0a] border-t border-white/[0.06]">
       {/* Top Section */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-8">
           {/* Brand column */}
-          <div className="md:col-span-2 lg:col-span-1 space-y-4">
+          <div className="md:col-span-2 lg:col-span-2 space-y-6 lg:pr-8">
             <Link href="/" className="block">
-              <div className="relative h-16 w-auto sm:h-24">
+              <div className="relative h-24 w-auto sm:h-32 mb-4">
                 <Image
                   src="/images/logo-brand.png"
                   alt="FOR Vows"
                   width={400}
                   height={100}
-                  className="h-full w-auto object-contain"
+                  className="h-full w-auto object-contain object-left"
                 />
               </div>
             </Link>
-            <p className="text-sm text-[#5a5a5a] leading-relaxed max-w-xs">
+            <p className="text-sm text-[#5a5a5a] leading-relaxed">
               {t("footer.brandDesc")}
             </p>
             <p className="text-xs text-[#c9a96e] tracking-[0.1em] italic font-accent">

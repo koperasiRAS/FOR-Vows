@@ -38,13 +38,15 @@ export function PricingSection() {
         <ScrollReveal>
           <div className="text-center mb-14">
             <p className="text-xs tracking-[0.35em] uppercase text-[#c9a96e] font-medium mb-3">
-              {home.home?.pricingOverline}
+              {lang === "id" ? "Undangan Digital" : "Digital Invitation"}
             </p>
             <h2 className="font-serif text-3xl sm:text-4xl text-[#faf8f5] mb-4">
-              {home.home?.pricingTitle}
+              {lang === "id" ? "Paket Undangan Digital" : "Digital Invitation Packages"}
             </h2>
             <p className="text-sm text-[#8a8a8a] max-w-lg mx-auto leading-relaxed">
-              {home.home?.pricingSubtitle}
+              {lang === "id" 
+                ? "Pilih paket yang paling sesuai dengan kebutuhan perayaan momen spesial Anda. Semua paket dirancang untuk memberikan kesan yang elegan dan mewah."
+                : "Choose the package that best fits your special moment celebration needs. All packages are designed to provide an elegant and luxurious impression."}
             </p>
           </div>
         </ScrollReveal>
@@ -61,7 +63,7 @@ export function PricingSection() {
                   className={`
                     relative flex flex-col border transition-all duration-300 h-full
                     ${isPremium
-                      ? "border-[#c9a96e]/40 bg-gradient-to-b from-[#1a1408] to-[#0a0a0a] md:-mt-4 md:mb-[-16px] md:pt-6 md:pb-6"
+                      ? "border-[#c9a96e]/40 bg-gradient-to-b from-[#1a1408] to-[#0a0a0a]"
                       : isCustom
                       ? "border-[#c9a96e]/20 bg-[#0f0f0f]"
                       : "border-white/[0.07] bg-[#0a0a0a]"
